@@ -8,7 +8,7 @@ const {getTopLeft} = require("ol/extent");
 const {Vector: VectorSource} = require("ol/source");
 const {Vector} = require("ol/layer");
 
-const NO_TOOLTIP = ['Region', 'Major', 'Minor', 'voronoi', 'radius']
+const NO_TOOLTIP = ['Region', 'Major', 'Minor', 'voronoi', 'radius', 'grid']
 const NOT_SELECTABLE = [...NO_TOOLTIP, 'town', 'industry', 'field']
 const NO_USER_INFO = [...NOT_SELECTABLE, 'stormCannon']
 const NO_CLOCK = [...NO_USER_INFO, 'sign']
@@ -163,12 +163,15 @@ class Select {
       tooltip: false,
     }))
     map.on('click', (event) => {
-      const features = tools.staticLayer.sources.stormCannon.getFeaturesInExtent([event.coordinate[0] - 32, event.coordinate[1] - 32, event.coordinate[0] + 32, event.coordinate[1] + 32])
-      for (const feature of features) {
+      map.forEachFeatureAtPixel(event.pixel, (feature) => {
         if (feature.get('type') === 'stormCannon') {
           this.stormCannonSelected(feature)
         }
-      }
+      }, {
+        layerFilter: (layer) => {
+          return layer.get('title') === 'Storm Cannons'
+        }
+      })
     })
     this.relativeTimeFormat = new Intl.RelativeTimeFormat("en", {
       numeric: "always",
@@ -215,18 +218,25 @@ class Select {
         })
       })]
     const trackStyleHighlight = [new Style({
-      stroke: new Stroke({
-        width: 10,
-        color: white,
+        stroke: new Stroke({
+          width: 10,
+          color: white,
+        }),
+        geometry: this.tools.line.geometryFunction
       }),
-      geometry: this.tools.line.geometryFunction
-    }),
       new Style({
         stroke: new Stroke({
           width: 7,
           color: blue,
         }),
         geometry: this.tools.line.geometryFunction
+      }),
+      new Style({
+        stroke: new Stroke({
+          width: 1,
+          color: blue,
+          lineDash: [10, 10]
+        }),
       })
     ]
     return (feature, zoom) => {
@@ -315,10 +325,10 @@ class Select {
 
   clockColor = (clock, feature) => {
     if (NO_CLOCK.includes(feature.get('type'))) {
-      clock.parentElement.style.display = 'none'
+      clock.style.display = 'none'
       return
     }
-    clock.parentElement.style.display = ''
+    clock.style.display = ''
     const time = new Date(feature.get('time'))
     clock.dataset.id = feature.getId() || null
     clock.dataset.type = feature.get('type') || null
@@ -327,8 +337,7 @@ class Select {
 
   setClockColor = (clock, time) => {
     const diff = new Date().getTime() - time.getTime()
-    const hue = (Math.max(0, Math.min(1, 1 - diff/86400000))*120).toString(10);
-    clock.getElementsByTagName('circle')[0].style.fill = `hsl(${hue},100%,50%)`
+    clock.getElementsByTagName('circle')[0].style.fill = this.getColorForPercentage((24 - diff/3600000)/24)
     clock.title = time.toLocaleString();
     if (diff < 3600000) {
       clock.getElementsByClassName('clock-time')[0].innerHTML = this.relativeTimeFormat.format(Math.round(-diff / 60000), 'minute')
@@ -340,6 +349,33 @@ class Select {
       clock.getElementsByClassName('clock-time')[0].innerHTML = this.relativeTimeFormat.format(Math.round(-diff / 86400000), 'day')
     }
   }
+
+  percentColors = [
+    { pct: 0.0, color: { r: 0xff, g: 0x00, b: 0 } },
+    { pct: 0.125, color: { r: 0xff, g: 0xa0, b: 0 } },
+    { pct: 0.5, color: { r: 0xff, g: 0xe0, b: 0 } },
+    { pct: 1.0, color: { r: 0x00, g: 0xff, b: 0 } } ];
+
+  getColorForPercentage = (pct) => {
+    let i;
+    for (i = 1; i < this.percentColors.length - 1; i++) {
+      if (pct < this.percentColors[i].pct) {
+        break;
+      }
+    }
+    const lower = this.percentColors[i - 1];
+    const upper = this.percentColors[i];
+    const range = upper.pct - lower.pct;
+    const rangePct = (pct - lower.pct) / range;
+    const pctLower = 1 - rangePct;
+    const pctUpper = rangePct;
+    const color = {
+      r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
+      g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
+      b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
+    };
+    return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+  };
 
   getNotes = (feature) => {
     const note = feature.get('notes') || ''

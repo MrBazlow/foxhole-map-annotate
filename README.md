@@ -8,19 +8,31 @@ Please create a Ticket in GitHub. Or of any the discord where you maybe heard ab
 
 * Private/Public/Enemy Slider on iPad doesn't show correctly
 * Facilities not displayed in some strange context
-* arty calculator missing map scaling
+* scissor requires a reload to show the new line (by [FMAT] Quini98 - https://discord.com/channels/895735519231762432/1042389158334844948/1067520074040225912)
+* The Attachment point (the blue dot thingy) isn't on the line itself. Very hard to move the line this way (by [FMAT] Quini98)
+
+## Todos
+
+* Require text for custom area (by [11eFL] mashed)
 
 ## Ideas
 
+* Sort Flagged by time flagged
+* Add other shapes next to polygon (rectangle, circle) (by Morgeta)
 * Image/Screenshot upload (compressor.js) (by Phalanx/Bazlow)
 * Filter Planned/Built Rails (by [102nd] Asterム)
-* [Measure Tool](https://viglino.github.io/ol-ext/examples/popup/map.tooltip.measure.html) (by felipipe) - (Hex length 1.89km, width 2.184km)
-* watch towers / storm cannon radius
+* Hide icons inside areas and show them when area is selected (by [11eFL] mashed)
+* [Measure Tool](https://viglino.github.io/ol-ext/examples/popup/map.tooltip.measure.html) (by felipipe, Morgeta) - (Hex length 1.89km, width 2.184km)
+* watch towers / relics / town halls / ... radius (by Morgeta)
+  * Watchtower: 80 meters
+  * Safehouse if radio station teched: 80 meters
+  * Observation Bunker T2: 130-156 meters
+  * Observation Bunker T3: 180-216 meters
+  * Observation Tower: 240 meters
 * Free Hand drawing (by [RDRT] A Devil Chicken)
 * auto expiring icons (by [CHI] Arctifire)
 * 'suggested' placement of icons by lower clearance users, to be approved by 'edit' clearance users (by [FMAT] Da Vinci)
 * comments for signs (by [FMAT] Da Vinci)
-* add current VP count to navbar / victory townhalls? 
 * Partisan Rails? (new Role, Green Rail)
 * Popup rework?
   * [Hover](https://viglino.github.io/ol-ext/examples/interaction/map.interaction.hover.html)

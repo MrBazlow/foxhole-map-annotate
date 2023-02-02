@@ -22,7 +22,7 @@ class SidebarArty {
       "max": 80,
       "minAcc": 2.5,
       "maxAcc": 9.45,
-      "offset": 0,
+      "offset": 10,
       "ammo": "Mortar Shells",
       "team": "N"
     },
@@ -110,8 +110,8 @@ class SidebarArty {
     "Tempest": {
       "min": 350,
       "max": 500,
-      "minAcc": 0,
-      "maxAcc": 0,
+      "minAcc": 15, // this is guessed
+      "maxAcc": 25, // this is guessed
       "offset": 50,
       "ammo": "300mm",
       "team": "N"
@@ -119,8 +119,8 @@ class SidebarArty {
     "Storm Cannon": {
       "min": 400,
       "max": 1000,
-      "minAcc": 0,
-      "maxAcc": 0,
+      "minAcc": 15, // this is guessed
+      "maxAcc": 25, // this is guessed
       "offset": 50,
       "ammo": "300mm",
       "team": "N"
@@ -541,7 +541,7 @@ class SidebarArty {
     this.vectorSolution.getGeometry().setCoordinates([this.sender.getGeometry().getCoordinates(),this.targetWind.getGeometry().getCoordinates()])
 
     //what we've all been waiting for
-    this.solutionDistance = this.vectorSolution.getGeometry().getLength()
+    this.solutionDistance = this.vectorSolution.getGeometry().getLength() / this.tools.MAGIC_MAP_SCALING_FACTOR
     document.getElementById('solutionD').innerHTML = String(Math.round(this.solutionDistance)).padStart(3,'0');
 
     
@@ -559,7 +559,7 @@ class SidebarArty {
     
 
     //console.log (Config.basic.color);
-    document.getElementById('solutionA').innerHTML = String(Math.round(this.solutionAzimuth)).padStart(3,'0');
+    document.getElementById('solutionA').innerHTML = String(this.solutionAzimuth.toFixed(1)).padStart(5,'0');
     
   }
 

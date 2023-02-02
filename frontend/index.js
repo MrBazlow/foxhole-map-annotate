@@ -65,11 +65,6 @@ map.on('moveend', (event) => {
 })
 
 addDefaultMapControls(map)
-// Prevent context menu on map
-document.getElementById('map').addEventListener('contextmenu', (e) => {
-  e.preventDefault();
-  return false;
-})
 
 const warFeatures = localStorage.getItem('warFeatures') ? JSON.parse(localStorage.getItem('warFeatures')) : {version: '', features: [], deactivatedRegions: []}
 const conquerStatus = localStorage.getItem('conquerStatus') ? JSON.parse(localStorage.getItem('conquerStatus')) : {version: '', features: {}}
@@ -77,6 +72,14 @@ const staticLayer = new StaticLayers(map, conquerStatus, warFeatures)
 const tools = new EditTools(map);
 tools.staticLayer = staticLayer;
 enableLayerMemory(map)
+
+// Prevent context menu on map
+document.getElementById('map').addEventListener('contextmenu', (e) => {
+  if (tools.editMode) {
+    e.preventDefault();
+    return false;
+  }
+})
 
 // Allow panning with middle mouse
 const primaryPrimaryOrMiddle = function (mapBrowserEvent) {
@@ -263,7 +266,7 @@ function prepareWarTimer() {
   if (!prepareWarTimerElement.dataset.conquestEndTime) {
     return
   }
-  const hours = (parseInt(prepareWarTimerElement.dataset.conquestEndTime) + 7200000 - Date.now()) / 3600000
+  const hours = (parseInt(prepareWarTimerElement.dataset.conquestEndTime) + 43200000 - Date.now()) / 3600000
   const minutes = (hours - Math.floor(hours)) * 60
   const formattedMinutes = rtf.formatToParts(Math.floor(minutes),'minute')
   prepareWarTimerElement.innerHTML = rtf.format(Math.floor(hours),'hour') + ' ' + formattedMinutes[1].value + ' ' + formattedMinutes[2].value

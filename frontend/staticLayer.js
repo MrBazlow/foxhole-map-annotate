@@ -1,5 +1,5 @@
 import {Vector as VectorSource} from "ol/source";
-import {Fill, Icon, Stroke, Style, Text} from "ol/style";
+import {Circle, Fill, Icon, Stroke, Style, Text} from "ol/style";
 import {Group, Vector} from "ol/layer";
 import {GeoJSON} from "ol/format";
 import {Collection, Feature} from "ol";
@@ -7,10 +7,15 @@ import CircleStyle from "ol/style/Circle";
 import {easeOut} from "ol/easing";
 import {getVectorContext} from "ol/render";
 import {unByKey} from "ol/Observable";
-import {Point} from "ol/geom";
+import {LineString, Point} from "ol/geom";
 
 class StaticLayers {
 
+  /**
+   * @param {import('ol').Map} map
+   * @param {Object} conquerStatus
+   * @param {Object} warFeatures
+   */
   constructor(map, conquerStatus, warFeatures) {
     this.map = map
     this.conquerStatus = conquerStatus
@@ -49,6 +54,9 @@ class StaticLayers {
       'stormCannon': new VectorSource({
         features: new Collection()
       }),
+      'grid': new VectorSource({
+        features: new Collection(),
+      })
     }
 
     this.labelStyle = [
@@ -105,6 +113,16 @@ class StaticLayers {
       }),
     }
 
+    const gridLineStyle = new Style({
+      stroke: new Stroke({
+        width: 1,
+        color: '#333333'
+      }),
+      text: new Text({
+        text: null,
+      }),
+    })
+
     regionGroup.getLayers().push(new Vector({
       title: 'Regions',
       source: this.sources.Region,
@@ -134,6 +152,24 @@ class StaticLayers {
       updateWhileAnimating: true,
       updateWhileInteracting: true,
       tooltip: false,
+    }))
+    staticGroup.getLayers().push(new Vector({
+      title: 'Grid',
+      source: this.sources.grid,
+      zIndex: 0,
+      style: (feature) => {
+        if (feature.get('text') !== undefined) {
+          gridLineStyle.getText().setText(feature.get('text'))
+        }
+        else {
+          gridLineStyle.getText().setText(null)
+        }
+        return gridLineStyle;
+      },
+      updateWhileAnimating: true,
+      updateWhileInteracting: true,
+      tooltip: false,
+      defaultVisible: false,
     }))
     staticGroup.getLayers().push(new Vector({
       source: this.sources.voronoi,
@@ -218,6 +254,12 @@ class StaticLayers {
 
     this.cachedIconStyle = {}
     this.loadRegion(false)
+
+    map.on('moveend', this.gridLoader)
+
+    if (window.innerWidth > 990) {
+      document.getElementById('war-score').style.display='flex'
+    }
   }
 
   regionStyle = (feature) => {
@@ -244,6 +286,7 @@ class StaticLayers {
   iconStyle = (feature, resolution) => {
     const icon = feature.get('icon')
     let team = feature.get('team') || ''
+    const flags = feature.get('iconFlags')
     if (team === 'none') {
       team = ''
     }
@@ -257,14 +300,50 @@ class StaticLayers {
     }
     const cacheKey = `${icon}${team}`
     if (!(cacheKey in this.cachedIconStyle)) {
+      let color = undefined
+      if (flags & 0x10) {
+        color = '#c00000'
+      }
+      else if (team === 'Warden') {
+        color = '#245682'
+      }
+      else if (team === 'Colonial') {
+        color = '#516C4B'
+      }
       this.cachedIconStyle[cacheKey] = new Style({
         image: new Icon({
           src: `/images/${feature.get('type')}/${feature.get('icon')}.png`,
-          color: team === '' ? undefined : team === 'Warden' ? '#245682' : '#516C4B',
+          color: color,
           scale: (feature.get('type') === 'town' || feature.get('type') === 'field' || feature.get('type') === 'stormCannon') ? 2/3 : 1,
         }),
         zIndex: icon === 'MapIconSafehouse' ? 0 : undefined,
       });
+    }
+    if (flags & 0x01) {
+      const cacheKeyFlag = `${cacheKey}${flags}`
+      if (!(cacheKeyFlag in this.cachedIconStyle)) {
+        let color = '#a0a0a077'
+        if (flags & 0x10) {
+          color = '#c0000077'
+        }
+        else if (team === 'Warden' && (flags & 0x20)) {
+          color = '#24568277'
+        }
+        else if (team === 'Colonial' && (flags & 0x20)) {
+          color = '#516C4B77'
+        }
+        this.cachedIconStyle[cacheKeyFlag] = new Style({
+          image: new Circle({
+            fill: new Fill({color: color}),
+            stroke: new Stroke({width: 1, color: '#080807'}),
+            radius: 16,
+          }),
+        })
+      }
+      return [
+        this.cachedIconStyle[cacheKeyFlag],
+        this.cachedIconStyle[cacheKey]
+      ]
     }
     return this.cachedIconStyle[cacheKey]
   }
@@ -280,6 +359,7 @@ class StaticLayers {
       const town = this.sources.town.getFeatureById(id)
       if (town) {
         town.set('icon', data.icon, true)
+        town.set('iconFlags', data.flags, true)
         town.set('team', data.team)
         if (flash) {
           this.flash(town)
@@ -313,6 +393,7 @@ class StaticLayers {
         }
       }
     }
+    this.updateScore()
   }
 
   warFeaturesUpdate = () => {
@@ -423,6 +504,7 @@ class StaticLayers {
           }
           if (feature.get('id') in this.conquerStatus.features) {
             feature.set('icon', this.conquerStatus.features[feature.get('id')].icon, true)
+            feature.set('iconFlags', this.conquerStatus.features[feature.get('id')].flags, true)
             feature.set('team', this.conquerStatus.features[feature.get('id')].team)
           }
           if (feature.get('town') in this.conquerStatus.features) {
@@ -449,6 +531,7 @@ class StaticLayers {
         }
         this.sources.stormCannon.clear(true)
         this.sources.stormCannon.addFeatures(stormCannons)
+        this.updateScore()
       }
     }
     xhr.send();
@@ -464,6 +547,81 @@ class StaticLayers {
     });
     feat.setId(id)
     return feat
+  }
+
+  updateScore = () => {
+    let requiredVictoryPoints = this.conquerStatus.requiredVictoryTowns || 32
+    const score = {Warden: 0, Colonial: 0, None: 0, WardenUnclaimed: 0, ColonialUnclaimed: 0, NoneUnclaimed: 0}
+    this.sources.town.forEachFeature((feature) => {
+      const flags = feature.get('iconFlags') || 0
+      if (flags & 0x10) {
+        requiredVictoryPoints--
+      }
+      else if ((flags & 0x20) && (flags & 0x01)) {
+        score[feature.get('team')]++
+      }
+      else if ((flags & 0x01)) {
+        score[feature.get('team') + 'Unclaimed']++
+      }
+    })
+    for (let total of document.getElementsByClassName('total-score')) {
+      total.innerHTML = requiredVictoryPoints.toString()
+    }
+    const unclaimedPrefix = '<span title="Not yet claimed!">(+'
+    const unclaimedSuffix = ')</span>'
+    document.getElementById('colonial-score').innerHTML = score.Colonial.toString() + (score.ColonialUnclaimed > 0 ? unclaimedPrefix + score.ColonialUnclaimed.toString() + unclaimedSuffix : '')
+    document.getElementById('warden-score').innerHTML = score.Warden.toString() + (score.WardenUnclaimed > 0 ? unclaimedPrefix + score.WardenUnclaimed.toString() + unclaimedSuffix : '')
+    console.log(score)
+  }
+
+  loadedGrid = null
+
+  gridLoader = () => {
+    const region = this.sources.Region.getFeaturesAtCoordinate(this.map.getView().getCenter())[0]
+    if (!region) {
+      this.loadedGrid = null
+      this.sources.grid.clear()
+      return
+    }
+    if (this.loadedGrid === region.getId()) {
+      return
+    }
+    this.sources.grid.clear(true)
+    this.loadedGrid = region.getId()
+
+    const features = []
+    const extent = region.getGeometry().getExtent();
+    for (let i=0;i<=17;i++) {
+      const line = new Feature({
+        geometry: new LineString([[extent[0] + i*125*0.94, extent[1]], [extent[0] + i*125*0.94, extent[3]]]),
+        type: 'grid',
+        region: region.getId(),
+      })
+      features.push(line)
+      const point = new Feature({
+        geometry: new Point([extent[0] + i*125*0.94 + 62.5*0.94, extent[3] - 15]),
+        type: 'grid',
+        region: region.getId(),
+        text: String.fromCharCode(97 + i).toUpperCase()
+      })
+      features.push(point)
+    }
+    for (let i=0;i<=15;i++) {
+      const line = new Feature({
+        geometry: new LineString([[extent[0], extent[3]-i*125*0.94], [extent[2], extent[3]-i*125*0.94]]),
+        type: 'grid',
+        region: region.getId(),
+      })
+      features.push(line)
+      const point = new Feature({
+        geometry: new Point([extent[0] + 15, extent[3] - i*125*0.94 - 62.5*0.94]),
+        type: 'grid',
+        region: region.getId(),
+        text: (i+1).toString()
+      })
+      features.push(point)
+    }
+    this.sources.grid.addFeatures(features)
   }
 
 }
