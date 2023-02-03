@@ -8,6 +8,7 @@ import {easeOut} from "ol/easing";
 import {getVectorContext} from "ol/render";
 import {unByKey} from "ol/Observable";
 import {LineString, Point} from "ol/geom";
+import 'flowbite';
 
 class StaticLayers {
 

@@ -1,6 +1,6 @@
 import TileGrid from "ol/tilegrid/TileGrid";
 import {Map, View} from "ol";
-import {defaults} from "ol/control";
+import {Attribution, defaults} from "ol/control";
 import {Group, Tile} from "ol/layer";
 import {TileImage} from "ol/source";
 import {GeoJSON} from "ol/format";
@@ -15,8 +15,12 @@ const EditTools = require("./mapEditTools")
 
 const url = new URL(window.location);
 
+const attribution = new Attribution({
+  collapsible: false,
+});
+
 var map = new Map({
-  controls: defaults(),
+  controls: defaults({attribution: false}).extend([attribution]),
   target: 'map',
   layers: [
     new Group({

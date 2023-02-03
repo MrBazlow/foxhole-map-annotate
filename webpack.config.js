@@ -15,7 +15,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(scss)$/,
+        test: /\.css$/,
         use: [
           {
             // Extracts CSS for each JS file that includes CSS
@@ -25,17 +25,7 @@ module.exports = {
             loader: 'css-loader'
           },
           {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: () => [
-                  require('autoprefixer')
-                ]
-              }
-            }
-          },
-          {
-            loader: 'sass-loader'
+            loader: 'postcss-loader'
           }
         ]
       }

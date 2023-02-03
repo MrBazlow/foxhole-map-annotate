@@ -1,13 +1,14 @@
-@import "~bootstrap/scss/bootstrap";
 @import "ol/ol.css";
 @import "ol-layerswitcher/src/ol-layerswitcher.css";
 @import "ol-ext/control/Search.css";
-@import "bootstrap-icons/font/bootstrap-icons.css";
-@import "tom-select/src/scss/tom-select.bootstrap5.scss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 
 #map .layer-switcher {
   top: 0.5em;
-  color: $black;
+  color: black;
 }
 
 main {
