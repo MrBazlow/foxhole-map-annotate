@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="map" class="h-100 w-100">
+<div id="map" class="h-full w-full">
 </div>
 <div id="global-alerts">
     <div id="disconnected" class="alert alert-danger mb-2">Connection to server lost. Auto-reconnect in 10s. Map doesn't
@@ -48,6 +48,8 @@
 
 
 </div>
+
+{% include 'speed-dial.html' %}
 
 {% include 'sidebar-edit.html' %}
 
