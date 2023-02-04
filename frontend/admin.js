@@ -1,4 +1,3 @@
-
 addListeners(document)
 
 function addListeners(target) {

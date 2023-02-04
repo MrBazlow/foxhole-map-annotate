@@ -20,7 +20,11 @@ const attribution = new Attribution({
 });
 
 var map = new Map({
-  controls: defaults({attribution: false}).extend([attribution]),
+  controls: defaults({
+    attribution: false,
+    zoom: false,
+    rotate: false,
+  }).extend([attribution]),
   target: 'map',
   layers: [
     new Group({
@@ -58,6 +62,15 @@ var map = new Map({
     maxResolution: 16,
   })
 });
+
+const zoomIn = document.getElementById('ol-zoom-in').addEventListener('click', (event) => {
+  event.stopPropagation();
+  map.getView().animate({zoom: map.getView().getZoom() + 0.5, duration: 300})
+})
+const zoomOut = document.getElementById('ol-zoom-out').addEventListener('click', (event) => {
+  event.stopPropagation();
+  map.getView().animate({zoom: map.getView().getZoom() - 0.5, duration: 300})
+})
 
 map.on('moveend', (event) => {
   const center = event.map.getView().getCenter()

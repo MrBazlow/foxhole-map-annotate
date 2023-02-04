@@ -5,115 +5,184 @@
 {% endblock %}
 
 {% block content %}
-<div class="p-5 m-4 bg-light rounded-3 text-bg-light">
-    <div class="container-fluid py-5">
-        <h2>Configuration</h2>
-        <form action="/admin/config" method="post">
-            <ul class="nav nav-tabs mb-3" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Basic</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="discord-tab" data-bs-toggle="tab" data-bs-target="#discord-tab-pane" type="button" role="tab" aria-controls="discord-tab-pane" aria-selected="false">Discord Permissions</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="texts-tab" data-bs-toggle="tab" data-bs-target="#texts-tab-pane" type="button" role="tab" aria-controls="texts-tab-pane" aria-selected="false">Texts</button>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="basic-tab-pane" role="tabpanel" aria-labelledby="basic-tab" tabindex="0">
-                    <div class="mb-3 row">
-                        <label for="title" class="col-sm-2 col-form-label">Title</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="title" name="title" value="{{ config.basic.title }}">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="color" class="col-sm-2 col-form-label">Navbar Color</label>
-                        <div class="col-sm-10">
-                            <input type="color" class="form-control" id="color" name="color" value="{{ config.basic.color }}">
-                        </div>
-                    </div>
-                    <h4>Links</h4>
-                    <p>Links are shown as a drop down menu under the shard name/war number</p>
-                    {% for link in config.basic.links %}
-                    {{ linkRow(link) }}
-                    {% endfor %}
-                    <template id="link-add">
-                        {{ linkRow({title:'',href:''}) }}
-                    </template>
-                    <div class="mb-3 row">
-                        <button data-template-id="link-add" class="btn btn-primary col-1 offset-11 addRow">+</button>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="texts-tab-pane" role="tabpanel" aria-labelledby="texts-tab" tabindex="0">
-                    <div class="mb-3 row">
-                        <label for="text-login" class="form-label">Login Page Text</label>
-                        <textarea class="form-control" id="text-login" rows="3" name="textLogin">{{ config.text.login }}</textarea>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="text-accessDenied" class="form-label">Access Denied</label>
-                        <textarea class="form-control" id="text-accessDenied" rows="3" name="textAccessDenied">{{ config.text.accessDenied }}</textarea>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="text-feedback" class="form-label">Feedback</label>
-                        <textarea class="form-control" id="text-feedback" rows="3" name="textFeedback">{{ config.text.feedback }}</textarea>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="text-contributors" class="form-label">Contributors</label>
-                        <textarea class="form-control" id="text-contributors" rows="3" name="textContributors">{{ config.text.contributors }}</textarea>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="discord-tab-pane" role="tabpanel" aria-labelledby="discord-tab" tabindex="0">
-                    <h6>Specific User Roles</h6>
-                    <p>
-                        If a user has a specific user role, it will ignore all server roles. Also Discord username is used in the case and not the Discord server username.<br>
-                        Therefor should be used only of admins or blocked.
-                    </p>
-                    {% for userId, user in config.access.users %}
-                    {{ userRow(userId, user) }}
-                    {% endfor %}
-                    <template id="user-add">
-                        {{ userRow('', {name:'',acl:''}) }}
-                    </template>
-                    <div class="mb-3 row">
-                        <div class="col-11 text-end btn">Add new User</div>
-                        <button data-template-id="user-add" class="btn btn-primary col-1 addRow">+</button>
-                    </div>
-
-                    <h6>Assign roles to discord roles</h6>
-                    {% for discordId, discord in config.access.discords %}
-                    {{ discordRow(discordId, discord) }}
-                    {% endfor %}
-                    <template id="discord-add">
-                        {{ discordRow('', {}) }}
-                    </template>
-                    <div class="mb-3 row">
-                        <div class="col-11 text-end btn">Add new Discord Server</div>
-                        <button data-template-id="discord-add" class="btn btn-primary col-1 addRow">+</button>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="mb-3 row">
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mb-3">Save</button>
-                </div>
-            </div>
-
-        </form>
-        <form action="/admin/reload" method="post">
-            <div class="mb-3 row">
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mb-3">Force Map Reload</button>
-                </div>
-            </div>
-        </form>
+<header class="relative pt-24">
+    <div class="flex flex-row mx-auto max-w-7x1 items-center px-4 sm:px-6 md:px-8 lg:px-10">
+        <div class="rounded-md bg-warden-700 p-2 shadow-md">
+            <!-- Hero Icons: wrench-screwdriver -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
+            </svg>
+        </div>
+        <h1 class="text-3xl font-bold tracking-tight pl-2 text-white">Administrator Dashboard</h1>
     </div>
-</div>
+</header>
+
+<main>
+    <div class="flex flex-row flex-wrap mx-4 mt-4 p-8 bg-transparent">
+        <div class="flex flex-row w-full">
+            <aside class="py-6 mr-4 bg-zinc-800 basis-1/6 rounded-md shadow-md">
+                <nav class="flex h-full flex-col tracking-tight text-lg font-normal">
+                    <a href="#" class="bg-warden-600 justify-center p-3">
+                        <div class="flex flex-row justify-start items-center">
+                            <!-- Hero Icons: cog-6-tooth -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>                          
+                            <span class="truncate pl-3">General</span>
+                        </div>
+                    </a>
+                    <a href="#" class="justify-center p-3">
+                        <div class="flex flex-row justify-start items-center">
+                            <!-- Simple Icons: Discord -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" class="w-6 h-6">
+                                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+                            </svg>
+                            <span class="truncate pl-3">Discord Permissions</span>
+                        </div>
+                    </a>
+                    <a href="#" class="justify-center p-3">
+                        <div class="flex flex-row justify-start items-center">
+                            <!-- Bootstrap Icon: "body-text" -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 16 16" class="w-6 h-6" >
+                                <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
+                            </svg>
+                            <span class="truncate pl-3">Texts</span>
+                        </div>
+                    </a>
+                </nav>
+            </aside>
+            <body>
+                <div class="flex flex-col bg-zinc-800 basis-10/12 p-8 rounded-md shadow-md">
+                    <!-- Section Title: Basic -->
+                    <div class="flex flex-col">
+                        <h2 class="text-2xl font-bold tracking-tight">General</h2>
+                        <span></span>
+                    </div>
+                </div>
+                <form class=""> <!-- action="/admin/config" method="POST" -->
+                    
+                </form>
+            </body>
+            
+        </div>
+        
+        <!--
+            <form action="/admin/config" method="post">
+        -->
+        <!-- Basic Section -->
+        <!--
+            Website name:
+
+            <label for="title" class="col-sm-2 col-form-label">Title</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" name="title" value="{{ config.basic.title }}">
+            </div>
+
+            Navbar Color: **NB** CHANGE TO FACTION SELECT (WARDEN|COLONIAL)
+
+            <label for="color" class="col-sm-2 col-form-label">Navbar Color</label>
+            <div class="col-sm-10">
+                <input type="color" class="form-control" id="color" name="color" value="{{ config.basic.color }}">
+            </div>
+
+            Links:
+
+            <h4>Links</h4>
+            <p>Links are shown as a drop down menu under the shard name/war number</p>
+            {% for link in config.basic.links %}
+            {{ linkRow(link) }}
+            {% endfor %}
+            <template id="link-add">
+                {{ linkRow({title:'',href:''}) }}
+            </template>
+            <div class="mb-3 row">
+                <button data-template-id="link-add" class="btn btn-primary col-1 offset-11 addRow">+</button>
+            </div>
+        -->
+        <!-- Discord Permissions -->
+        <!--
+            Specific discord user:
+
+            <h6>Specific User Roles</h6>
+            <p>
+                If a user has a specific user role, it will ignore all server roles. Also Discord username is used in the case and not the Discord server username.<br>
+                Therefore should be used only of admins or blocked.
+            </p>
+            {% for userId, user in config.access.users %}
+            {{ userRow(userId, user) }}
+            {% endfor %}
+            <template id="user-add">
+                {{ userRow('', {name:'',acl:''}) }}
+            </template>
+            <div class="mb-3 row">
+                <div class="col-11 text-end btn">Add new User</div>
+                <button data-template-id="user-add" class="btn btn-primary col-1 addRow">+</button>
+            </div>
+
+            Discord roles:
+
+            <h6>Assign roles to discord roles</h6>
+            {% for discordId, discord in config.access.discords %}
+            {{ discordRow(discordId, discord) }}
+            {% endfor %}
+            <template id="discord-add">
+                {{ discordRow('', {}) }}
+            </template>
+            <div class="mb-3 row">
+                <div class="col-11 text-end btn">Add new Discord Server</div>
+                <button data-template-id="discord-add" class="btn btn-primary col-1 addRow">+</button>
+            </div>
+        -->
+        <!-- Texts -->
+        <!--
+            // tabindex="0"
+
+            Login Page Text:
+
+            <div class="mb-3 row">
+                <label for="text-login" class="form-label">Login Page Text</label>
+                <textarea class="form-control" id="text-login" rows="3" name="textLogin">{{ config.text.login }}</textarea>
+            </div>
+
+            Access Denied:
+
+            <div class="mb-3 row">
+                <label for="text-accessDenied" class="form-label">Access Denied</label>
+                <textarea class="form-control" id="text-accessDenied" rows="3" name="textAccessDenied">{{ config.text.accessDenied }}</textarea>
+            </div>
+
+            Feedback:
+
+            <div class="mb-3 row">
+                <label for="text-feedback" class="form-label">Feedback</label>
+                <textarea class="form-control" id="text-feedback" rows="3" name="textFeedback">{{ config.text.feedback }}</textarea>
+            </div>
+
+            Contributors:
+
+            <div class="mb-3 row">
+                <label for="text-contributors" class="form-label">Contributors</label>
+                <textarea class="form-control" id="text-contributors" rows="3" name="textContributors">{{ config.text.contributors }}</textarea>
+            </div>
+        -->
+        <!-- Bottom of Page -->
+        <!-- 
+            Save:
+
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3">Save</button>
+            </div>
+
+            Force map reload:
+
+            <form action="/admin/reload" method="post">
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3">Force Map Reload</button>
+            </div>
+        -->
+    </div>
+</main>
 {% endblock %}
 
 {% macro linkRow(link) %}

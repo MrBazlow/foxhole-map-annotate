@@ -37,13 +37,13 @@
     </!style>
     -->
 </head>
-<body class="dark:bg-zinc-800 dark:text-white">
+<body class="bg-zinc-900 text-white">
     <!-- Header -->
     <header>
-        <nav id="headBar" class="flex flex-row flex-wrap items-center justify-between h-14 bg-warden-700 mt-2 mx-2 rounded-t-md rounded-b-md bg-clip-padding shadow-md text-white">
+        <nav id="headBar" class="z-10 flex flex-row flex-wrap items-center justify-between h-14 bg-warden-700 mt-2 mx-2 rounded-t-md rounded-b-md bg-clip-padding shadow-md text-white">
             <!-- Logo, Title, Shard name + war # -->
             <div class="flex flex-row mt-1 pb-1 items-center">
-                <a href="/" class="group flex flex-row mx-1 items-center appearance-none justify-center px-2 rounded-lg transition duration-300 active:scale-95 hover:bg-warden-600">
+                <a href="{% if path == '/' %}#{% else %}/{% endif %}" class="group flex flex-row mx-1 items-center appearance-none justify-center px-2 rounded-lg transition duration-300 active:scale-95 hover:bg-warden-600">
                     <img src="{{ config.images.logo }}" class="flex-none h-10 w-10 transition duration-300 group-hover:scale-125" alt="" />
                     <div class="ml-2 text-xl flex-none font-medium">{{ title }}</div>
                 </a>
@@ -52,54 +52,28 @@
 			    </div>
                 
             </div>
-            <!-- Center score card-->
-            <div class="lg:flex flex-row select-none absolute mx-auto left-0 right-0 w-fit h-10 hidden">
-                <div class="bg-zinc-800 flex flex-row items-center rounded-l-xl h-10 pr-4 shadow-inner">
-                    <img class="pl-3 h-10" src="/images/colonial.webp" alt="Colonial">
-                    <div class="text-xl font-semibold pl-3">
-                        <span id="colonial-score"></span>/<span class="total-score"></span>
-                    </div>
-                </div>
-                <div class="bg-zinc-800 flex flex-row items-center rounded-r-xl h-10 pl-4 shadow-inner">
-                    <div class="text-xl font-semibold pr-3">
-                        <span id="warden-score"></span>/<span class="total-score"></span>
-                    </div>
-                    <img class="pr-3 h-10" src="/images/warden.webp" alt="Warden">
-                </div>
-            </div>
+            {% block scoreCard %}{% endblock %}
             <!-- Login (for large displays) and Links -->
             <div class="hidden md:flex flex-row justify-center items-center">
-                <!-- Search -->
-                <div class="inline-flex group">
-                    <input type="search" id="search-dropdown" class="block pl-2 py-2 w-full rounded-l-lg text-sm origin-right transition bg-zinc-800 placeholder-gray-400 text-white scale-x-0 group-focus:scale-x-100 group-hover:scale-x-100 border-0 ring-0 focus:border-0 focus:ring-0" placeholder="#TODO..." tabindex="1">
-                    <button href="###" class="group bg-transparent px-2 py-2 mx-2 rounded-r-lg rounded-l-lg group-focus:rounded-l-none group-focus:bg-warden-600 group-hover:rounded-l-none group-hover:bg-warden-600 active:scale-95 transition duration-200 text-lg font-light hidden md:inline">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition duration-200 group-hover:scale-125">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                        </svg>
-                    </button>
-                </div>
+                {% block mapLayerTools %}{% endblock %}
+                <!-- TODO -->
+                <!-- Notifications -->
                 <button href="###" class="group bg-transparent px-2 py-2 mx-2 rounded-lg hover:bg-warden-600 active:scale-95 transition duration-200 text-lg font-light hidden md:inline">
-                    <!-- Layers -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition duration-200 group-hover:scale-125">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
-                      </svg>                      
-                </button>
-                <button href="###" class="group bg-transparent px-2 py-2 mx-2 rounded-lg hover:bg-warden-600 active:scale-95 transition duration-200 text-lg font-light hidden md:inline">
-                    <!-- Don't forget to hit that bell icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition duration-200 group-hover:scale-125">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                     </svg>
                 </button>
                 {% if user %}
                 <!-- Profile dropdown menu button -->
-                <button id="optionsMenuLink" data-dropdown-toggle="optionsMenu" data-dropdown-placement="bottom-start" data-dropdown-offset-distance="24" data-dropdown-delay="300" data-dropdown-trigger="hover" class="">
+                <button id="optionsMenuLink" data-dropdown-toggle="optionsMenu" data-dropdown-placement="bottom-end" data-dropdown-offset-distance="24" data-dropdown-delay="300" data-dropdown-trigger="hover" class="">
                     <img class="h-10 w-10 mx-2 rounded-md active:scale-95 hover:brightness-125 transition duration-200 hidden md:inline-block" src="/images/placeholder_profile.webp" alt="Profile">
                 </button>
                 <!-- Dropdown menu -->
-                <div id="optionsMenu" class="peer z-10 hidden bg-zinc-800  divide-y divide-zinc-500 rounded-md shadow-lg" tabindex="-1">
-                    <div class="px-4 select-none py-3">
-                        <span id="discord-username" class="block text-lg pb-1 font-medium">{{ user }}</span>
-                        <span class="block text-xs">
+                <div id="optionsMenu" class="peer z-10 hidden bg-zinc-800 divide-y divide-zinc-500 rounded-md shadow-lg" tabindex="-1">
+                    <!-- Account details -->
+                    <div class="px-4 py-3">
+                        <span id="discord-username" data-user-id="{{ userId }}" class="block text-lg pb-1 font-medium truncate" title="{{ user }}">{{ user }}</span>
+                        <span class="block select-none text-xs">
                             {% if acl === 'admin' %}
                             Admin
                             {% elseif acl === 'moderator' %}
@@ -113,35 +87,74 @@
                             {% endif %}
                         </span>
                     </div>
+                    <!-- Navigation -->
                     <ul class="py-2">
                         {% if acl === 'admin' %}
                         <li>
-                            <a href="/admin/config" class="group flex bg-transparent items-center justify-left py-1 pl-2 pr-8 hover:bg-warden-600 transition duration-200 text-lg font-light">
-                                <div class="flex flex-row origin-left items-center group-active:scale-95 transition duration-200">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
-                                    </svg>
-                                    <span class="pl-2">Admin</span>
+                            <div id="admin-accordion" data-accordion="collapse" class="flex flex-col bg-transparent justify-left text-lg font-light w-full" data-active-classes="bg-warden-700">
+                                <button type="button" id="admin-accordion-heading" class="group py-1 pl-2 pr-8 hover:bg-warden-600 transition duration-200" data-accordion-target="#admin-accordion-body" aria-expanded="false" aria-controls="admin-accordion">
+                                    <div class="flex flex-row items-center origin-left group-active:scale-95 transition duration-200">
+                                        <!-- Hero Icons: cog-6-tooth -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        <span class="pl-2 text-white">Admin</span>
+                                    </div>
+                                </button>
+                                <div id="admin-accordion-body" class="hidden border-t border-warden-900" aria-labelledby="admin-accordion">
+                                    <div class="flex flex-col">
+                                        <a href="/admin/config" class="flex flex-row py-1 pl-4 justify-left items-center hover:bg-warden-600 transition duration-200">
+                                            <!-- Hero Icons: wrench-screwdriver -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
+                                            </svg>
+                                            <span class="pl-2">Dashboard</span>
+                                        </a>
+                                    </div>
                                 </div>
-                            </a>
+                            </div>
                         </li>
                         {% endif %}
                         {% if acl === 'admin' or acl === 'moderator' %}
                         <li>
-                            <a href="" class="group flex bg-transparent items-center justify-left py-1 pl-2 pr-8 hover:bg-warden-600 transition duration-200 text-lg font-light">
-                                <div class="flex flex-row origin-left items-center group-active:scale-95 transition duration-200">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 01-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 11-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 016.336-4.486l-3.276 3.276a3.004 3.004 0 002.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008z" />
-                                    </svg>
-                                    <span class="pl-2">Moderation</span>
+                            <div id="mod-accordion" data-accordion="collapse" class="flex flex-col bg-transparent justify-left text-lg font-light w-full" data-active-classes="bg-warden-700">
+                                <button type="button" id="mod-accordion-heading" class="group py-1 pl-2 pr-8 hover:bg-warden-600 transition duration-200" data-accordion-target="#mod-accordion-body" aria-expanded="false" aria-controls="mod-accordion">
+                                    <div class="flex flex-row items-center origin-left group-active:scale-95 transition duration-200">
+                                        <!-- Hero Icons: wrench -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 01-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 11-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 016.336-4.486l-3.276 3.276a3.004 3.004 0 002.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008z" />
+                                        </svg>
+                                        <span class="pl-2 text-white">Moderation</span>
+                                    </div>
+                                </button>
+                                <div id="mod-accordion-body" class="hidden border-t border-warden-900" aria-labelledby="mod-accordion">
+                                    <div class="flex flex-col">
+                                        <a href="#" class="flex flex-row py-1 pl-4 justify-left items-center hover:bg-warden-600 transition duration-200">
+                                            <!-- Hero Icons: flag -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
+                                            </svg>                                              
+                                            <span class="pl-2">Flagged</span>
+                                        </a>
+                                        <a href="/admin/eventlog" class="flex flex-row py-1 pl-4 justify-left items-center hover:bg-warden-600 transition duration-200">
+                                            <!-- Bootstrap Icons: clipboard2 -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-6 h-6">
+                                                <path d="M3.5 2a.5.5 0 0 0-.5.5v12a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-12a.5.5 0 0 0-.5-.5H12a.5.5 0 0 1 0-1h.5A1.5 1.5 0 0 1 14 2.5v12a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-12A1.5 1.5 0 0 1 3.5 1H4a.5.5 0 0 1 0 1h-.5Z"/>
+                                                <path d="M10 .5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5.5.5 0 0 1-.5.5.5.5 0 0 0-.5.5V2a.5.5 0 0 0 .5.5h5A.5.5 0 0 0 11 2v-.5a.5.5 0 0 0-.5-.5.5.5 0 0 1-.5-.5Z"/>
+                                            </svg>
+                                            <span class="pl-2">Event Log</span>
+                                        </a>
+                                    </div>
                                 </div>
-                            </a>
+                            </div>
                         </li>
                         {% endif %}
                         <li>
                             <a href="" class="group flex bg-transparent items-center justify-left py-1 pl-2 pr-8 hover:bg-warden-600 transition duration-200 text-lg font-light">
                                 <div class="flex flex-row origin-left items-center group-active:scale-95 transition duration-200">
+                                    <!-- Hero Icons: question-mark-circle -->
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
                                     </svg>
@@ -162,10 +175,12 @@
                         </li>
                         -->
                     </ul>
+                    <!-- Logout -->
                     <ul class="py-2">
                         <li>
                             <a href="/logout" class="group flex bg-transparent items-center justify-left py-1 pl-2 pr-8 hover:bg-warden-600 transition duration-200 text-lg font-light">
                                 <div class="flex flex-row origin-left items-center group-active:scale-95 transition duration-200">
+                                    <!-- Hero Icons: arrow-left-on-rectangle -->
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                                     </svg>
@@ -183,14 +198,8 @@
                     Login
                 </button>
                 {% endif %}
-                
-
         </nav>
-        <div id="ol-zoom-control" class="flex flex-col m-2 w-fit border-warden-500">
-            <button id="ol-zoom-in" class="px-1.5 ol-zoom-in bg-warden-700 active:bg-warden-900 rounded-t-md transition hover:scale-105 active:scale-95" type="button" title="Zoom in">+</button>
-            <button id="ol-zoom-out" class="px-1.5 ol-zoom-out bg-warden-700 active:bg-warden-900 rounded-b-md transition hover:scale-105 active:scale-95" type="button" title="Zoom out">–</button>
-            <button id="another-button" class="px-1.5 mt-2 bg-warden-700 active:bg-warden-900 rounded-md transition hover:scale-105 active:scale-95" type="button" title="Zoom in">?</button>
-        </div>
+        {% block mapControls %}{% endblock %}
 	</header>
     
     
@@ -270,7 +279,7 @@
             </ul>
         {% endif %}
     -->
-    <main class="absolute top-0 left-0 h-full -z-10 w-full">
+    <main class="absolute -z-10 top-0 left-0 h-full w-full">
         {% block content %}{% endblock %}
     </main>
     <script src="/dist/main.js?{{ cacheBuster }}"></script>
