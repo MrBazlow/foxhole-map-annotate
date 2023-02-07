@@ -29,10 +29,10 @@
 
 {% block mapControls %}
 <!-- Map zoom controls -->
-<div id="ol-zoom-control" class="flex flex-col m-2 w-fit border-warden-500">
-    <button id="ol-zoom-in" class="px-1.5 ol-zoom-in bg-warden-700 active:bg-warden-900 rounded-t-md transition hover:scale-105 active:scale-95" type="button" title="Zoom in">+</button>
-    <button id="ol-zoom-out" class="px-1.5 ol-zoom-out bg-warden-700 active:bg-warden-900 rounded-b-md transition hover:scale-105 active:scale-95" type="button" title="Zoom out">–</button>
-    <button id="another-button" class="px-1.5 mt-2 bg-warden-700 active:bg-warden-900 rounded-md transition hover:scale-105 active:scale-95" type="button" title="Zoom in">?</button>
+<div id="ol-zoom-control" class="absolute flex flex-col m-2 w-fit border-warden-500">
+    <button id="ol-zoom-in" class="px-1.5 ol-zoom-in bg-warden-700 active:bg-warden-900 rounded-t-md transition hover:scale-105 active:scale-95 select-none" type="button" title="Zoom in">+</button>
+    <button id="ol-zoom-out" class="px-1.5 ol-zoom-out bg-warden-700 active:bg-warden-900 rounded-b-md transition hover:scale-105 active:scale-95 select-none" type="button" title="Zoom out">–</button>
+    <button id="another-button" class="px-1.5 mt-2 bg-warden-700 active:bg-warden-900 rounded-md transition hover:scale-105 active:scale-95 select-none" type="button" title="Zoom in">?</button>
 </div>
 {% endblock%}
 
@@ -58,7 +58,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="map" class="h-full w-full">
+<div id="map" class="flex-none h-full w-full">
 </div>
 <div id="global-alerts">
     <div id="disconnected" class="alert alert-danger mb-2">Connection to server lost. Auto-reconnect in 10s. Map doesn't

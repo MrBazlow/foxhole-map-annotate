@@ -39,7 +39,7 @@
 </head>
 <body class="bg-zinc-900 text-white">
     <!-- Header -->
-    <header>
+    <header class="">
         <nav id="headBar" class="z-10 flex flex-row flex-wrap items-center justify-between h-14 bg-warden-700 mt-2 mx-2 rounded-t-md rounded-b-md bg-clip-padding shadow-md text-white">
             <!-- Logo, Title, Shard name + war # -->
             <div class="flex flex-row mt-1 pb-1 items-center">
@@ -47,18 +47,18 @@
                     <img src="{{ config.images.logo }}" class="flex-none h-10 w-10 transition duration-300 group-hover:scale-125" alt="" />
                     <div class="ml-2 text-xl flex-none font-medium">{{ title }}</div>
                 </a>
-                <div class="px-4 select-none flex flex-row text-xl font-thin justify-self-end">
+                <div class="px-4 select-none flex-row text-xl font-normal justify-self-end hidden sm:flex">
 				    <span>{{ shard }}#{{ war }}</span>
 			    </div>
                 
             </div>
             {% block scoreCard %}{% endblock %}
             <!-- Login (for large displays) and Links -->
-            <div class="hidden md:flex flex-row justify-center items-center">
+            <div class="flex flex-row justify-center items-center">
                 {% block mapLayerTools %}{% endblock %}
                 <!-- TODO -->
                 <!-- Notifications -->
-                <button href="###" class="group bg-transparent px-2 py-2 mx-2 rounded-lg hover:bg-warden-600 active:scale-95 transition duration-200 text-lg font-light hidden md:inline">
+                <button href="###" class="group bg-transparent px-2 py-2 mx-2 rounded-lg hover:bg-warden-600 active:scale-95 transition duration-200 text-lg font-light hidden sm:inline">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition duration-200 group-hover:scale-125">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                     </svg>
@@ -66,7 +66,7 @@
                 {% if user %}
                 <!-- Profile dropdown menu button -->
                 <button id="optionsMenuLink" data-dropdown-toggle="optionsMenu" data-dropdown-placement="bottom-end" data-dropdown-offset-distance="24" data-dropdown-delay="300" data-dropdown-trigger="hover" class="">
-                    <img class="h-10 w-10 mx-2 rounded-md active:scale-95 hover:brightness-125 transition duration-200 hidden md:inline-block" src="/images/placeholder_profile.webp" alt="Profile">
+                    <img class="h-10 w-10 mx-2 rounded-md active:scale-95 hover:brightness-125 transition duration-200" src="/images/placeholder_profile.webp" alt="Profile">
                 </button>
                 <!-- Dropdown menu -->
                 <div id="optionsMenu" class="peer z-10 hidden bg-zinc-800 divide-y divide-zinc-500 rounded-md shadow-lg" tabindex="-1">
@@ -122,7 +122,7 @@
                                 <button type="button" id="mod-accordion-heading" class="group py-1 pl-2 pr-8 hover:bg-warden-600 transition duration-200" data-accordion-target="#mod-accordion-body" aria-expanded="false" aria-controls="mod-accordion">
                                     <div class="flex flex-row items-center origin-left group-active:scale-95 transition duration-200">
                                         <!-- Hero Icons: wrench -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 01-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 11-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 016.336-4.486l-3.276 3.276a3.004 3.004 0 002.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008z" />
                                         </svg>
@@ -201,10 +201,8 @@
         </nav>
         {% block mapControls %}{% endblock %}
 	</header>
-    
-    
 
-    <!--
+    {#
 
         
 
@@ -278,8 +276,8 @@
                 </li>
             </ul>
         {% endif %}
-    -->
-    <main class="absolute -z-10 top-0 left-0 h-full w-full">
+    #}
+    <main class="absolute -z-10 top-0 left-0 h-full w-full flex flex-col max-h-screen">
         {% block content %}{% endblock %}
     </main>
     <script src="/dist/main.js?{{ cacheBuster }}"></script>
