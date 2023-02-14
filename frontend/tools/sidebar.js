@@ -12,12 +12,14 @@ class Sidebar {
     this.map = map
     this.tools = tools
 
+    /*
     const offcanvas = document.getElementById('sidebar')
     this.bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvas ,{ keyboard: true, backdrop: false, scroll: true})
     offcanvas.addEventListener('hide.bs.offcanvas', () => {
       tools.edit.controlElement.classList.remove('selected')
       tools.changeMode(false)
     })
+    */
 
     const ppeFilter = document.getElementById('ppe-filter')
     this.ppeFilterContent = document.getElementById('ppe-filter-content')
@@ -133,11 +135,11 @@ class Sidebar {
   }
 
   editModeEnabled = () => {
-    this.bsOffcanvas.show()
+    //this.bsOffcanvas.show()
   }
 
   editModeDisabled = () => {
-    this.bsOffcanvas.hide()
+    //this.bsOffcanvas.hide()
   }
 
   clearInput = () => {

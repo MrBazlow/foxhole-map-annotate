@@ -1,41 +1,21 @@
 {% extends "base.html" %}
+{% from "abstracts.html" import heading, sidebarItem, sidebar, sectionTitle %}
 
 {% block javascript %}
 <script src="/dist/admin.js"></script>
 {% endblock %}
 
 {% block content %}
-{{ heading('admin', 'Administrator Dashboard')}}
+{{ heading("admin", "Administrator Dashboard") }}
 
-<div class="flex flex-row h-full my-4 py-4">
-    <div class="flex flex-row w-full h-auto lg:mx-14">
-        <aside class="py-6 bg-zinc-800 basis-1/12 lg:rounded-l-md shadow-md border-r border-zinc-700">
-            <nav class="flex flex-col tracking-tight text-lg font-normal">
-                <button class="group flex flex-row items-center hover:bg-warden-500 justify-center py-4 sm:py-3 px-2 lg:justify-start" id="general-tab" type="button" role="tab" aria-controls="general" aria-selected="false">
-                    <!-- Hero Icons: cog-6-tooth -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>                          
-                    <span class="truncate pl-2 hidden lg:inline">General</span>
-                </button>
-                <button class="group flex flex-row items-center hover:bg-warden-500 justify-center py-4 sm:py-3 px-2 lg:justify-start" id="discord-tab" type="button" role="tab" aria-controls="discord" aria-selected="false">
-                    <!-- Simple Icons: Discord -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" class="w-6 h-6">
-                        <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
-                    </svg>
-                    <span class="truncate pl-2 hidden lg:inline">Discords</span>
-                </button>
-                <button class="group flex flex-row items-center hover:bg-warden-500 justify-center py-4 sm:py-3 px-2 lg:justify-start" id="text-tab" type="button" role="tab" aria-controls="discord" aria-selected="false">
-                    <!-- Bootstrap Icon: "body-text" -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 16 16" class="w-6 h-6" >
-                        <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 0 .5Zm0 2A.5.5 0 0 1 .5 2h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm9 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-9 2A.5.5 0 0 1 .5 4h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm5 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Zm-12 2A.5.5 0 0 1 .5 6h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm8 0a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm-8 2A.5.5 0 0 1 .5 8h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm7 0a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm-7 2a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
-                    </svg>
-                    <span class="truncate pl-2 hidden lg:inline">Texts</span>
-                </button>
-            </nav>
-        </aside>  
-        <div class="flex flex-col relative bg-zinc-800 basis-11/12 h-full overflow-x-hidden lg:rounded-r-md shadow-md">
+<div class="flex flex-row h-full overflow-clip my-4 py-4">
+    <div x-data="{ selected: 'General' }" class="flex flex-row w-full h-auto lg:mx-14">
+        {% call sidebar() %}
+            {{ sidebarItem("cog", "General") }}
+            {{ sidebarItem("discord", "Discord") }}
+            {{ sidebarItem("body-text", "Text") }}
+        {% endcall %}
+        <div class="flex flex-col relative bg-zinc-800 basis-11/12 h-full overflow-hidden lg:rounded-r-md shadow-md">
             {# Background icon #}
             <div class="absolute z-auto max-h-full right-0 inset-y-0 select-none translate-x-3/4 md:translate-x-2/3 lg:translate-x-1/2">
                 {# Hero icon: cog #}
@@ -43,16 +23,12 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495" />
                 </svg>
             </div>
-            <div class="z-10 flex flex-col">
+            <form action="/admin/config" method="POST" class="z-10 flex flex-col overflow-clip h-full">
                 {# Section Title: General #}
-                <div class="hidden flex-col" id="general" role="tabpanel" aria-labelledby="general-tab">
-                    {# Section Title #}
-                    <div class="flex flex-col p-4 mb-4 w-full border-b border-zinc-700">
-                        <h2 class="text-2xl font-bold tracking-tight">General</h2>
-                        <span class="text-normal text-gray-200 tracking-tight">Settings for general site functionality</span>
-                    </div>
-                    <div class="flex flex-col p-4 overflow-scroll">
-                        <div class="flex flex-row flex-wrap sm:pr-8">
+                <div class="flex flex-col h-full overflow-auto" x-show="selected === 'General'">
+                    {{ sectionTitle('General', 'Settings for general site functionality') }}
+                    <div class="flex flex-col p-4">
+                        <div class="flex flex-row flex-wrap h-fit sm:pr-8">
                             {# Set website name #}
                             <div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
                                 <label for="title" class="text-xl font-semibold mb-2 tracking-tight">Title</label>
@@ -64,8 +40,8 @@
                             <div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
                                 <label for="faction" class="text-xl font-semibold mb-2 tracking-tight">Faction</label>
                                 <select id="faction" name="faction" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg">
-                                    <option>Warden</option>
-                                    <option>Colonial</option>
+                                    <option {% if config.basic.faction === 'Warden' %}selected{% endif %}>Warden</option>
+                                    <option {% if config.basic.faction === 'Colonial' %}selected{% endif %}>Colonial</option>
                                 </select>
                             </div>
                             {# Reload map #}
@@ -83,7 +59,7 @@
                         <div class="flex flex-col">
                             <h3 class="text-xl font-semibold tracking-tight">Links</h3>
                             <span class="text-base text-gray-200 mb-4 tracking-tight">Links are shown as a drop down menu from the nav bar</span>
-                            <div class="flex flex-col max-w-4xl">
+                            <div class="flex flex-col max-w-4xl" x-data="{ rows: [{% for link in config.basic.links %} { title: '{{ link.title }}', href: '{{ link.href }}' },{% endfor %}]}" x-init="$watch('rows', value => console.log(value))">
                                 <div class="md:shadow-md md:rounded-xl md:border md:border-zinc-900 overflow-clip">
                                     <table class="w-full">
                                         <thead class="hidden md:table-header-group">
@@ -96,145 +72,178 @@
                                             </tr>
                                         </thead>
                                         <tbody id="linkList" class="divide-zinc-700 divide-y flex-1 md:flex-none">
-                                            <tr class="grid grid-cols-2 w-full md:max-w-fit md:table-row even:bg-zinc-900 odd:bg-zinc-800 sortable mb-4 md:mb-0 rounded-lg md:rounded-none border border-zinc-700 md:border-none px-2 md:px-0 shadow-lg md:shadow-none">
-                                                {# Sorting Handle #}
-                                                <td class="px-3 py-4 flex md:table-cell items-center justify-start md:justify-center order-2 md:order-none">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="link-handle cursor-grab h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                                                    </svg>
-                                                </td>
-                                                {# Title field #}
-                                                <td class="px-2 md:px-6 py-2 md:py-4 flex flex-col col-span-2 md:table-cell md:items-center justify-center order-3 md:order-none">
-                                                    <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 pb-2 px-2 select-none">Title</span>
-                                                    <label for="link-name1" class="sr-only">Title</label>
-                                                    <input type="text" id="link-name1" class="block bg-zinc-700 text-sm border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-full" name="" placeholder="Name" value="">
-                                                </td>
-                                                {# Destination field #}
-                                                <td class="px-2 md:px-6 py-2 md:py-4 flex flex-col col-span-2 md:table-cell md:items-center justify-center order-4 md:order-none">
-                                                    <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 pb-2 px-2 select-none">Destination</span>
-                                                    <label for="link-url3" class="sr-only">URL</label>
-                                                    <input type="text" id="link-url3" class="block bg-zinc-700 text-sm border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-full" name="" placeholder="Destination" value="">
-                                                </td>
-                                                {# Status toggle #}
-                                                <td class="px-2 md:px-6 py-4 md:py-4 flex flex-row md:table-cell items-center md:justify-center order-5 md:order-none">
-                                                    <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 px-2 select-none">Status</span>
-                                                    <label class="relative cursor-pointer block justify-center items-center max-w-fit">
-                                                        <input type="checkbox" value="" class="sr-only peer">
-                                                        <div class="w-11 h-6 bg-zinc-900 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-zinc-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-300 after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-warden-700"></div>
-                                                    </label>
-                                                </td>
-                                                {# Delete button #}
-                                                <td class="px-3 py-4 flex md:table-cell items-center justify-end md:justify-center order-2 md:order-none">
-                                                    <button type="button" class="focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm p-2 bg-red-600 hover:bg-red-700">
-                                                        <!-- Hero Icons: trash -->
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                                            </svg>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr class="grid grid-cols-2 w-full md:max-w-fit md:table-row even:bg-zinc-900 odd:bg-zinc-800 sortable mb-4 md:mb-0 rounded-lg md:rounded-none border border-zinc-700 md:border-none px-2 md:px-0 shadow-lg md:shadow-none">
-                                                {# Sorting Handle #}
-                                                <td class="px-3 py-4 flex md:table-cell items-center justify-start md:justify-center order-2 md:order-none">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="link-handle cursor-grab h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                                                    </svg>
-                                                </td>
-                                                {# Title field #}
-                                                <td class="px-2 md:px-6 py-2 md:py-4 flex flex-col col-span-2 md:table-cell md:items-center justify-center order-3 md:order-none">
-                                                    <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 pb-2 px-2 select-none">Title</span>
-                                                    <label for="link-name1" class="sr-only">Title</label>
-                                                    <input type="text" id="link-name1" class="block bg-zinc-700 text-sm border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-full" name="" placeholder="Name" value="">
-                                                </td>
-                                                {# Destination field #}
-                                                <td class="px-2 md:px-6 py-2 md:py-4 flex flex-col col-span-2 md:table-cell md:items-center justify-center order-4 md:order-none">
-                                                    <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 pb-2 px-2 select-none">Destination</span>
-                                                    <label for="link-url3" class="sr-only">URL</label>
-                                                    <input type="text" id="link-url3" class="block bg-zinc-700 text-sm border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-full" name="" placeholder="Destination" value="">
-                                                </td>
-                                                {# Status toggle #}
-                                                <td class="px-2 md:px-6 py-4 md:py-4 flex flex-row md:table-cell items-center md:justify-center order-5 md:order-none">
-                                                    <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 px-2 select-none">Status</span>
-                                                    <label class="relative cursor-pointer block justify-center items-center max-w-fit">
-                                                        <input type="checkbox" value="" class="sr-only peer">
-                                                        <div class="w-11 h-6 bg-zinc-900 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-zinc-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-300 after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-warden-700"></div>
-                                                    </label>
-                                                </td>
-                                                {# Delete button #}
-                                                <td class="px-3 py-4 flex md:table-cell items-center justify-end md:justify-center order-2 md:order-none">
-                                                    <button type="button" class="focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm p-2 bg-red-600 hover:bg-red-700">
-                                                        <!-- Hero Icons: trash -->
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                                            </svg>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            <template x-for="(row, index) in rows" :key="index">
+                                                <tr x-id="['link']" class="grid grid-cols-2 w-full md:max-w-fit md:table-row even:bg-zinc-900 odd:bg-zinc-800 sortable mb-4 md:mb-0 rounded-lg md:rounded-none border border-zinc-700 md:border-none px-2 md:px-0 shadow-lg md:shadow-none">
+                                                    {# Sorting Handle #}
+                                                    <td class="px-3 py-4 flex md:table-cell items-center justify-start md:justify-center order-2 md:order-none">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="link-handle cursor-grab h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                                                        </svg>
+                                                    </td>
+                                                    {# Title field #}
+                                                    <td class="px-2 md:px-6 py-2 md:py-4 flex flex-col col-span-2 md:table-cell md:items-center justify-center order-3 md:order-none">
+                                                        <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 pb-2 px-2 select-none">Title</span>
+                                                        <label for="link-name1" class="sr-only">Title</label>
+                                                        <input type="text" id="link-name1" class="block bg-zinc-700 text-sm border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-full" :name=`link[title][${$id('link')}]` placeholder="Name" :value="row.title">
+                                                    </td>
+                                                    {# Destination field #}
+                                                    <td class="px-2 md:px-6 py-2 md:py-4 flex flex-col col-span-2 md:table-cell md:items-center justify-center order-4 md:order-none">
+                                                        <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 pb-2 px-2 select-none">Destination</span>
+                                                        <label for="link-url3" class="sr-only">URL</label>
+                                                        <input type="text" id="link-url3" class="block bg-zinc-700 text-sm border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-full" :name=`link[href][${$id('link')}]` placeholder="Destination" :value="row.href">
+                                                    </td>
+                                                    {# Status toggle #}
+                                                    <td class="px-2 md:px-6 py-4 md:py-4 flex flex-row md:table-cell items-center md:justify-center order-5 md:order-none">
+                                                        <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 px-2 select-none">Status</span>
+                                                        <label class="relative cursor-pointer block justify-center items-center max-w-fit">
+                                                            <input type="checkbox" :name=`link[active][${$id('link')}]` :value="row.active" class="sr-only peer">
+                                                            <div class="w-11 h-6 bg-zinc-900 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-zinc-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-300 after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-warden-700"></div>
+                                                        </label>
+                                                    </td>
+                                                    {# Delete button #}
+                                                    <td class="px-3 py-4 flex md:table-cell items-center justify-end md:justify-center order-2 md:order-none">
+                                                        <button @click.prevent="rows.splice(index, 1)" type="button" class="focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm p-2 bg-red-600 hover:bg-red-700">
+                                                            <!-- Hero Icons: trash -->
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                                                </svg>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </template>
                                         </tbody>
                                     </table>
                                 </div>
-                                <button class="w-full text-lg bg-transparent border-dashed border-2 border-warden-700 rounded-lg my-2 px-6 py-5 bg-zinc-800 hover:bg-zinc-700 active:scale-95 transition duration-200">Add new link</button>
+                                <button @click.prevent="rows.push({title: '', href: ''})" class="w-full text-lg bg-transparent border-dashed border-2 border-warden-700 rounded-lg my-2 px-6 py-5 bg-zinc-800 hover:bg-zinc-700 active:scale-95 transition duration-200">Add new link</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 {# Section Title: Discord #}
-                <div class="hidden flex-col" id="discord" role="tabpanel" aria-labelledby="discord-tab">
-                    <!-- Section Title -->
-                    <div class="flex flex-col p-4 mb-8 w-full border-b border-zinc-700">
-                        <h2 class="text-2xl font-bold tracking-tight">Discords</h2>
-                        <span class="text-normal text-gray-200 tracking-tight">User permissions from discord roles</span>
+                <div class="flex flex-col h-full overflow-auto" x-show="selected === 'Discord'">
+                    {{ sectionTitle("Discord", "User permissions from discord roles") }}
+                    <div class="flex flex-row flex-wrap max-w-4xl">
+                        <div class="group m-4 flex flex-col w-32 border rounded-lg overflow-clip border-zinc-900 shadow-lg active:scale-95 transition duration-200">
+                            <div class="p-4 flex bg-warden-700 group-hover:bg-warden-600 transition duration-200 justify-center">
+                                <span class="text-2xl text-white select-none">Default</span>
+                            </div>
+                            <div class="p-4 flex bg-zinc-800 group-hover:bg-zinc-700 transition duration-200 justify-center">
+                                <span class="text-2xl text-white select-none">Users</span>
+                            </div>
+                        </div>
+                        <div class="group m-4 flex flex-col w-32 border rounded-lg overflow-clip border-zinc-900 shadow-lg active:scale-95 transition duration-200">
+                            <div class="p-4 flex bg-warden-700 group-hover:bg-warden-600 transition duration-200 justify-center">
+                                <span class="text-2xl text-white select-none">FMAT</span>
+                            </div>
+                            <div class="p-4 flex bg-zinc-800 group-hover:bg-zinc-700 justify-center transition duration-200">
+                                <span class="text-2xl text-white select-none">Users</span>
+                            </div>
+                        </div>
+                        <div class="group m-4 flex flex-col w-32 border rounded-lg overflow-clip border-zinc-900 shadow-lg active:scale-95 transition duration-200">
+                            <div class="p-4 flex bg-warden-700 group-hover:bg-warden-600 transition duration-200 justify-center">
+                                <span class="text-2xl text-white select-none">WA</span>
+                            </div>
+                            <div class="p-4 flex bg-zinc-800 group-hover:bg-zinc-700 justify-center transition duration-200">
+                                <span class="text-2xl text-white select-none">Users</span>
+                            </div>
+                        </div>
+                        <div class="group m-4 flex flex-col w-32 border rounded-lg overflow-clip border-zinc-900 shadow-lg active:scale-95 transition duration-200">
+                            <div class="p-4 flex bg-warden-700 group-hover:bg-warden-600 transition duration-200 justify-center">
+                                <span class="text-2xl text-white select-none">WUH</span>
+                            </div>
+                            <div class="p-4 flex bg-zinc-800 group-hover:bg-zinc-700 justify-center transition duration-200">
+                                <span class="text-2xl text-white select-none">Users</span>
+                            </div>
+                        </div>
+                        <div x-data="{ newDiscord: false }">
+                            <button @click.prevent="newDiscord = ! newDiscord" class="w-32 flex text-5xl bg-transparent border-dashed border-2 border-warden-700 rounded-lg m-4 justify-center items-center bg-zinc-800 hover:bg-zinc-700 active:scale-95 transition duration-200">
+                                {# Hero icons: plus #}
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>                              
+                            </button>
+                            <div x-show="newDiscord" class="fixed inset-0">
+                                <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+                                <div class="relative flex min-h-screen items-center justify-center p-4">
+                                    <div class="relative flex flex-col w-full max-w-2xl overflow-y-auto rounded-lg bg-zinc-800 shadow-lg">
+                                        <div class="flex flex-row justify-between items-start p-4 mb-4 w-full border-b border-zinc-700">
+                                            <div class="flex-flex-col">
+                                                <h2 class="text-2xl font-bold tracking-tight">Add new Discord server</h2>
+                                                <span class="text-normal text-gray-200 tracking-tight">Create a new entry for a discord server</span>
+                                            </div>
+                                            <button @click.prevent="newDiscord = ! newDiscord" class="p-2 rounded-lg border border-white">
+                                                {# Hero icons: x-mark #}
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>     
+                                            </button>
+                                        </div>
+                                        <div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
+                                            <label for="" class="text-xl font-semibold mb-2 tracking-tight">Name</label>
+                                            <input type="text" id="" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" name="" placeholder="Discord server" value="">
+                                        </div>
+                                        <div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
+                                            <label for="" class="text-xl font-semibold mb-2 tracking-tight">ID</label>
+                                            <input type="text" id="" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" name="" placeholder="Server Snowflake" value="">
+                                        </div>
+                                        <div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
+                                            <label for="" class="text-xl font-semibold mb-2 tracking-tight">Secret</label>
+                                            <input type="text" id="" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" name="" placeholder="Server Secret" value="">
+                                        </div>
+                                        <div class="flex flex-col p-4 border-t border-zinc-700">
+                                            <div class="flex flex-row w-full justify-end max-w-4xl">
+                                                <button type="button" value="" class=" px-4 p-2 bg-warden-700 rounded-lg hover:bg-warden-500 active:scale-95 transition duration-200 text-lg">Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 {# Section Title: Texts #}
-                <div class="hidden flex-col" id="text" role="tabpanel" aria-labelledby="text-tab">
-                    <!-- Section Title -->
-                    <div class="flex flex-col p-4 mb-4 w-full border-b border-zinc-700">
-                        <h2 class="text-2xl font-bold tracking-tight">Texts</h2>
-                        <span class="text-normal text-gray-200 tracking-tight">Configurable messages to display</span>
-                    </div>
-                    <div class="flex flex-row flex-wrap">
+                <div class="flex flex-col h-full overflow-auto" x-show="selected === 'Text'">
+                    {{ sectionTitle("Text", "Configurable messages to display") }}
+                    <div class="flex flex-col max-w-4xl">
                         <!-- Set login text -->
-                        <div class="flex flex-col p-4 basis-1/2">
+                        <div class="flex flex-col p-4 w-full">
                             <label for="text-login" class="block text-xl font-semibold tracking-tight mb-2">Login page text</label>
                             <textarea class="block text-base bg-zinc-700 border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" id="text-login" rows="5" name="textLogin" tabindex="0" placeholder="Something to show at the login prompt">{{ config.text.login }}</textarea>
                         </div>
                         <!-- Set access denied text -->
-                        <div class="flex flex-col p-4 basis-1/2">
+                        <div class="flex flex-col p-4 w-full">
                             <label for="text-accessDenied" class="block text-xl font-semibold tracking-tight mb-2">Access denied text</label>
                             <textarea class="block text-base bg-zinc-700 border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" id="text-accessDenied" rows="5" name="textAccessDenied" tabindex="0" placeholder="Something to show at the denied access page">{{ config.text.accessDenied }}</textarea>
                         </div>
                         <!-- Set feedback text -->
-                        <div class="flex flex-col p-4 basis-1/2">
+                        <div class="flex flex-col p-4 w-full">
                             <label for="text-feedback" class="block text-xl font-semibold tracking-tight mb-2">Feedback Text</label>
                             <textarea class="block text-base bg-zinc-700 border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" id="text-feedback" rows="5" name="textFeedback" tabindex="0" placeholder="Something for the feedback message">{{ config.text.feedback }}</textarea>
                         </div>
                         <!-- Set contributors text -->
-                        <div class="flex flex-col p-4 basis-1/2">
+                        <div class="flex flex-col p-4 w-full">
                             <label for="text-contributors" class="block text-xl font-semibold tracking-tight mb-2">Contributors Text</label>
                             <textarea class="block text-base bg-zinc-700 border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" id="text-contributors" rows="5" name="textContributors" tabindex="0" placeholder="Something for the contributors message">{{ config.text.contributors }}</textarea>
                         </div>
                     </div>
                 </div>
                 {# Save button #}
-                <div class="flex p-4 mt-4 border-t border-zinc-700">
+                <div class="flex flex-col p-4 border-t border-zinc-700">
                     <div class="flex flex-row w-full justify-end max-w-4xl">
-                        <button type="submit" value="Submit" class=" px-4 p-2 bg-warden-700 rounded-lg hover:bg-warden-500 active:scale-95 transition duration-200 text-lg">Save</button>
+                        <button type="submit" value="Submit" class="px-4 p-2 bg-warden-700 rounded-lg hover:bg-warden-500 active:scale-95 transition duration-200 text-lg">Save</button>
                     </div>
                 </div>
-            </div>
-            
+            </form>
         </div>
-        <form class=""> <!-- action="/admin/config" method="POST" -->
+    </div>
+
+    {# Basic Section
+    <!--
+
+        <form class=""> action="/admin/config" method="POST" 
             
         </form>
-    </div>
-    
-    <!--
-        <form action="/admin/config" method="post">
-    -->
-    <!-- Basic Section -->
-    <!--
         Website name:
 
         Links:
@@ -299,37 +308,9 @@
         <div class="col-auto">
             <button type="submit" class="btn btn-primary mb-3">Force Map Reload</button>
         </div>
-    -->
+    #}
 </div>
 {% endblock %}
-
-{# SVG Page heading icon store #}
-{% macro pageIcon(icon) %}
-    {% if icon === 'admin' %}
-        {# Hero Icons: wrench-screwdriver #}
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-8 sm:h-8">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
-        </svg>
-    {% else %}
-        {# Bootstrap icons: question diamond #}
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-diamond" viewBox="w-6 h-6 sm:w-8 sm:h-8">
-    <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
-    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-        </svg>
-    {% endif %}
-{% endmacro %}
-
-{# Page heading, icon is symbol to display, title is text to display #}
-{% macro heading(icon, pageTitle) %}
-<div role="heading" class="pt-24">
-    <div class="flex flex-row mx-auto items-center px-4 sm:px-6 md:px-8 lg:px-10">
-        <div class="rounded-md bg-warden-700 p-2 shadow-md">
-            {{ pageIcon(icon) }}
-        </div>
-        <h1 class="text-xl sm:text-3xl font-bold tracking-tight pl-2 dark:text-white">{{ pageTitle | escape }}</h1>
-    </div>
-</div>
-{% endmacro %}
 
 {% macro linkRow(link) %}
 <div class="mb-3 row">

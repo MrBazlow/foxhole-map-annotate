@@ -56,8 +56,8 @@ router.post('/admin/config', function(req, res, next) {
   if (req.body.title.match(/^[\w ]+$/)) {
     config.config.basic.title = req.body.title
   }
-  if (req.body.color.match(/^#\w{3,6}$/)) {
-    config.config.basic.color = req.body.color
+  if (req.body.faction === 'Warden' || 'Colonial') {
+    config.config.basic.faction = req.body.faction
   }
   config.config.basic.links = []
   if (req.body.link) {

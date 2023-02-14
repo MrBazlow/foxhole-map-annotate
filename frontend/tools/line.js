@@ -11,6 +11,14 @@ class Line {
 
   sources = {}
 
+  lineTypes = {
+    single: "Main Line",
+    lightRail: "Narrow Gauge Rail",
+    planned: "Planned",
+    water: "Water Route",
+    pipeline: "Pipeline"
+  }
+
   /**
    * @param {EditTools} tools
    * @param {import("ol").Map} map
@@ -192,6 +200,7 @@ class Line {
       }
     })
 
+    Alpine.store('lines', this.lineTypes)
   }
 
   geometryCache = {}

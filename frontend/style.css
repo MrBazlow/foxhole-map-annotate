@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
+[x-cloak] { 
+  display: none !important; 
+}
+
 #map .layer-switcher {
   top: 0.5em;
   color: black;

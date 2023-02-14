@@ -1,5 +1,4 @@
-const { Collection } = require("ol");
-
+import {Collection} from "ol";
 const { default: Feature } = require("ol/Feature")
 const { default: Point } = require("ol/geom/Point");
 const { default: VectorLayer } = require("ol/layer/Vector");
@@ -14,7 +13,7 @@ const { default: LineString } = require("ol/geom/LineString");
 const { default: Stroke } = require("ol/style/Stroke");
 const { default: Fill } = require("ol/style/Fill");
 
-class SidebarArty {
+export class SidebarArty {
 
   artilleryList = {
     "Tube Mortars": {
@@ -140,7 +139,6 @@ class SidebarArty {
   solutionDistance = 0;
   solutionAzimuth = 0;
   
-
   editFeature = null
 
   /**
@@ -151,17 +149,23 @@ class SidebarArty {
     this.map = map
     this.tools = tools
 
-    const offcanvas = document.getElementById('sidebarArty')
+    /*const offcanvas = document.getElementById('sidebarArty')
     this.bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvas, { keyboard: true, backdrop: false, scroll: true })
     offcanvas.addEventListener('hide.bs.offcanvas', () => {
       tools.edit.controlElement.classList.remove('selected')
       tools.changeMode(false)
       //this.artyModeDisabled()
+    })*/
+    
+    //document.getElementById('arty-close').onclick = this.artyHide;
+
+    //document.getElementById('solutionCopy').onclick = this.copySolution;
+
+    Alpine.store('arty', {
+      show: this.artyShow,
+      hide: this.artyHide,
+      copy: this.copySolution,
     })
-
-    document.getElementById('arty-close').onclick = this.artyHide;
-
-    document.getElementById('solutionCopy').onclick = this.copySolution;
 
     const artySelector = document.getElementById("artyPieceSelector")
     let shellType = ''
@@ -207,7 +211,7 @@ class SidebarArty {
 
     //document.getElementById("wd0").onchange= () => this.setWindDir();
     document.getElementById("wd0").onchange = () => this.setWindDir();
-    document.getElementById("wd0").onwheel = () => this.setWindDir();
+    document.getElementById("wd0").addEventListener('wheel', () => {this.setWindDir()}, {passive: true});
     //document.getElementById("wd0").onwheel= () => this.setWindDir();
 
     const vectorSource = new VectorSource({
@@ -592,18 +596,20 @@ class SidebarArty {
   artyHide = () => {
     this.vector.setVisible(false);
     this.windLayer.setVisible(false);
+    tools.changeMode(false);
   }
 
   artyModeEnabled = () => {
-    this.bsOffcanvas.show();
+    //this.bsOffcanvas.show();
     this.vector.setVisible(true);
   }
 
   artyModeDisabled = () => {
-    this.bsOffcanvas.hide()
+    //this.bsOffcanvas.hide()
     this.vector.setVisible(false);
+    tools.changeMode(false);
   }
   
 }
 
-module.exports = SidebarArty
+//module.exports = SidebarArty

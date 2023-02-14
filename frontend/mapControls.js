@@ -14,7 +14,8 @@ const mousePositionControl = new MousePosition({
 
 const layerSwitcher = new LayerSwitcher({
     reverse: false,
-    groupSelectStyle: 'group'
+    groupSelectStyle: 'group',
+    target: document.querySelector('.layerSwitcher')
 });
 
 module.exports.addDefaultMapControls = function(map) {

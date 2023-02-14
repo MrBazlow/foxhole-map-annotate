@@ -1,6 +1,6 @@
-const {getCenter} = require("ol/extent");
+import {getCenter} from "ol/extent"
 
-class Flags {
+export default class Flags {
 
   MIN_FLAGS = 1
 
@@ -12,8 +12,8 @@ class Flags {
     this.template = document.getElementById('flaggedTemplate').content
 
     const offcanvas = document.getElementById('flags')
-    this.bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvas ,{ keyboard: true, backdrop: false, scroll: true})
-    offcanvas.addEventListener('show.bs.offcanvas', () => {
+    //this.bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvas ,{ keyboard: true, backdrop: false, scroll: true})
+    offcanvas?.addEventListener('show.bs.offcanvas', () => {
       divFlagged.innerHTML = ''
       const features = []
       for (const source of Object.values(tools.icon.sources)) {
@@ -89,8 +89,4 @@ class Flags {
     })
     return flaggedItem
   }
-
 }
-
-
-module.exports = Flags

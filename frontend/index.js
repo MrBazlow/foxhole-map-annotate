@@ -1,30 +1,59 @@
-import TileGrid from "ol/tilegrid/TileGrid";
-import {Map, View} from "ol";
-import {Attribution, defaults} from "ol/control";
-import {Group, Tile} from "ol/layer";
-import {TileImage} from "ol/source";
-import {GeoJSON} from "ol/format";
+import TileGrid from "ol/tilegrid/TileGrid"
+import {Map, View} from "ol"
+import {Attribution, defaults} from "ol/control"
+import {Group, Tile} from "ol/layer"
+import {TileImage} from "ol/source"
+import {GeoJSON} from "ol/format"
 import {addDefaultMapControls, enableLayerMemory} from "./mapControls"
-import Socket from "./webSocket";
-import StaticLayers from "./staticLayer";
-import {DragPan} from "ol/interaction";
-import {all, noModifierKeys} from "ol/events/condition";
-import {assert} from "ol/asserts";
-import Flags from "./flags";
-const EditTools = require("./mapEditTools")
+import Socket from "./webSocket"
+import StaticLayers from "./staticLayer"
+import {DragPan} from "ol/interaction"
+import {all, noModifierKeys} from "ol/events/condition"
+import {assert} from "ol/asserts"
+import Flags from "./flags"
+import {Draggable} from "@neodrag/vanilla"
+import {EditTools} from "./mapEditTools"
+import "vanilla-colorful"
+import "vanilla-colorful/hex-input.js"
+
+
+const dragWindows = []
+const applyDragWindow = (elementId) => {
+  if (document.querySelector(`${elementId}`)) {
+    dragWindows.push(new Draggable(document.querySelector(`${elementId}`), {bounds: 'main', defaultPosition: { x: 50, y: 80 }, handle: `${elementId}-handle` }))
+  }
+}
+
+applyDragWindow('#edit-view')
+applyDragWindow('#arty-view')
+applyDragWindow('#flag-view')
+
+Alpine.data('windows', () => ({
+  artyView: false,
+  editView: false,
+  flagView: false,
+  artyToggle() {
+    this.artyView = ! this.artyView
+    this.artyView ? $store.arty.hide() : $store.arty.show()
+  },
+  editToggle() {
+    this.editView = ! this.editView
+    //this.editView ? $store.edit.hide() : $store.edit.show()
+  },
+  flagToggle() {
+    this.flagView = ! this.flagView
+    //this.flagView ? $store.flag.hide() : $store.flag.show()
+  },
+}))
 
 const url = new URL(window.location);
-
-const attribution = new Attribution({
-  collapsible: false,
-});
 
 var map = new Map({
   controls: defaults({
     attribution: false,
     zoom: false,
     rotate: false,
-  }).extend([attribution]),
+  }).extend([new Attribution({collapsible: false})]),
   target: 'map',
   layers: [
     new Group({
@@ -63,13 +92,16 @@ var map = new Map({
   })
 });
 
-const zoomIn = document.getElementById('ol-zoom-in').addEventListener('click', (event) => {
-  event.stopPropagation();
+const zoomIn = () => {
   map.getView().animate({zoom: map.getView().getZoom() + 0.5, duration: 300})
-})
-const zoomOut = document.getElementById('ol-zoom-out').addEventListener('click', (event) => {
-  event.stopPropagation();
+}
+const zoomOut = () => {
   map.getView().animate({zoom: map.getView().getZoom() - 0.5, duration: 300})
+}
+
+Alpine.store('mapZoom', {
+  in: zoomIn,
+  out: zoomOut
 })
 
 map.on('moveend', (event) => {
