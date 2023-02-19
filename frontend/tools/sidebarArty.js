@@ -478,8 +478,8 @@ class SidebarArty {
     if (document.getElementById("wd0").value >= 360){
       document.getElementById("wd0").value = 0;
     }
-    else if (document.getElementById("wd0").value <= 0){
-      document.getElementById("wd0").value = 360;
+    else if (document.getElementById("wd0").value <= -1){
+      document.getElementById("wd0").value = 359;
     }
 
     this.windDirection = document.getElementById("wd0").value

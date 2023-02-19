@@ -1,4 +1,4 @@
-const Split = require("ol-ext/interaction/Split");
+import Split from "ol-ext/interaction/Split";
 
 class Scissor {
 
@@ -8,7 +8,7 @@ class Scissor {
    */
   constructor(tools, map) {
     this.map = map
-    this.split = new Split.default({
+    this.split = new Split({
     })
 
     this.split.on('aftersplit', (event) => {
@@ -41,4 +41,4 @@ class Scissor {
 
 }
 
-module.exports = Scissor
+export default Scissor

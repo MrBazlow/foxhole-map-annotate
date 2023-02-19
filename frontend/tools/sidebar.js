@@ -1,4 +1,4 @@
-const {ACL_ICONS_ONLY} = require("../../lib/ACLS");
+import {ACL_ICONS_ONLY} from "../../lib/ACLS"
 
 class Sidebar {
 
@@ -181,4 +181,4 @@ class Sidebar {
   }
 }
 
-module.exports = Sidebar
+export default Sidebar

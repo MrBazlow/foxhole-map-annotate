@@ -1,10 +1,10 @@
-const {Draw} = require("ol/interaction");
-const {assert} = require("ol/asserts");
-const {Style, Stroke, Fill, Text} = require("ol/style");
-const {Vector} = require("ol/layer");
-const {Collection} = require("ol");
-const {Vector: VectorSource} = require("ol/source");
-const {createEditingStyle} = require("ol/style/Style");
+import { Draw } from "ol/interaction";
+import { assert } from "ol/asserts";
+import { Style, Stroke, Fill, Text } from "ol/style";
+import { Vector } from "ol/layer";
+import { Collection } from "ol";
+import { Vector as VectorSource } from "ol/source";
+import { createEditingStyle } from "ol/style/Style";
 
 class Polygon {
 
@@ -183,4 +183,4 @@ class Polygon {
 
 }
 
-module.exports = Polygon
+export default Polygon

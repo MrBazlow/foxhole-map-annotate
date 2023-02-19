@@ -1,18 +1,18 @@
-const Edit = require("./tools/edit");
+import Edit from "./tools/edit"
 //const Arty = require("./tools/arty");
-const {ACL_READ, hasAccess} = require("../lib/ACLS");
-const Select = require("./tools/select");
-const {Group} = require("ol/layer");
-const {GeoJSON} = require("ol/format");
-const Sidebar = require("./tools/sidebar");
+import {ACL_READ, hasAccess} from "../lib/ACLS"
+import Select from "./tools/select"
+import {Group} from "ol/layer"
+import {GeoJSON} from "ol/format"
+import Sidebar from "./tools/sidebar"
 import SidebarArty from "./tools/sidebarArty"
-const Icon = require("./tools/icon");
-const Polygon = require("./tools/polygon");
-const Line = require("./tools/line");
-const Scissor = require("./tools/scissor");
+import Icon from "./tools/icon"
+import Polygon from "./tools/polygon"
+import Line from "./tools/line"
+import Scissor from "./tools/scissor"
 
 
-export class EditTools {
+class EditTools {
     EVENT_EDIT_MODE_ENABLED = 'editModeEnabled';
     EVENT_EDIT_MODE_DISABLED = 'editModeDisabled';
     EVENT_TOOL_SELECTED = 'toolSelected';
@@ -166,5 +166,6 @@ export class EditTools {
         }
         this.listeners[key].push(callback)
     }
-
 }
+
+export default EditTools

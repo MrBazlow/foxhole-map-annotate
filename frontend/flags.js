@@ -1,6 +1,6 @@
 import {getCenter} from "ol/extent"
 
-export default class Flags {
+class Flags {
 
   MIN_FLAGS = 1
 
@@ -90,3 +90,5 @@ export default class Flags {
     return flaggedItem
   }
 }
+
+export default Flags

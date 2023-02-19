@@ -12,7 +12,7 @@ import {all, noModifierKeys} from "ol/events/condition"
 import {assert} from "ol/asserts"
 import Flags from "./flags"
 import {Draggable} from "@neodrag/vanilla"
-import {EditTools} from "./mapEditTools"
+import EditTools from "./mapEditTools"
 import "vanilla-colorful"
 import "vanilla-colorful/hex-input.js"
 
@@ -28,6 +28,7 @@ applyDragWindow('#edit-view')
 applyDragWindow('#arty-view')
 applyDragWindow('#flag-view')
 
+// Dropdown menu template pieces
 Alpine.data('dropdownRoot', () => ({
   activeId: 1
 }))
@@ -121,10 +122,7 @@ enableLayerMemory(map)
 window.tools = tools
 
 Alpine.store('arty', {
-  show: tools.sidebarArty.artyShow,
-  hide: tools.sidebarArty.artyHide,
-  copy: tools.sidebarArty.copySolution,
-  guns: Object.getOwnPropertyNames(tools.sidebarArty.artilleryList),
+  guns: Object.getOwnPropertyNames(tools.sidebarArty.artilleryList)
 })
 
 Alpine.store('lines', tools.line.lineTypes)
