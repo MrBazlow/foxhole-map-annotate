@@ -191,14 +191,6 @@ class SidebarArty {
 
     this.g = this.artilleryList["Tube Mortars"];
 
-    //this is silly but oh well
-    document.getElementById("ws0").onclick= () => this.setWindStr();
-    document.getElementById("ws1").onclick= () => this.setWindStr();
-    document.getElementById("ws2").onclick= () => this.setWindStr();
-    document.getElementById("ws3").onclick= () => this.setWindStr();
-    document.getElementById("ws4").onclick= () => this.setWindStr();
-    document.getElementById("ws5").onclick= () => this.setWindStr();
-
     //document.getElementById("wd0").onchange= () => this.setWindDir();
     document.getElementById("wd0").onchange = () => this.setWindDir();
     document.getElementById("wd0").addEventListener('wheel', () => {this.setWindDir()}, {passive: true});
@@ -428,16 +420,10 @@ class SidebarArty {
     tools.on(tools.EVENT_ARTY_MODE_ENABLED, this.artyModeEnabled)
     tools.on(tools.EVENT_ARTY_MODE_DISABLED, this.artyModeDisabled)
 
+    document.addEventListener('artyWindStrength', (event) => {this.setWindStr(Number.parseInt(event.detail.strength))})
     document.addEventListener('newGun', (event) => {this.selectGun(event.detail.gun)})
-    document.addEventListener('artyMode', (event) => {
-      console.log(event)
-      if (event.detail) {
-        this.artyShow()
-      } else {
-        this.artyHide()
-      }
-    })
-    this.selectGun("Tube Mortars")
+    document.addEventListener('artyMode', (event) => { event.detail ? this.artyShow() : this.artyHide()})
+    this.selectGun(Object.getOwnPropertyNames(this.artilleryList)[0])
   }
 
   translating = () => {
@@ -460,15 +446,17 @@ class SidebarArty {
     this.calcWind();
   }
 
-  setWindStr = () => {
-    this.windStrength = parseInt(document.querySelector('input[name="windStrength"]:checked').value)
-
-    if (this.windStrength === 0) {
-      this.windLayer.setVisible(false);
-    } else {
-      this.windLayer.setVisible(true);
+  setWindStr = (strength) => {
+    if (strength > 5) { 
+      this.windStrength = 5 
     }
-
+    else if (strength < 0) {
+      this.windStrength = 0 
+    }
+    else {
+      this.windStrength = strength 
+    }
+    this.windStrength === 0 ? this.windLayer.setVisible(false) : this.windLayer.setVisible(true)
     this.calcWind();
   }
 
@@ -597,12 +585,10 @@ class SidebarArty {
   }
 
   artyModeEnabled = () => {
-    //this.bsOffcanvas.show();
     this.vector.setVisible(true);
   }
 
   artyModeDisabled = () => {
-    //this.bsOffcanvas.hide()
     this.vector.setVisible(false);
     tools.changeMode(false);
   }
