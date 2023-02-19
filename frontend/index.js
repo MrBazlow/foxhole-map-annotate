@@ -28,22 +28,18 @@ applyDragWindow('#edit-view')
 applyDragWindow('#arty-view')
 applyDragWindow('#flag-view')
 
-Alpine.data('windows', () => ({
-  artyView: false,
-  editView: false,
-  flagView: false,
-  artyToggle() {
-    this.artyView = ! this.artyView
-    this.artyView ? $store.arty.hide() : $store.arty.show()
+Alpine.data('dropdownRoot', () => ({
+  activeId: 1
+}))
+
+Alpine.data('dropdown', (number=1) => ({
+  id: number,
+  get active() {
+    return this.activeId === this.id
   },
-  editToggle() {
-    this.editView = ! this.editView
-    //this.editView ? $store.edit.hide() : $store.edit.show()
-  },
-  flagToggle() {
-    this.flagView = ! this.flagView
-    //this.flagView ? $store.flag.hide() : $store.flag.show()
-  },
+  set active(value) {
+    this.activeId = value && this.id
+  }
 }))
 
 const url = new URL(window.location);
@@ -121,6 +117,35 @@ const staticLayer = new StaticLayers(map, conquerStatus, warFeatures)
 const tools = new EditTools(map);
 tools.staticLayer = staticLayer;
 enableLayerMemory(map)
+
+window.tools = tools
+
+Alpine.store('arty', {
+  show: tools.sidebarArty.artyShow,
+  hide: tools.sidebarArty.artyHide,
+  copy: tools.sidebarArty.copySolution,
+  guns: Object.getOwnPropertyNames(tools.sidebarArty.artilleryList),
+})
+
+Alpine.store('lines', tools.line.lineTypes)
+
+Alpine.data('windows', () => ({
+  artyView: false,
+  editView: false,
+  flagView: false,
+  artyToggle() {
+    this.artyView = ! this.artyView;
+    document.dispatchEvent(new CustomEvent("artyMode", { detail: this.artyView }))
+  },
+  editToggle() {
+    this.editView = ! this.editView
+    //this.editView ? $store.edit.hide() : $store.edit.show()
+  },
+  flagToggle() {
+    this.flagView = ! this.flagView
+    //this.flagView ? $store.flag.hide() : $store.flag.show()
+  },
+}))
 
 // Prevent context menu on map
 document.getElementById('map').addEventListener('contextmenu', (e) => {

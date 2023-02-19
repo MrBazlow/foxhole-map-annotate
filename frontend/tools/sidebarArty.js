@@ -1,19 +1,12 @@
-import {Collection} from "ol";
-const { default: Feature } = require("ol/Feature")
-const { default: Point } = require("ol/geom/Point");
-const { default: VectorLayer } = require("ol/layer/Vector");
-const { default: VectorSource } = require("ol/source/Vector");
-const { default: Icon } = require('ol/style/Icon');
-const { default: Style } = require('ol/style/Style');
+import {Collection, Feature} from "ol"
+import {Point} from "ol/geom"
+import VectorLayer from "ol/layer/Vector"
+import VectorSource from "ol/source/Vector"
+import Translate from "ol/interaction/Translate"
+import {Circle, LineString} from "ol/geom"
+import {Icon, Style, Stroke, Fill} from "ol/style"
 
-const { default: Translate } = require("ol/interaction/Translate");
-
-const { Circle } = require("ol/geom");
-const { default: LineString } = require("ol/geom/LineString");
-const { default: Stroke } = require("ol/style/Stroke");
-const { default: Fill } = require("ol/style/Fill");
-
-export class SidebarArty {
+class SidebarArty {
 
   artilleryList = {
     "Tube Mortars": {
@@ -161,13 +154,8 @@ export class SidebarArty {
 
     //document.getElementById('solutionCopy').onclick = this.copySolution;
 
-    Alpine.store('arty', {
-      show: this.artyShow,
-      hide: this.artyHide,
-      copy: this.copySolution,
-    })
 
-    const artySelector = document.getElementById("artyPieceSelector")
+    //const artySelector = document.getElementById("artyPieceSelector")
     let shellType = ''
 
     for (let p in this.artilleryList) {
@@ -175,6 +163,7 @@ export class SidebarArty {
       this.artilleryList[p].max *= this.tools.MAGIC_MAP_SCALING_FACTOR
 
       //header handling
+      /*
       if (shellType !== this.artilleryList[p].ammo && shellType !== '') {
 
         let newLiH = document.createElement('li')
@@ -197,6 +186,7 @@ export class SidebarArty {
 
       newLi.appendChild(newPiece)
       artySelector.appendChild(newLi)
+      */
     }
 
     this.g = this.artilleryList["Tube Mortars"];
@@ -437,6 +427,17 @@ export class SidebarArty {
 
     tools.on(tools.EVENT_ARTY_MODE_ENABLED, this.artyModeEnabled)
     tools.on(tools.EVENT_ARTY_MODE_DISABLED, this.artyModeDisabled)
+
+    document.addEventListener('newGun', (event) => {this.selectGun(event.detail.gun)})
+    document.addEventListener('artyMode', (event) => {
+      console.log(event)
+      if (event.detail) {
+        this.artyShow()
+      } else {
+        this.artyHide()
+      }
+    })
+    this.selectGun("Tube Mortars")
   }
 
   translating = () => {
@@ -448,14 +449,15 @@ export class SidebarArty {
   }
 
   selectGun(gun) {
-    document.getElementById("artyPieceButton").innerText = gun
+    //document.getElementById("artyPieceButton").innerText = gun
    
     this.g = this.artilleryList[gun];
     //console.log("gunstats asd " +this.g.toString() + "Max:" + this.g.max);
     
     this.minRadius.getGeometry().setRadius(this.artilleryList[gun].min);
     this.maxRadius.getGeometry().setRadius(this.artilleryList[gun].max);
-    this.setWindOff();
+    this.windOffset = this.artilleryList[gun].offset
+    this.calcWind();
   }
 
   setWindStr = () => {
@@ -505,11 +507,6 @@ export class SidebarArty {
     if (this.vectorSolution.getGeometry().getLength() < this.g.min){
       this.precisionRadius.getGeometry().setRadius(this.g.minAcc);
     }
-  }
-
-  setWindOff = () => {
-    this.windOffset = this.artilleryList[document.getElementById("artyPieceButton").innerText].offset
-    this.calcWind();
   }
 
   calcWind = () => {
@@ -612,4 +609,4 @@ export class SidebarArty {
   
 }
 
-//module.exports = SidebarArty
+export default SidebarArty

@@ -12,7 +12,6 @@
     <meta property="og:description" content="Foxhole {{ shard }} {{ config.basic.title }}">
     <meta property="og:image" content="{{ config.basic.url }}{{ config.images.opengraph }}">
     <meta property="og:image:alt" content="{{ config.basic.title }} Logo">
-
     {# Twitter Meta Tags #}
     <meta name="twitter:card" content="summary">
     <meta property="twitter:url" content="{{ config.basic.url }}">
@@ -21,7 +20,6 @@
     <meta name="twitter:image" content="{{ config.basic.url }}{{ config.images.opengraph }}">
     <meta name="twitter:image:alt" content="{{ config.basic.title }} Logo">
     <meta name="theme-color" content="{{ config.basic.color }}">
-
     {% if config.images.favicon %}
     <link rel="icon" type="image/svg+xml" href="{{ config.images.favicon }}">
     {% endif %}
@@ -29,13 +27,6 @@
     <title>{{ title }}</title>
     <link rel="stylesheet" href="/dist/main.css?{{ cacheBuster }}">
     {% block css %}{% endblock %}
-    {# TODO: Replace with variable to override 
-    <!style>
-        .faction-background-color {
-            background-color: {{ config.basic.color }} !important;
-        }
-    </!style>
-    #}
 </head>
 <body class="bg-zinc-900 text-white selection:bg-warden-700">
     {# Header #}
@@ -44,11 +35,11 @@
             {# Logo, Title, Shard name + War# #}
             <div class="flex flex-row mt-1 pb-1 items-center">
                 <a href="{% if path === '/' %}#{% else %}/{% endif %}" class="group flex flex-row mx-1 items-center appearance-none justify-center px-2 rounded-lg transition duration-300 active:scale-95 hover:bg-warden-600">
-                    <img src="{{ config.images.logo }}" class="flex-none h-10 w-10 transition duration-300 group-hover:scale-125" alt="Website Logo" />
-                    <div class="ml-2 text-xl flex-none font-medium">{{ title }}</div>
+                    <img src="{{ config.images.logo }}" class="flex-none h-10 w-10 transition duration-300 group-hover:scale-125" alt="Logo" />
+                    <div class="ml-2 text-xl flex-none font-medium" title="{{ title }}">{{ title }}</div>
                 </a>
                 <div class="px-4 select-none flex-row text-xl font-normal justify-self-end hidden sm:flex">
-				    <span>{{ shard }}#{{ war }}</span>
+				    <span title="Shard and war number">{{ shard }}#{{ war }}</span>
 			    </div>
             </div>
             {% block scoreCard %}{% endblock %}
@@ -56,8 +47,8 @@
             <div class="flex flex-row justify-center items-center">
                 {% block mapLayerTools %}{% endblock %}
                 {# TODO: Notifications #}
-                <button href="###" class="group bg-transparent px-2 py-2 mx-2 rounded-lg hover:bg-warden-600 active:scale-95 transition duration-200 text-lg font-light hidden sm:inline">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition duration-200 group-hover:scale-125">
+                <button href="###" class="group bg-transparent px-2 py-2 mx-2 rounded-lg hover:bg-warden-600 active:scale-95 transition duration-200 text-lg font-light hidden sm:inline" aria-label="Notifications">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition duration-200 group-hover:scale-125" aria-label="Bell icon">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                     </svg>
                 </button>
@@ -275,7 +266,7 @@
             </ul>
         {% endif %}
     #}
-    <main class="absolute -z-10 top-0 left-0 h-full w-full flex flex-col max-h-screen">
+    <main class="absolute -z-10 top-0 left-0 h-full w-full flex flex-col max-h-screen overflow-hidden">
         {% block content %}{% endblock %}
     </main>
     <script src="/dist/main.js?{{ cacheBuster }}"></script>

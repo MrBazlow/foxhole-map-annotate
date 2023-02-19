@@ -12,6 +12,7 @@ class Line {
   sources = {}
 
   lineTypes = {
+    siding: "Siding",
     single: "Main Line",
     lightRail: "Narrow Gauge Rail",
     planned: "Planned",
@@ -200,7 +201,6 @@ class Line {
       }
     })
 
-    Alpine.store('lines', this.lineTypes)
   }
 
   geometryCache = {}

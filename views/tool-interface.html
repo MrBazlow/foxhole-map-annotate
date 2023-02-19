@@ -12,202 +12,207 @@
 
 {% macro toolInterface(name) %}
 	{% if name === 'edit' %}
-	<div class="flex flex-row justify-center items-center" id="tool-buttons">
-		<button type="button" class="group py-2 px-6 rounded-l-lg bg-warden-700 hover:bg-warden-600  active:bg-warden-800 transition" title="Polygon">
-			<div class="group-hover:scale-105 group-active:scale-95 transition">
-				{# Bootstrap icons: hexagon #}
-				<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-8 h-8" aria-hidden="true">
-				<path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z"/>
-				</svg>
-			</div>
-			<span class="sr-only">Polygon</span>
-		</button>
-		<button type="button" class="group py-2 px-6 bg-warden-700 hover:bg-warden-600 active:bg-warden-800 transition" title="Line">
-			<div class="group-hover:scale-105 group-active:scale-95 transition">
-				{# Bootstrap icons: pencil #}
-				<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-8 h-8" aria-hidden="true">
-				<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-				</svg>
-			</div>
-			<span class="sr-only">Line</span>
-		</button>
-		<button type="button" class="group py-2 px-6 rounded-r-lg bg-warden-700 hover:bg-warden-600 active:bg-warden-800 transition" title="Cut Line">
-			<div class="group-hover:scale-105 group-active:scale-95 transition">
-				{# Bootstrap icons: scissors #}
-				<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-8 h-8" aria-hidden="true">
-				<path d="M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61 3.5 3.5zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0zm7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"/>
-				</svg>
-			</div>
-			<span class="sr-only">Cut Line</span>
-		</button>
-	</div>
-	<div class="flex flex-col space-y-2 py-2">
-		<div class="flex flex-row justify-start items-center">
-			<label for="clan-input" class="w-1/5">Builder</label>
-			<input type="text" id="clan-input" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-4/5" placeholder="Builders name" />
+	<div class="py-2">
+		<div class="flex flex-row justify-center items-center px-4 pb-2 border-b border-zinc-700" id="tool-buttons">
+			<button type="button" class="group py-2 px-6 rounded-l-lg bg-warden-700 hover:bg-warden-600  active:bg-warden-800 transition" title="Symbols">
+				<div class="group-hover:scale-105 group-active:scale-95 transition">
+					{# Tabler icons: icons #}
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linejoin="miter" class="w-8 h-8" aria-hidden="true">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M6.5 6.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0"></path>
+						<path d="M2.5 21h8l-4 -7z"></path>
+						<path d="M14 3l7 7"></path>
+						<path d="M14 10l7 -7"></path>
+						<path d="M14 14h7v7h-7z"></path>
+					</svg>
+				</div>
+			</button>
+			<button type="button" class="group py-2 px-6 bg-warden-700 hover:bg-warden-600  active:bg-warden-800 transition" title="Polygon">
+				<div class="group-hover:scale-105 group-active:scale-95 transition">
+					{# Bootstrap icons: hexagon #}
+					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-8 h-8" aria-hidden="true">
+					<path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z"/>
+					</svg>
+				</div>
+			</button>
+			<button type="button" class="group py-2 px-6 bg-warden-700 hover:bg-warden-600 active:bg-warden-800 transition" title="Line">
+				<div class="group-hover:scale-105 group-active:scale-95 transition">
+					{# Bootstrap icons: pencil #}
+					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-8 h-8" aria-hidden="true">
+					<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+					</svg>
+				</div>
+			</button>
+			<button type="button" class="group py-2 px-6 rounded-r-lg bg-warden-700 hover:bg-warden-600 active:bg-warden-800 transition" title="Cut Line">
+				<div class="group-hover:scale-105 group-active:scale-95 transition">
+					{# Bootstrap icons: scissors #}
+					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-8 h-8" aria-hidden="true">
+					<path d="M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61 3.5 3.5zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0zm7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"/>
+					</svg>
+				</div>
+			</button>
 		</div>
-		<div class="flex flex-row justify-start items-center">
-			<label for="color-input" class="w-1/5">Color</label>
-			<!--<hex-color-picker color="#555555"></hex-color-picker>-->
-			<hex-input class="w-4/5" color="#555555" prefixed="true"><input type="text" id="color-input" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-full"/></hex-input>
-		</div>
-		<div 
-			x-data="{
-				typeOpen: false,
-				typeChoice: '',
-				typeValue: '',
-				toggle() {
-					if (this.typeOpen) {
+		<div class="flex flex-col space-y-2 px-4 border-b border-zinc-700 py-2">
+			<div class="flex flex-row justify-start items-center">
+				<label for="clan-input" class="w-1/5">Builder</label>
+				<input type="text" id="clan-input" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-4/5" placeholder="Builders name" />
+			</div>
+			<div class="flex flex-row justify-start items-center">
+				<label for="color-input" class="w-1/5">Color</label>
+				<!--<hex-color-picker color="#555555"></hex-color-picker>-->
+				<hex-input class="w-4/5" color="#555555" prefixed="true"><input type="text" id="color-input" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-full"/></hex-input>
+			</div>
+			<div 
+				x-data="{
+					typeOpen: false,
+					typeChoice: 'Siding',
+					typeValue: 'siding',
+					toggle() {
+						if (this.typeOpen) {
+							return this.close()
+						} 
+						this.$refs.typeButton.focus() 
+						this.typeOpen = true
+					}, 
+					close(focusAfter) {
+						if (!this.typeOpen) return 
+						this.typeOpen = false 
+						focusAfter && focusAfter.focus()
+					},
+					selectThis(element) {
+						this.typeChoice = element.textContent
+						this.typeValue = element.value
 						return this.close()
-					} 
-					this.$refs.typeButton.focus() 
-					this.typeOpen = true
-				}, 
-				close(focusAfter) {
-					if (!this.typeOpen) return 
-					this.typeOpen = false 
-					focusAfter && focusAfter.focus()
-				},
-				selectThis(element) {
-					this.typeChoice = element.textContent
-					this.typeValue = element.value
-					return this.close()
-				}
-			}" 
-				x-on:keydown.escape.prevent.stop="close($refs.typeButton)" 
-				x-on:focusin.window="! $refs.typeDropdown.contains($event.target) && close()" 
-				class="flex flex-row justify-start items-center relative"
-		>
-			<label for="line-type-input" class="w-1/5">Type</label>
-			<button type="button" x-ref="typeButton" x-on:click="toggle()" :aria-expanded="true" :aria-controls="$id('type-dropdown')" x-text="typeChoice" id="line-type-input" class="bg-zinc-700 text-base border-0 shadow-inner text-start px-3 rounded-lg h-10 w-4/5" :value="typeValue"></button>
-			<div x-ref="typeDropdown" x-show="typeOpen" x-collapse @click.outside="close()" :id="$id('type-dropdown')" class="absolute right-0 top-0 grid grid-cols-1 w-4/5 rounded-lg bg-zinc-600 text-start shadow-lg overflow-clip">
-				<template x-for="(line, index) in $store.lines">
-					<button type="button" class="text-start py-2 px-3 hover:bg-zinc-500 select-none" @click.prevent="selectThis($event.target)" x-text="line" :value="index"></button>
-				</template>
-			</div>
-		</div>
-		<div class="flex flex-row justify-start items-center">
-			<label for="notes-input" class="w-1/5">Notes</label>
-			<textarea class="block text-base bg-zinc-700 border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 min-h-[40px] w-4/5" id="notes-input" placeholder="Any details you want to include?"></textarea>
-		</div>
-		<div class="flex flex-row justify-around items-center" id="button-row">
-			<button type="button" class="group py-2 px-6 rounded-lg bg-warden-700 hover:bg-warden-600  active:bg-warden-800 transition" id="delete-button">
-				<span class="transition">Delete</span>
-			</button>
-			<button type="button" class="group py-2 px-6 rounded-lg bg-warden-700 hover:bg-warden-600 active:bg-warden-800 transition" id="save-button">
-				<span class="transition">Save</span>
-			</button>
-		</div>
-	</div>
-	<div class="flex flex-row items-center justify-center py-2">
-		<div class="" id="ppe-filter">
-			<label for="public-radio">Public</label>
-			<input class="public" type="radio" name="toggle" id="public-radio" value="public-radio" checked />
-			<label for="private-radio">Private</label>
-			<input class="private" type="radio" name="toggle" id="private-radio" value="private-radio" />
-			<label for="enemy-radio">Enemy</label>
-			<input class="enemy" type="radio" name="toggle" id="enemy-radio" value="enemy-radio" />
-		</div>
-	</div>
-	<div id="ppe-filter-content">
-
-	</div>
-	{% elif name === 'arty' %}
-	<div x-data="{ activeId: 1 }" class="mx-auto max-w-3xl w-full space-y-4">
-		<div x-data="{ id: 1, get active() { return this.activeId === this.id }, set active(value) { this.activeId = value && this.id } }" role="region" class="rounded-lg shadow">
-			<h2>
-				<button x-on:click="active = !active"
-					class="flex w-full items-center justify-between px-6 py-4 text-xl font-bold">
-					<span>Calculator</span>
-					<span x-show="active" aria-hidden="true" class="ml-4">−</span>
-					<span x-show="!active" aria-hidden="true" class="ml-4">+</span>
-				</button>
-			</h2>
-			<div x-show="active" x-collapse="">
-				<div class="px-6 pb-4">
-					<div class="flex flex-col px-4 border border-zinc-700 rounded-lg">
-						<span class="text-base tracking-tight select-none">Gun</span>
-						<div>
-							<button id="artyPieceButton" type="button" class="px-4 p-2 bg-warden-700 rounded-lg hover:bg-warden-500 active:scale-95 transition duration-200 text-lg">Select Gun</button>
-							<ul id="artyPieceSelector"></ul>
-						</div>
-					</div>
-					<div class="flex flex-col px-4 border border-zinc-700 rounded-lg">
-						<span class="text-base tracking-tight select-none">Wind</span>
-						<div>
-							<span class="text-base tracking-tight select-none">Strength</span>
-							<input type="radio" name="windStrength" class="btn-check" id="ws0" value="0" checked>
-							<label for="ws0" class="">Off</label>
-							<input type="radio" name="windStrength" class="btn-check" id="ws1" value="1">
-							<label for="ws1" class="">1</label>
-							<input type="radio" name="windStrength" class="btn-check" id="ws2" value="2">
-							<label for="ws2" class="">2</label>
-							<input type="radio" name="windStrength" class="btn-check" id="ws3" value="3">
-							<label for="ws3" class="">3</label>
-							<input type="radio" name="windStrength" class="btn-check" id="ws4" value="4">
-							<label for="ws4" class="">4</label>
-							<input type="radio" name="windStrength" class="btn-check" id="ws5" value="5">
-							<label for="ws5" class="">5</label>
-						</div>
-						{#
-						<div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
-							<label for="title" class="text-xl font-semibold mb-2 tracking-tight">Title</label>
-							<input type="text" id="title" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" name="title" placeholder="site name" value="{{ config.basic.title }}">
-						</div>
-						#}
-						<div>
-							<span class="text-base tracking-tight select-none">Direction</span>
-							<input type="number" class="" min="-1" max="361" id = "wd0" value = "0">
-						</div>
-					</div>
-					<div class="flex flex-col px-4 border border-zinc-700 rounded-lg">
-						<span class="text-base tracking-tight select-none">Firing Solution</span>
-						<div class="flex flex-row">
-							<div>
-								<span>Distance</span>
-								<div id="solutionD">000</div>
-							</div>
-							<div>
-								<span>Azimuth</span>
-								<div id="solutionA">000</div>
-							</div>
-							<button id="solutionCopy" type="button" class="px-4 p-2 bg-warden-700 rounded-lg hover:bg-warden-500 active:scale-95 transition duration-200 text-lg">
-								{# Bootstrap icons: files #}
-								<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6" viewBox="0 0 16 16">
-									<path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
-								</svg>
-							</button>
-						</div>
-					</div>
+					}
+				}" 
+					x-on:keydown.escape.prevent.stop="close($refs.typeButton)" 
+					x-on:focusin.window="! $refs.typeDropdown.contains($event.target) && close()" 
+					class="flex flex-row justify-start items-center relative"
+			>
+				<label for="line-type-input" class="w-1/5">Type</label>
+				<button type="button" x-ref="typeButton" x-on:click="toggle()" :aria-expanded="true" :aria-controls="$id('type-dropdown')" x-text="typeChoice" id="line-type-input" class="bg-zinc-700 text-base border-0 shadow-inner text-start px-3 rounded-lg h-10 w-4/5" :value="typeValue"></button>
+				<div x-ref="typeDropdown" x-show="typeOpen" x-collapse @click.outside="close()" :id="$id('type-dropdown')" class="absolute right-0 top-0 grid grid-cols-1 w-4/5 rounded-lg bg-zinc-600 text-start shadow-lg overflow-clip">
+					<template x-for="(line, index) in $store.lines">
+						<button type="button" class="text-start py-2 px-3 hover:bg-warden-600 select-none" @click.prevent="selectThis($event.target)" x-text="line" :value="index"></button>
+					</template>
 				</div>
 			</div>
-		</div>
-		<div x-data="{ id: 2, get active() { return this.activeId === this.id }, set active(value) { this.activeId = value && this.id } }" role="region" class="rounded-lg shadow">
-			<h2>
-				<button x-on:click="active = !active" class="flex w-full items-center justify-between px-6 py-4 text-xl font-bold">
-					<span>How to use</span>
-					<span x-show="active" aria-hidden="true" class="ml-4">−</span>
-					<span x-show="!active" aria-hidden="true" class="ml-4">+</span>
+			<div class="flex flex-row justify-start items-center">
+				<label for="notes-input" class="w-1/5">Notes</label>
+				<textarea class="block text-base bg-zinc-700 border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 min-h-[40px] w-4/5" id="notes-input" placeholder="Any details you want to include?"></textarea>
+			</div>
+			<div class="flex flex-row justify-around items-center" id="button-row">
+				<button type="button" class="group py-2 px-6 rounded-lg bg-warden-700 hover:bg-warden-600  active:bg-warden-800 transition" id="delete-button">
+					<span class="transition">Delete</span>
 				</button>
-			</h2>
-			<div x-show="active" x-collapse="">
-				<div class="px-6 pb-4">
-					<div class="flex flex-col">
-						<dl>
-							<dt>Triangle</dt>
-							<dd>Artillery placement</dd>
-							<dt>Black Cross</dt>
-							<dd>Target after/before wind</dd>
-							<dt>Black Circle</dt>
-							<dd>Shot should land inside circle</dd>
-							<dt>White line</dt>
-							<dd>Wind</dd>
-						</dl>
-						<p>To calculate wind direction. Simply stand on top of a structure that has a flag and view the sharp end of the flag to get azm. This is your direction number.</p>
-						<p>To get started, hover mouse over black circle and drag it to your bomb zone</p>
-						<p>Arty placement, drag icon to put where your piece is at.</p>
-						<p>Do take note of geographical features for accuracy purpose.</p>
+				<button type="button" class="group py-2 px-6 rounded-lg bg-warden-700 hover:bg-warden-600 active:bg-warden-800 transition" id="save-button">
+					<span class="transition">Save</span>
+				</button>
+			</div>
+		</div>
+		<div class="flex items-center justify-center text-gr py-2 border-b border-b-zinc-700">
+			<div class="flex flex-row" id="ppe-filter">
+				<input class="peer/public public hidden" type="radio" name="toggle" id="public-radio" value="public-radio" checked />
+				<label for="public-radio" class="cursor-pointer group py-2 px-6 rounded-l-lg bg-warden-700 hover:bg-warden-600  active:bg-warden-800 transition peer-checked/public:bg-warden-500">
+					<div class="group-hover:scale-105 group-active:scale-95 transition">
+						<span class="select-none">Public</span>
 					</div>
+				</label>
+				<input class="peer/private private hidden" type="radio" name="toggle" id="private-radio" value="private-radio" />
+				<label for="private-radio" class="cursor-pointer group py-2 px-6 bg-warden-700 hover:bg-warden-600  active:bg-warden-800 transition select-none peer-checked/private:bg-warden-500">
+					<div class="group-hover:scale-105 group-active:scale-95 transition">
+						<span class="select-none">Private</span>
+					</div>
+				</label>
+				<input class="peer/enemy enemy hidden" type="radio" name="toggle" id="enemy-radio" value="enemy-radio" />
+				<label for="enemy-radio" class="cursor-pointer group py-2 px-6 rounded-r-lg bg-warden-700 hover:bg-warden-600  active:bg-warden-800 transition select-none peer-checked/enemy:bg-warden-500">
+					<div class="group-hover:scale-105 group-active:scale-95 transition">
+						<span class="select-none">Enemy</span>
+					</div>
+				</label>
+			</div>
+		</div>
+		<div id="ppe-filter-content">
+		</div>
+	</div>
+	
+	{% elif name === 'arty' %}
+	<div class="py-2">
+		<div class="flex flex-col space-y-2 px-4 border-b border-zinc-700 py-2">
+			<div 
+				x-data="{
+					typeOpen: false,
+					typeChoice: Alpine.store('arty').guns[0],
+					toggle() {
+						if (this.typeOpen) {
+							return this.close()
+						} 
+						this.$refs.gunButton.focus() 
+						this.typeOpen = true
+					}, 
+					close(focusAfter) {
+						if (!this.typeOpen) return 
+						this.typeOpen = false 
+						focusAfter && focusAfter.focus()
+					},
+					selectThis(element) {
+						let chosen = element.textContent
+						this.typeChoice = chosen
+						$dispatch('newGun', {'gun': chosen})
+						return this.close()
+					}
+				}" 
+					@keydown.escape.prevent.stop="close($refs.gunButton)" 
+					@focusin.window="! $refs.gunDropdown.contains($event.target) && close()"
+					class="flex flex-row justify-start items-center relative"
+			>
+				<label for="artyPieceButton" class="w-1/5">Gun</label>
+				<button type="button" x-ref="gunButton" @click="toggle()" :aria-expanded="true" :aria-controls="$id('type-dropdown')" x-text="typeChoice" id="artyPieceButton" class="bg-zinc-700 text-base border-0 shadow-inner text-start px-3 rounded-lg h-10 w-4/5"></button>
+				<div x-ref="gunDropdown" x-show="typeOpen" x-collapse @click.outside="close()" :id="$id('type-dropdown')" class="absolute right-0 top-0 grid grid-cols-1 w-4/5 rounded-lg bg-zinc-600 text-start shadow-lg overflow-clip">
+					<template x-for="gun in $store.arty.guns">
+						<button type="button" class="text-start py-2 px-3 hover:bg-warden-600 select-none" @click="selectThis($el)" x-text="gun"></button>
+					</template>
+				</div>
+			</div>
+			<div class="flex flex-col px-4 border border-zinc-700 rounded-lg">
+				<span class="text-base tracking-tight select-none">Wind</span>
+				<div>
+					<span class="text-base tracking-tight select-none">Strength</span>
+					<input type="radio" name="windStrength" class="btn-check" id="ws0" value="0" checked>
+					<label for="ws0" class="">Off</label>
+					<input type="radio" name="windStrength" class="btn-check" id="ws1" value="1">
+					<label for="ws1" class="">1</label>
+					<input type="radio" name="windStrength" class="btn-check" id="ws2" value="2">
+					<label for="ws2" class="">2</label>
+					<input type="radio" name="windStrength" class="btn-check" id="ws3" value="3">
+					<label for="ws3" class="">3</label>
+					<input type="radio" name="windStrength" class="btn-check" id="ws4" value="4">
+					<label for="ws4" class="">4</label>
+					<input type="radio" name="windStrength" class="btn-check" id="ws5" value="5">
+					<label for="ws5" class="">5</label>
+				</div>
+				<div class="flex flex-row justify-start items-center">
+					<label for="wd0" class="w-1/5">Direction</label>
+					<input type="number" id ="wd0" min="-1" max="360" value = "0" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-4/5">
+				</div>
+			</div>
+			<div class="flex flex-col px-4 border border-zinc-700 rounded-lg">
+				<span class="text-base tracking-tight select-none">Firing Solution</span>
+				<div class="flex flex-row">
+					<div>
+						<span>Distance</span>
+						<div id="solutionD">000</div>
+					</div>
+					<div>
+						<span>Azimuth</span>
+						<div id="solutionA">000</div>
+					</div>
+					<button id="solutionCopy" type="button" class="px-4 p-2 bg-warden-700 rounded-lg hover:bg-warden-500 active:scale-95 transition duration-200 text-lg">
+						{# Bootstrap icons: files #}
+						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6" viewBox="0 0 16 16">
+							<path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
+						</svg>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -219,19 +224,19 @@
 
 {% macro newToolWindow(name, title, description) %}
 <div id="{{name}}-view" class="absolute top-0 left-0 flex flex-col w-full max-w-sm overflow-y-visible rounded-lg bg-zinc-800 shadow-xl">
-	<div id="{{name}}-view-handle" class="flex flex-row justify-between items-start p-4 w-full rounded-t-lg overflow-clip bg-warden-700 border-b border-zinc-700">
+	<div id="{{name}}-view-handle" class="flex flex-row justify-between items-start p-4 w-full rounded-t-lg bg-warden-700 border-b border-zinc-700">
 		<div class="flex-flex-col">
 			<h2 class="text-2xl font-bold tracking-tight select-none">{{title}}</h2>
 			<span class="text-normal tracking-tight select-none">{{description}}</span>
 		</div>
-		<button @click.prevent="{{name}}Toggle()" class="p-2 font-bold rounded-lg border border-warden-700 hover:border-white hover:bg-warden-600 hover:scale-105 active:scale-95 transition duration-200 justify-center">
+		<button type="button" @click="{{name}}Toggle()" class="p-2 font-bold rounded-lg border border-warden-700 hover:border-white hover:bg-warden-600 hover:scale-105 active:scale-95 transition duration-200 justify-center">
 			{# Hero icons: x-mark #}
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 			</svg>
 		</button>
 	</div>
-	<div id="{{name}}-tools" class="flex flex-col p-4">
+	<div id="{{name}}-tools" class="flex flex-col">
 		{{ toolInterface(name) }}
 	</div>
 </div>

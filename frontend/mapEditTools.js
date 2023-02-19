@@ -1,11 +1,11 @@
 const Edit = require("./tools/edit");
-const Arty = require("./tools/arty");
+//const Arty = require("./tools/arty");
 const {ACL_READ, hasAccess} = require("../lib/ACLS");
 const Select = require("./tools/select");
 const {Group} = require("ol/layer");
 const {GeoJSON} = require("ol/format");
 const Sidebar = require("./tools/sidebar");
-import {SidebarArty} from "./tools/sidebarArty"
+import SidebarArty from "./tools/sidebarArty"
 const Icon = require("./tools/icon");
 const Polygon = require("./tools/polygon");
 const Line = require("./tools/line");
@@ -103,7 +103,7 @@ export class EditTools {
         this.polygon = new Polygon(this, map)
         this.select = new Select(this, map)
         this.edit = new Edit(this, map)
-        this.arty = new Arty(this, map)
+        //this.arty = new Arty(this, map)
     }
 
     resetAcl = () => {
