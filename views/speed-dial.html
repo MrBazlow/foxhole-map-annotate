@@ -1,8 +1,8 @@
-<div data-dial-init class="fixed right-6 bottom-6 group">
-	<div id="speed-dial-menu-square" class="flex-col items-center hidden mb-4">
-		<button @click.prevent="flagView = ! flagView" type="button" data-tooltip-target="tooltip-share" data-tooltip-placement="left"
+<div data-dial-init class="absolute right-6 bottom-6 group">
+	<div id="speed-dial-menu-square" class="flex-col items-center hidden">
+		<button type="button" @click="flagToggle()" data-tooltip-target="tooltip-share" data-tooltip-placement="left"
 			class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 mb-2">
-			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-5 w-5" viewBox="0 0 16 16">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-5 h-5" viewBox="0 0 16 16">
 				<path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM5.495 6.033a.237.237 0 0 1-.24-.247C5.35 4.091 6.737 3.5 8.005 3.5c1.396 0 2.672.73 2.672 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.105a.25.25 0 0 1-.25.25h-.81a.25.25 0 0 1-.25-.246l-.004-.217c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.803 0-1.253.478-1.342 1.134-.018.137-.128.25-.266.25h-.825zm2.325 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"/>
 			  </svg>
 			<span class="sr-only">Spare</span>
@@ -26,7 +26,7 @@
 		</div>
 		<button @click.prevent="artyToggle()" type="button" data-tooltip-target="tooltip-download" data-tooltip-placement="left"
 			class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 mb-2">
-			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-5 w-5" viewBox="0 0 16 16">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-5 h-5" viewBox="0 0 16 16">
 				<path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
 			  </svg>
 			<span class="sr-only">Artillery</span>
@@ -38,7 +38,7 @@
 		</div>
 		<button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="left"
 			class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-lg border border-gray-200 dark:border-gray-600 dark:hover:text-white shadow-sm dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400 mb-2">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-4 w-4" viewBox="0 0 16 16">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4" viewBox="0 0 16 16">
 				<path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1H1z"/>
 			  </svg>
 			<span class="sr-only">Ruler</span>
@@ -51,7 +51,7 @@
 	</div>
 	<button type="button" data-dial-toggle="speed-dial-menu-square" aria-controls="speed-dial-menu-square"
 		aria-expanded="false"
-		class="flex items-center justify-center text-white bg-warden-600 rounded-lg w-14 h-14 group-hover:bg-warden-800">
+		class="flex items-center justify-center text-white rounded-lg bg-warden-600 w-14 h-14 group-hover:bg-warden-800">
 		<svg aria-hidden="true" class="w-8 h-8 transition-transform group-hover:scale-125 group-hover:rotate-45" fill="none"
 			stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>

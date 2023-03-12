@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const webSocket = require("ws");
 const sessionParser = require("./lib/session");
 const wss = new webSocket.Server({clientTracking: false, noServer: true});
@@ -48,6 +50,8 @@ wss.on('connection', function (ws, request) {
         acl,
         version: process.env.COMMIT_HASH,
         warStatus: warapi.warData.status,
+        shard: warapi.warData.shard,
+        warNumber: warapi.warData.warNumber,
         featureHash: features.hash,
       }
     }));

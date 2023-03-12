@@ -1,0 +1,12 @@
+{% from "../utilities/iconStore.html" import iconStore %}
+
+{% macro heading(icon, pageTitle) %}
+<div role="heading" class="pt-24">
+	<div class="flex flex-row items-center px-4 mx-auto sm:px-6 md:px-8 lg:px-10">
+		<div class="p-2 rounded-md shadow-md bg-warden-700">{{ iconStore(icon, 'header') }}</div>
+		<h1 class="pl-2 text-xl font-bold tracking-tight dark:text-white sm:text-3xl">
+			{{ pageTitle | escape }}
+		</h1>
+	</div>
+</div>
+{% endmacro %}

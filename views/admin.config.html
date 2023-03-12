@@ -1,5 +1,9 @@
 {% extends "base.html" %}
-{% from "abstracts.html" import heading, sidebarItem, sidebar, sectionTitle %}
+
+{% from "./components/admin/heading.html" import heading %}
+{% from "./components/admin/sidebar.html" import sidebar %}
+{% from "./components/admin/sidebarItem.html" import sidebarItem %}
+{% from "./components/admin/sectionTitle.html" import sectionTitle %}
 
 {% block javascript %}
 <script src="/dist/admin.js"></script>
@@ -8,46 +12,46 @@
 {% block content %}
 {{ heading("admin", "Administrator Dashboard") }}
 
-<div class="flex flex-row h-full overflow-clip my-4 py-4">
+<div class="flex flex-row h-full py-4 my-4 overflow-clip">
     <div x-data="{ selected: 'General' }" class="flex flex-row w-full h-auto lg:mx-14">
         {% call sidebar() %}
             {{ sidebarItem("cog", "General") }}
             {{ sidebarItem("discord", "Discord") }}
             {{ sidebarItem("body-text", "Text") }}
         {% endcall %}
-        <div class="flex flex-col relative bg-zinc-800 basis-11/12 h-full overflow-hidden lg:rounded-r-md shadow-md">
+        <div class="relative flex flex-col h-full overflow-hidden shadow-md bg-zinc-800 basis-11/12 lg:rounded-r-md">
             {# Background icon #}
-            <div class="absolute z-auto max-h-full right-0 inset-y-0 select-none translate-x-3/4 md:translate-x-2/3 lg:translate-x-1/2">
+            <div class="absolute inset-y-0 right-0 z-auto max-h-full select-none translate-x-3/4 md:translate-x-2/3 lg:translate-x-1/2">
                 {# Hero icon: cog #}
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-full stroke-zinc-900 opacity-50">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-full opacity-50 stroke-zinc-900">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495" />
                 </svg>
             </div>
-            <form action="/admin/config" method="POST" class="z-10 flex flex-col overflow-clip h-full">
+            <form action="/admin/config" method="POST" class="z-10 flex flex-col h-full overflow-clip">
                 {# Section Title: General #}
                 <div class="flex flex-col h-full overflow-auto" x-show="selected === 'General'">
                     {{ sectionTitle('General', 'Settings for general site functionality') }}
                     <div class="flex flex-col p-4">
                         <div class="flex flex-row flex-wrap h-fit sm:pr-8">
                             {# Set website name #}
-                            <div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
-                                <label for="title" class="text-xl font-semibold mb-2 tracking-tight">Title</label>
-                                <input type="text" id="title" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" name="title" placeholder="site name" value="{{ config.basic.title }}">
+                            <div class="flex flex-col w-full mb-8 md:mr-8 md:w-64">
+                                <label for="title" class="mb-2 text-xl font-semibold tracking-tight">Title</label>
+                                <input type="text" id="title" class="text-base border-0 rounded-lg shadow-inner bg-zinc-700 focus:placeholder:opacity-0" name="title" placeholder="site name" value="{{ config.basic.title }}">
                             </div>
                             <!-- TODO: Refactor UI colour selector to faction selector -->
                             <!-- <input type="color" class="form-control" id="color" name="color" value="{{ config.basic.color }}"> -->
                             {# Set Faction #}
-                            <div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
-                                <label for="faction" class="text-xl font-semibold mb-2 tracking-tight">Faction</label>
-                                <select id="faction" name="faction" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg">
+                            <div class="flex flex-col w-full mb-8 md:mr-8 md:w-64">
+                                <label for="faction" class="mb-2 text-xl font-semibold tracking-tight">Faction</label>
+                                <select id="faction" name="faction" class="text-base border-0 rounded-lg shadow-inner bg-zinc-700">
                                     <option {% if config.basic.faction === 'Warden' %}selected{% endif %}>Warden</option>
                                     <option {% if config.basic.faction === 'Colonial' %}selected{% endif %}>Colonial</option>
                                 </select>
                             </div>
                             {# Reload map #}
-                            <div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
-                                <h2 class="text-xl font-semibold mb-2 tracking-tight">Force map reload</h2>
-                                <button type="submit" value="reload" formaction="/admin/reload" class="flex px-4 p-2 bg-amber-700 rounded-lg hover:bg-amber-500 active:scale-95 transition duration-200 text-lg justify-center w-full">
+                            <div class="flex flex-col w-full mb-8 md:mr-8 md:w-64">
+                                <h2 class="mb-2 text-xl font-semibold tracking-tight">Force map reload</h2>
+                                <button type="submit" value="reload" formaction="/admin/reload" class="flex justify-center w-full p-2 px-4 text-lg transition duration-200 rounded-lg bg-amber-700 hover:bg-amber-500 active:scale-95">
                                     <!-- Hero icons: arrow-path -->
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
@@ -58,12 +62,12 @@
                         {# Links #}
                         <div class="flex flex-col">
                             <h3 class="text-xl font-semibold tracking-tight">Links</h3>
-                            <span class="text-base text-gray-200 mb-4 tracking-tight">Links are shown as a drop down menu from the nav bar</span>
+                            <span class="mb-4 text-base tracking-tight text-gray-200">Links are shown as a drop down menu from the nav bar</span>
                             <div class="flex flex-col max-w-4xl" x-data="{ rows: [{% for link in config.basic.links %} { title: '{{ link.title }}', href: '{{ link.href }}' },{% endfor %}]}" x-init="$watch('rows', value => console.log(value))">
                                 <div class="md:shadow-md md:rounded-xl md:border md:border-zinc-900 overflow-clip">
                                     <table class="w-full">
                                         <thead class="hidden md:table-header-group">
-                                            <tr class="uppercase text-left text-white bg-warden-700">
+                                            <tr class="text-left text-white uppercase bg-warden-700">
                                                 <th class="px-1 py-3"></th>
                                                 <th class="px-6 py-3">Title</th>
                                                 <th class="px-3 py-3">Destination</th>
@@ -71,38 +75,38 @@
                                                 <th class="px-3 py-3"></th>
                                             </tr>
                                         </thead>
-                                        <tbody id="linkList" class="divide-zinc-700 divide-y flex-1 md:flex-none">
+                                        <tbody id="linkList" class="flex-1 divide-y divide-zinc-700 md:flex-none">
                                             <template x-for="(row, index) in rows" :key="index">
-                                                <tr x-id="['link']" class="grid grid-cols-2 w-full md:max-w-fit md:table-row even:bg-zinc-900 odd:bg-zinc-800 sortable mb-4 md:mb-0 rounded-lg md:rounded-none border border-zinc-700 md:border-none px-2 md:px-0 shadow-lg md:shadow-none">
+                                                <tr x-id="['link']" class="grid w-full grid-cols-2 px-2 mb-4 border rounded-lg shadow-lg md:max-w-fit md:table-row even:bg-zinc-900 odd:bg-zinc-800 sortable md:mb-0 md:rounded-none border-zinc-700 md:border-none md:px-0 md:shadow-none">
                                                     {# Sorting Handle #}
-                                                    <td class="px-3 py-4 flex md:table-cell items-center justify-start md:justify-center order-2 md:order-none">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="link-handle cursor-grab h-6 w-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <td class="flex items-center justify-start order-2 px-3 py-4 md:table-cell md:justify-center md:order-none">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 link-handle cursor-grab text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                                                         </svg>
                                                     </td>
                                                     {# Title field #}
-                                                    <td class="px-2 md:px-6 py-2 md:py-4 flex flex-col col-span-2 md:table-cell md:items-center justify-center order-3 md:order-none">
-                                                        <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 pb-2 px-2 select-none">Title</span>
+                                                    <td class="flex flex-col justify-center order-3 col-span-2 px-2 py-2 md:px-6 md:py-4 md:table-cell md:items-center md:order-none">
+                                                        <span class="relative inset-x-0 top-0 px-2 pb-2 font-medium text-left text-white uppercase select-none md:hidden">Title</span>
                                                         <label for="link-name1" class="sr-only">Title</label>
-                                                        <input type="text" id="link-name1" class="block bg-zinc-700 text-sm border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-full" :name=`link[title][${$id('link')}]` placeholder="Name" :value="row.title">
+                                                        <input type="text" id="link-name1" class="block w-full text-sm border-0 rounded-lg shadow-inner bg-zinc-700 focus:placeholder:opacity-0" :name="`link[title][${$id('link')}]`" placeholder="Name" :value="row.title">
                                                     </td>
                                                     {# Destination field #}
-                                                    <td class="px-2 md:px-6 py-2 md:py-4 flex flex-col col-span-2 md:table-cell md:items-center justify-center order-4 md:order-none">
-                                                        <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 pb-2 px-2 select-none">Destination</span>
+                                                    <td class="flex flex-col justify-center order-4 col-span-2 px-2 py-2 md:px-6 md:py-4 md:table-cell md:items-center md:order-none">
+                                                        <span class="relative inset-x-0 top-0 px-2 pb-2 font-medium text-left text-white uppercase select-none md:hidden">Destination</span>
                                                         <label for="link-url3" class="sr-only">URL</label>
-                                                        <input type="text" id="link-url3" class="block bg-zinc-700 text-sm border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 w-full" :name=`link[href][${$id('link')}]` placeholder="Destination" :value="row.href">
+                                                        <input type="text" id="link-url3" class="block w-full text-sm border-0 rounded-lg shadow-inner bg-zinc-700 focus:placeholder:opacity-0" :name="`link[href][${$id('link')}]`" placeholder="Destination" :value="row.href">
                                                     </td>
                                                     {# Status toggle #}
-                                                    <td class="px-2 md:px-6 py-4 md:py-4 flex flex-row md:table-cell items-center md:justify-center order-5 md:order-none">
-                                                        <span class="uppercase text-left font-medium text-white md:hidden relative top-0 inset-x-0 px-2 select-none">Status</span>
-                                                        <label class="relative cursor-pointer block justify-center items-center max-w-fit">
-                                                            <input type="checkbox" :name=`link[active][${$id('link')}]` :value="row.active" class="sr-only peer">
+                                                    <td class="flex flex-row items-center order-5 px-2 py-4 md:px-6 md:py-4 md:table-cell md:justify-center md:order-none">
+                                                        <span class="relative inset-x-0 top-0 px-2 font-medium text-left text-white uppercase select-none md:hidden">Status</span>
+                                                        <label class="relative items-center justify-center block cursor-pointer max-w-fit">
+                                                            <input type="checkbox" :name="`link[active][${$id('link')}]`" :value="row.active" class="sr-only peer">
                                                             <div class="w-11 h-6 bg-zinc-900 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-zinc-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-300 after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-warden-700"></div>
                                                         </label>
                                                     </td>
                                                     {# Delete button #}
-                                                    <td class="px-3 py-4 flex md:table-cell items-center justify-end md:justify-center order-2 md:order-none">
-                                                        <button @click.prevent="rows.splice(index, 1)" type="button" class="focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm p-2 bg-red-600 hover:bg-red-700">
+                                                    <td class="flex items-center justify-end order-2 px-3 py-4 md:table-cell md:justify-center md:order-none">
+                                                        <button @click.prevent="rows.splice(index, 1)" type="button" class="p-2 text-sm font-medium text-white bg-red-600 rounded-lg focus:outline-none focus:ring-4 hover:bg-red-700">
                                                             <!-- Hero Icons: trash -->
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -114,7 +118,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <button @click.prevent="rows.push({title: '', href: ''})" class="w-full text-lg bg-transparent border-dashed border-2 border-warden-700 rounded-lg my-2 px-6 py-5 bg-zinc-800 hover:bg-zinc-700 active:scale-95 transition duration-200">Add new link</button>
+                                <button @click.prevent="rows.push({title: '', href: ''})" class="w-full px-6 py-5 my-2 text-lg transition duration-200 bg-transparent border-2 border-dashed rounded-lg border-warden-700 bg-zinc-800 hover:bg-zinc-700 active:scale-95">Add new link</button>
                             </div>
                         </div>
                     </div>
@@ -123,40 +127,40 @@
                 <div class="flex flex-col h-full overflow-auto" x-show="selected === 'Discord'">
                     {{ sectionTitle("Discord", "User permissions from discord roles") }}
                     <div class="flex flex-row flex-wrap max-w-4xl">
-                        <div class="group m-4 flex flex-col w-32 border rounded-lg overflow-clip border-zinc-900 shadow-lg active:scale-95 transition duration-200">
-                            <div class="p-4 flex bg-warden-700 group-hover:bg-warden-600 transition duration-200 justify-center">
+                        <div class="flex flex-col w-32 m-4 transition duration-200 border rounded-lg shadow-lg group overflow-clip border-zinc-900 active:scale-95">
+                            <div class="flex justify-center p-4 transition duration-200 bg-warden-700 group-hover:bg-warden-600">
                                 <span class="text-2xl text-white select-none">Default</span>
                             </div>
-                            <div class="p-4 flex bg-zinc-800 group-hover:bg-zinc-700 transition duration-200 justify-center">
+                            <div class="flex justify-center p-4 transition duration-200 bg-zinc-800 group-hover:bg-zinc-700">
                                 <span class="text-2xl text-white select-none">Users</span>
                             </div>
                         </div>
-                        <div class="group m-4 flex flex-col w-32 border rounded-lg overflow-clip border-zinc-900 shadow-lg active:scale-95 transition duration-200">
-                            <div class="p-4 flex bg-warden-700 group-hover:bg-warden-600 transition duration-200 justify-center">
+                        <div class="flex flex-col w-32 m-4 transition duration-200 border rounded-lg shadow-lg group overflow-clip border-zinc-900 active:scale-95">
+                            <div class="flex justify-center p-4 transition duration-200 bg-warden-700 group-hover:bg-warden-600">
                                 <span class="text-2xl text-white select-none">FMAT</span>
                             </div>
-                            <div class="p-4 flex bg-zinc-800 group-hover:bg-zinc-700 justify-center transition duration-200">
+                            <div class="flex justify-center p-4 transition duration-200 bg-zinc-800 group-hover:bg-zinc-700">
                                 <span class="text-2xl text-white select-none">Users</span>
                             </div>
                         </div>
-                        <div class="group m-4 flex flex-col w-32 border rounded-lg overflow-clip border-zinc-900 shadow-lg active:scale-95 transition duration-200">
-                            <div class="p-4 flex bg-warden-700 group-hover:bg-warden-600 transition duration-200 justify-center">
+                        <div class="flex flex-col w-32 m-4 transition duration-200 border rounded-lg shadow-lg group overflow-clip border-zinc-900 active:scale-95">
+                            <div class="flex justify-center p-4 transition duration-200 bg-warden-700 group-hover:bg-warden-600">
                                 <span class="text-2xl text-white select-none">WA</span>
                             </div>
-                            <div class="p-4 flex bg-zinc-800 group-hover:bg-zinc-700 justify-center transition duration-200">
+                            <div class="flex justify-center p-4 transition duration-200 bg-zinc-800 group-hover:bg-zinc-700">
                                 <span class="text-2xl text-white select-none">Users</span>
                             </div>
                         </div>
-                        <div class="group m-4 flex flex-col w-32 border rounded-lg overflow-clip border-zinc-900 shadow-lg active:scale-95 transition duration-200">
-                            <div class="p-4 flex bg-warden-700 group-hover:bg-warden-600 transition duration-200 justify-center">
+                        <div class="flex flex-col w-32 m-4 transition duration-200 border rounded-lg shadow-lg group overflow-clip border-zinc-900 active:scale-95">
+                            <div class="flex justify-center p-4 transition duration-200 bg-warden-700 group-hover:bg-warden-600">
                                 <span class="text-2xl text-white select-none">WUH</span>
                             </div>
-                            <div class="p-4 flex bg-zinc-800 group-hover:bg-zinc-700 justify-center transition duration-200">
+                            <div class="flex justify-center p-4 transition duration-200 bg-zinc-800 group-hover:bg-zinc-700">
                                 <span class="text-2xl text-white select-none">Users</span>
                             </div>
                         </div>
                         <div x-data="{ newDiscord: false }">
-                            <button @click.prevent="newDiscord = ! newDiscord" class="w-32 flex text-5xl bg-transparent border-dashed border-2 border-warden-700 rounded-lg m-4 justify-center items-center bg-zinc-800 hover:bg-zinc-700 active:scale-95 transition duration-200">
+                            <button @click.prevent="newDiscord = ! newDiscord" class="flex items-center justify-center w-32 m-4 text-5xl transition duration-200 bg-transparent border-2 border-dashed rounded-lg border-warden-700 bg-zinc-800 hover:bg-zinc-700 active:scale-95">
                                 {# Hero icons: plus #}
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -164,35 +168,35 @@
                             </button>
                             <div x-show="newDiscord" class="fixed inset-0">
                                 <div class="fixed inset-0 bg-black bg-opacity-50"></div>
-                                <div class="relative flex min-h-screen items-center justify-center p-4">
-                                    <div class="relative flex flex-col w-full max-w-2xl overflow-y-auto rounded-lg bg-zinc-800 shadow-lg">
-                                        <div class="flex flex-row justify-between items-start p-4 mb-4 w-full border-b border-zinc-700">
+                                <div class="relative flex items-center justify-center min-h-screen p-4">
+                                    <div class="relative flex flex-col w-full max-w-2xl overflow-y-auto rounded-lg shadow-lg bg-zinc-800">
+                                        <div class="flex flex-row items-start justify-between w-full p-4 mb-4 border-b border-zinc-700">
                                             <div class="flex-flex-col">
                                                 <h2 class="text-2xl font-bold tracking-tight">Add new Discord server</h2>
-                                                <span class="text-normal text-gray-200 tracking-tight">Create a new entry for a discord server</span>
+                                                <span class="tracking-tight text-gray-200 text-normal">Create a new entry for a discord server</span>
                                             </div>
-                                            <button @click.prevent="newDiscord = ! newDiscord" class="p-2 rounded-lg border border-white">
+                                            <button @click.prevent="newDiscord = ! newDiscord" class="p-2 border border-white rounded-lg">
                                                 {# Hero icons: x-mark #}
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                                 </svg>     
                                             </button>
                                         </div>
-                                        <div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
-                                            <label for="" class="text-xl font-semibold mb-2 tracking-tight">Name</label>
-                                            <input type="text" id="" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" name="" placeholder="Discord server" value="">
+                                        <div class="flex flex-col w-full mb-8 md:mr-8 md:w-64">
+                                            <label for="" class="mb-2 text-xl font-semibold tracking-tight">Name</label>
+                                            <input type="text" id="" class="text-base border-0 rounded-lg shadow-inner bg-zinc-700 focus:placeholder:opacity-0" name="" placeholder="Discord server" value="">
                                         </div>
-                                        <div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
-                                            <label for="" class="text-xl font-semibold mb-2 tracking-tight">ID</label>
-                                            <input type="text" id="" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" name="" placeholder="Server Snowflake" value="">
+                                        <div class="flex flex-col w-full mb-8 md:mr-8 md:w-64">
+                                            <label for="" class="mb-2 text-xl font-semibold tracking-tight">ID</label>
+                                            <input type="text" id="" class="text-base border-0 rounded-lg shadow-inner bg-zinc-700 focus:placeholder:opacity-0" name="" placeholder="Server Snowflake" value="">
                                         </div>
-                                        <div class="flex flex-col mb-8 w-full md:mr-8 md:w-64">
-                                            <label for="" class="text-xl font-semibold mb-2 tracking-tight">Secret</label>
-                                            <input type="text" id="" class="bg-zinc-700 text-base border-0 shadow-inner rounded-lg focus:placeholder:opacity-0" name="" placeholder="Server Secret" value="">
+                                        <div class="flex flex-col w-full mb-8 md:mr-8 md:w-64">
+                                            <label for="" class="mb-2 text-xl font-semibold tracking-tight">Secret</label>
+                                            <input type="text" id="" class="text-base border-0 rounded-lg shadow-inner bg-zinc-700 focus:placeholder:opacity-0" name="" placeholder="Server Secret" value="">
                                         </div>
                                         <div class="flex flex-col p-4 border-t border-zinc-700">
-                                            <div class="flex flex-row w-full justify-end max-w-4xl">
-                                                <button type="button" value="" class=" px-4 p-2 bg-warden-700 rounded-lg hover:bg-warden-500 active:scale-95 transition duration-200 text-lg">Add</button>
+                                            <div class="flex flex-row justify-end w-full max-w-4xl">
+                                                <button type="button" value="" class="p-2 px-4 text-lg transition duration-200 rounded-lg bg-warden-700 hover:bg-warden-500 active:scale-95">Add</button>
                                             </div>
                                         </div>
                                     </div>
@@ -207,31 +211,31 @@
                     {{ sectionTitle("Text", "Configurable messages to display") }}
                     <div class="flex flex-col max-w-4xl">
                         <!-- Set login text -->
-                        <div class="flex flex-col p-4 w-full">
-                            <label for="text-login" class="block text-xl font-semibold tracking-tight mb-2">Login page text</label>
+                        <div class="flex flex-col w-full p-4">
+                            <label for="text-login" class="block mb-2 text-xl font-semibold tracking-tight">Login page text</label>
                             <textarea class="block text-base bg-zinc-700 border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 min-h-[40px]" id="text-login" rows="5" name="textLogin" tabindex="0" placeholder="Something to show at the login prompt">{{ config.text.login }}</textarea>
                         </div>
                         <!-- Set access denied text -->
-                        <div class="flex flex-col p-4 w-full">
-                            <label for="text-accessDenied" class="block text-xl font-semibold tracking-tight mb-2">Access denied text</label>
+                        <div class="flex flex-col w-full p-4">
+                            <label for="text-accessDenied" class="block mb-2 text-xl font-semibold tracking-tight">Access denied text</label>
                             <textarea class="block text-base bg-zinc-700 border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 min-h-[40px]" id="text-accessDenied" rows="5" name="textAccessDenied" tabindex="0" placeholder="Something to show at the denied access page">{{ config.text.accessDenied }}</textarea>
                         </div>
                         <!-- Set feedback text -->
-                        <div class="flex flex-col p-4 w-full">
-                            <label for="text-feedback" class="block text-xl font-semibold tracking-tight mb-2">Feedback Text</label>
+                        <div class="flex flex-col w-full p-4">
+                            <label for="text-feedback" class="block mb-2 text-xl font-semibold tracking-tight">Feedback Text</label>
                             <textarea class="block text-base bg-zinc-700 border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 min-h-[40px]" id="text-feedback" rows="5" name="textFeedback" tabindex="0" placeholder="Something for the feedback message">{{ config.text.feedback }}</textarea>
                         </div>
                         <!-- Set contributors text -->
-                        <div class="flex flex-col p-4 w-full">
-                            <label for="text-contributors" class="block text-xl font-semibold tracking-tight mb-2">Contributors Text</label>
+                        <div class="flex flex-col w-full p-4">
+                            <label for="text-contributors" class="block mb-2 text-xl font-semibold tracking-tight">Contributors Text</label>
                             <textarea class="block text-base bg-zinc-700 border-0 shadow-inner rounded-lg focus:placeholder:opacity-0 min-h-[40px]" id="text-contributors" rows="5" name="textContributors" tabindex="0" placeholder="Something for the contributors message">{{ config.text.contributors }}</textarea>
                         </div>
                     </div>
                 </div>
                 {# Save button #}
                 <div class="flex flex-col p-4 border-t border-zinc-700">
-                    <div class="flex flex-row w-full justify-end max-w-4xl">
-                        <button type="submit" value="Submit" class="px-4 p-2 bg-warden-700 rounded-lg hover:bg-warden-500 active:scale-95 transition duration-200 text-lg">Save</button>
+                    <div class="flex flex-row justify-end w-full max-w-4xl">
+                        <button type="submit" value="Submit" class="p-2 px-4 text-lg transition duration-200 rounded-lg bg-warden-700 hover:bg-warden-500 active:scale-95">Save</button>
                     </div>
                 </div>
             </form>
@@ -299,14 +303,14 @@
         Save:
 
         <div class="col-auto">
-            <button type="submit" class="btn btn-primary mb-3">Save</button>
+            <button type="submit" class="mb-3 btn btn-primary">Save</button>
         </div>
 
         Force map reload:
 
         <form action="/admin/reload" method="post">
         <div class="col-auto">
-            <button type="submit" class="btn btn-primary mb-3">Force Map Reload</button>
+            <button type="submit" class="mb-3 btn btn-primary">Force Map Reload</button>
         </div>
     #}
 </div>
@@ -347,7 +351,7 @@
 {% endmacro %}
 
 {% macro roleRow(discordId, discordRoleId, role) %}
-<div class="row px-5 m-1">
+<div class="px-5 m-1 row">
     <div class="col-sm-3">
         <input type="text" class="form-control discordIdChange" name="access[discords][{{discordId}}][roles][id][]" placeholder="Role ID" value="{{ discordRoleId }}">
     </div>
@@ -385,7 +389,7 @@
     <template id="discord-role-add{{discordId}}">
     {{ roleRow(discordId, '', {name:'',acl:''}) }}
     </template>
-    <div class="row px-5 m-1">
+    <div class="px-5 m-1 row">
         <div class="col-11 text-end btn">Add new Discord Role</div>
         <button data-template-id="discord-role-add{{discordId}}" class="btn btn-primary col-1 addRow">+</button>
     </div>

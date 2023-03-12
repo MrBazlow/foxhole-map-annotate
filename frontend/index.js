@@ -1,172 +1,57 @@
-import TileGrid from "ol/tilegrid/TileGrid"
-import {Map, View} from "ol"
-import {Attribution, defaults} from "ol/control"
-import {Group, Tile} from "ol/layer"
-import {TileImage} from "ol/source"
-import {GeoJSON} from "ol/format"
-import {addDefaultMapControls, enableLayerMemory} from "./mapControls"
-import Socket from "./webSocket"
-import StaticLayers from "./staticLayer"
-import {DragPan} from "ol/interaction"
-import {all, noModifierKeys} from "ol/events/condition"
-import {assert} from "ol/asserts"
-import Flags from "./flags"
-import {Draggable} from "@neodrag/vanilla"
-import EditTools from "./mapEditTools"
-import "vanilla-colorful"
-import "vanilla-colorful/hex-input.js"
+//import TileGrid from "ol/tilegrid/TileGrid"
+//import {Map, View} from "ol"
+//import {Attribution, defaults} from "ol/control"
+//import {Group, Tile} from "ol/layer"
+//import {TileImage} from "ol/source"
+//import {GeoJSON} from "ol/format"
+//import {addDefaultMapControls, enableLayerMemory} from "./mapControls"
+//import Socket from "./webSocket"
+//import StaticLayers from "./staticLayer"
+//import {DragPan} from "ol/interaction"
+//import {all, noModifierKeys} from "ol/events/condition"
+//import {assert} from "ol/asserts"
+//import Flags from "./flags"
+//import {Draggable} from "@neodrag/vanilla"
+//import EditTools from "./mapEditTools"
+// React Bootstrap
+import React, { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+const App = React.lazy(() => import("./Components/App"));
+
+const rootElement = document.getElementById("react-root");
+const renderRoot = createRoot(rootElement);
+
+renderRoot.render(
+	<StrictMode>
+		<App />
+	</StrictMode>
+);
 
 
-const dragWindows = []
-const applyDragWindow = (elementId) => {
-  if (document.querySelector(`${elementId}`)) {
-    dragWindows.push(new Draggable(document.querySelector(`${elementId}`), {bounds: 'main', defaultPosition: { x: 50, y: 80 }, handle: `${elementId}-handle` }))
-  }
-}
+//const dragWindows = []
+//const applyDragWindow = (elementId) => {
+//  if (document.querySelector(`${elementId}`)) {
+//    dragWindows.push(new Draggable(document.querySelector(`${elementId}`), {bounds: 'main', defaultPosition: { x: 50, y: 80 }, handle: `${elementId}-handle` }))
+//  }
+//}
+//
+//applyDragWindow('#edit-view')
+//applyDragWindow('#arty-view')
+//applyDragWindow('#flag-view')
+//
+//
+//const url = new URL(window.location);
 
-applyDragWindow('#edit-view')
-applyDragWindow('#arty-view')
-applyDragWindow('#flag-view')
-
-// Dropdown menu template pieces
-Alpine.data('dropdownRoot', () => ({
-  activeId: 1
-}))
-
-Alpine.data('dropdown', (number=1) => ({
-  id: number,
-  get active() {
-    return this.activeId === this.id
-  },
-  set active(value) {
-    this.activeId = value && this.id
-  }
-}))
-
-const url = new URL(window.location);
-
-var map = new Map({
-  controls: defaults({
-    attribution: false,
-    zoom: false,
-    rotate: false,
-  }).extend([new Attribution({collapsible: false})]),
-  target: 'map',
-  layers: [
-    new Group({
-      // title: 'Map',
-      // combine: true,
-      layers: [
-        new Tile({
-          title: 'Map',
-          type: 'base',
-          preload: Infinity,
-          // opacity: 0.7,
-          source: new TileImage({
-            attributions: '<a href="https://sentsu.itch.io/foxhole-better-map-mod" target="_blank">Sentsu</a> + <a href="https://www.foxholegame.com/" target="_blank">Siege Camp</a>',
-            tileGrid: new TileGrid({
-              extent: [0,-12432,11279,0],
-              origin: [0,-12432],
-              resolutions: [64,32,16,8,4,2,1],
-              tileSize: [256, 256]
-            }),
-            tileUrlFunction: function(tileCoord) {
-              return ('/map/{z}/{x}/{y}.webp'
-                .replace('{z}', String(tileCoord[0]))
-                .replace('{x}', String(tileCoord[1]))
-                .replace('{y}', String(- 1 - tileCoord[2])));
-            },
-          })
-        }),
-      ]
-    }),
-  ],
-  view: new View({
-    center: [url.searchParams.get('cx') ? parseFloat(url.searchParams.get('cx')) : 5625.500000, url.searchParams.get('cy') ? parseFloat(url.searchParams.get('cy')) : -6216.000000],
-    resolution: url.searchParams.get('r') ? parseFloat(url.searchParams.get('r')) : 10.000000,
-    minResolution: 0.5,
-    maxResolution: 16,
-  })
-});
-
-const zoomIn = () => {
-  map.getView().animate({zoom: map.getView().getZoom() + 0.5, duration: 300})
-}
-const zoomOut = () => {
-  map.getView().animate({zoom: map.getView().getZoom() - 0.5, duration: 300})
-}
-
-Alpine.store('mapZoom', {
-  in: zoomIn,
-  out: zoomOut
-})
-
-map.on('moveend', (event) => {
-  const center = event.map.getView().getCenter()
-  const url = new URL(window.location);
-  url.searchParams.set('cx', center[0].toFixed(5));
-  url.searchParams.set('cy', center[1].toFixed(5));
-  url.searchParams.set('r', event.map.getView().getResolution().toFixed(5));
-  window.history.replaceState({}, '', url);
-})
-
-addDefaultMapControls(map)
-
+/*
 const warFeatures = localStorage.getItem('warFeatures') ? JSON.parse(localStorage.getItem('warFeatures')) : {version: '', features: [], deactivatedRegions: []}
 const conquerStatus = localStorage.getItem('conquerStatus') ? JSON.parse(localStorage.getItem('conquerStatus')) : {version: '', features: {}}
 const staticLayer = new StaticLayers(map, conquerStatus, warFeatures)
 const tools = new EditTools(map);
 tools.staticLayer = staticLayer;
 enableLayerMemory(map)
+*/
 
-window.tools = tools
-
-Alpine.store('arty', {
-  guns: Object.getOwnPropertyNames(tools.sidebarArty.artilleryList)
-})
-
-Alpine.store('lines', tools.line.lineTypes)
-
-Alpine.data('windows', () => ({
-  artyView: false,
-  editView: false,
-  flagView: false,
-  artyToggle() {
-    this.artyView = ! this.artyView;
-    document.dispatchEvent(new CustomEvent("artyMode", { detail: this.artyView }))
-  },
-  editToggle() {
-    this.editView = ! this.editView
-    //this.editView ? $store.edit.hide() : $store.edit.show()
-  },
-  flagToggle() {
-    this.flagView = ! this.flagView
-    //this.flagView ? $store.flag.hide() : $store.flag.show()
-  },
-}))
-
-// Prevent context menu on map
-document.getElementById('map').addEventListener('contextmenu', (e) => {
-  if (tools.editMode) {
-    e.preventDefault();
-    return false;
-  }
-})
-
-// Allow panning with middle mouse
-const primaryPrimaryOrMiddle = function (mapBrowserEvent) {
-  const pointerEvent = /** @type {import("../MapBrowserEvent").default} */ (
-    mapBrowserEvent
-  ).originalEvent;
-  assert(pointerEvent !== undefined, 56); // mapBrowserEvent must originate from a pointer event
-  return pointerEvent.isPrimary && (pointerEvent.button === 0 || pointerEvent.button === 1);
-}
-map.getInteractions().forEach((interaction) => {
-  if (interaction instanceof DragPan) {
-    interaction.condition_ = all(noModifierKeys, primaryPrimaryOrMiddle)
-  }
-})
-
+/*
 const geoJson = new GeoJSON();
 const socket = new Socket();
 
@@ -178,7 +63,7 @@ socket.on('init', (data) => {
   if (data.warStatus === 'resistance') {
     data.acl = 'read'
   }
-  tools.initAcl(data.acl)
+  //tools.initAcl(data.acl)
   if (lastClientVersion === null) {
     lastClientVersion = data.version
   }
@@ -187,7 +72,8 @@ socket.on('init', (data) => {
     window.location = '/'
   }
 })
-
+*/
+/*
 tools.on(tools.EVENT_ICON_ADDED, (icon) => {
   socket.send('featureAdd', geoJson.writeFeatureObject(icon))
 })
@@ -203,7 +89,8 @@ tools.on(tools.EVENT_ICON_DELETED, (icon) => {
     socket.send('featureDelete', {id: icon.get('id')})
   }
 })
-
+*/
+/*
 socket.on('allFeatures', (features) => {
   const col = geoJson.readFeatures(features)
   const collections = {}
@@ -237,25 +124,31 @@ socket.on('featureUpdate', ({operation, feature, oldHash, newHash}) => {
   tools.emit(tools.EVENT_FEATURE_UPDATED, {operation, feature})
   lastFeatureHash = newHash
 })
-
+*/
+/*
 tools.on(tools.EVENT_DECAY_UPDATE, (data) => {
   socket.send('decayUpdate', data)
 })
-
+*/
+/*
 socket.on('decayUpdated', (data) => {
   tools.emit(tools.EVENT_DECAY_UPDATED, data)
 })
-
+*/
+/*
 tools.on(tools.EVENT_FLAG, (data) => {
   socket.send('flag', data)
 })
-
+*/
+/*
 socket.on('flagged', (data) => {
   tools.emit(tools.EVENT_FLAGGED, data)
 })
-
+*/
+/*
 new Flags(map, tools)
-
+*/
+/*
 socket.on('conquer', (data) => {
   if (conquerStatus.version === data.version) {
     return
@@ -272,7 +165,8 @@ socket.on('conquer', (data) => {
   }
   localStorage.setItem('conquerStatus', JSON.stringify(conquerStatus))
 })
-
+*/
+/*
 socket.on('warFeatures', (data) => {
   warFeatures.features = data.features
   warFeatures.deactivatedRegions = data.deactivatedRegions
@@ -284,16 +178,17 @@ socket.on('warFeatures', (data) => {
 const prepareWarTimerElement = document.getElementById('resistance-timer')
 let prepareWarTimerTimoutId = null
 socket.on('warEnded', (data) => {
-  document.getElementById('warNumber').innerHTML = `${data.shard} #${data.warNumber} (Resistance)`
+  //document.getElementById('warNumber').innerHTML = `${data.shard} #${data.warNumber} (Resistance)`
   tools.resetAcl()
-  document.getElementById('resistance').classList.add(data.winner === 'WARDENS' ? 'alert-success' : 'alert-warning')
-  document.getElementById('resistance-winner').innerHTML = data.winner === 'WARDENS' ? 'Warden' : 'Colonial'
-  document.getElementById('resistance-' + data.winner).style.display = ''
+  //document.getElementById('resistance').classList.add(data.winner === 'WARDENS' ? 'alert-success' : 'alert-warning')
+  //document.getElementById('resistance-winner').innerHTML = data.winner === 'WARDENS' ? 'Warden' : 'Colonial'
+  //document.getElementById('resistance-' + data.winner).style.display = ''
   prepareWarTimerElement.dataset.conquestEndTime = data.conquestEndTime
-  document.getElementById('resistance').style.display = ''
+  //document.getElementById('resistance').style.display = ''
   prepareWarTimer()
 })
-
+*/
+/*
 socket.on('warPrepare', (data) => {
   conquerStatus.version = ''
   conquerStatus.features = {}
@@ -302,14 +197,15 @@ socket.on('warPrepare', (data) => {
   warFeatures.version = ''
   staticLayer.resetWar()
   localStorage.setItem('warFeatures', JSON.stringify(warFeatures))
-  document.getElementById('warNumber').innerHTML = `${data.shard} #${data.warNumber} (Preparing)`
+  //document.getElementById('warNumber').innerHTML = `${data.shard} #${data.warNumber} (Preparing)`
   clearTimeout(prepareWarTimerTimoutId)
-  document.getElementById('resistance').style.display = 'none'
+  //document.getElementById('resistance').style.display = 'none'
   if (realACL) {
     tools.initAcl(realACL)
   }
 })
-
+*/
+/*
 socket.on('warChange', (data) => {
   conquerStatus.version = ''
   conquerStatus.features = {}
@@ -319,7 +215,8 @@ socket.on('warChange', (data) => {
   staticLayer.resetWar()
   document.getElementById('warNumber').innerHTML = `${data.shard} #${data.warNumber}`
 })
-
+*/
+/*
 const disconnectedWarning = document.getElementById('disconnected')
 socket.on('open', () => {
   disconnectedWarning.style.display = 'none'
@@ -332,7 +229,8 @@ socket.on('open', () => {
 socket.on('close', () => {
   disconnectedWarning.style.display = 'block'
 })
-
+*/
+/*
 const rtf = new Intl.RelativeTimeFormat('en', { style: 'long' })
 function prepareWarTimer() {
   if (!prepareWarTimerElement.dataset.conquestEndTime) {
@@ -344,6 +242,89 @@ function prepareWarTimer() {
   prepareWarTimerElement.innerHTML = rtf.format(Math.floor(hours),'hour') + ' ' + formattedMinutes[1].value + ' ' + formattedMinutes[2].value
   prepareWarTimerTimoutId = setTimeout(prepareWarTimer, 30000)
 }
+*/
+/*
 if (document.getElementById('resistance').style.display === '') {
   prepareWarTimer()
 }
+*/
+
+
+
+// Alpine.js Store
+
+// Because ArtySidebar calls for tools... I actually do not know why
+/*
+window.tools = tools
+*/
+/*
+Alpine.store('lines', tools.line.lineTypes)
+Alpine.store('arty', {
+  guns: Object.getOwnPropertyNames(tools.sidebarArty.artilleryList),
+  azi: 0,
+  dist: 0,
+  windDir: (value) => { if (value > 359) {value = 0} else if (value < 0) {value = 359} else value = value},
+  init() {
+    document.addEventListener('artyUpdate', (event) => {
+      Alpine.store('arty').azi = event.detail.azimuth
+      Alpine.store('arty').dist = event.detail.distance
+    })
+    document.addEventListener('artyWindDir', (event) => {
+      if (event.detail.direction > 359) {
+        Alpine.store('arty').windDir = 0
+      } else if (event.detail.direction < 0) {
+        Alpine.store('arty').windDir = 359
+      }
+    })
+  }
+})
+
+// Alpine.js Data
+
+// Dropdown menu template pieces
+Alpine.data('dropdownRoot', () => ({
+  activeId: 1
+}))
+
+Alpine.data('dropdown', (number=1) => ({
+  id: number,
+  get active() {
+    return this.activeId === this.id
+  },
+  set active(value) {
+    this.activeId = value && this.id
+  }
+}))
+
+Alpine.data('windows', () => ({
+  artyView: false,
+  editView: false,
+  flagView: false,
+  artyToggle() {
+    if (this.editView) {this.editToggle()}
+    if (this.flagView) {this.flagToggle()}
+    this.artyView = ! this.artyView
+    document.dispatchEvent(new CustomEvent("artyMode", { detail: { active: this.artyView }}))
+  },
+  editToggle() {
+    if (this.artyView) {this.artyToggle()}
+    if (this.flagView) {this.flagToggle()}
+    this.editView = ! this.editView
+    document.dispatchEvent(new CustomEvent("editMode", { detail: { active: this.editView }}))
+  },
+  flagToggle() {
+    if (this.artyView) {this.artyToggle()}
+    if (this.editView) {this.editToggle()}
+    this.flagView = ! this.flagView
+    document.dispatchEvent(new CustomEvent("flagMode", { detail: { active: this.flagView }}))
+  },
+  transition: () => ({
+    'x-transition:enter': 'transition ease-out duration-300',
+    'x-transition:enter-start': 'opacity-0',
+    'x-transition:enter-end': 'opacity-100',
+    'x-transition:leave': 'transition ease-in duration-300',
+    'x-transition:leave-start': 'opacity-100',
+    'x-transition:leave-end': 'opacity-0'
+  })
+}))
+*/

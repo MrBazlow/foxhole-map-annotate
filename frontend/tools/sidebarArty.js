@@ -150,11 +150,6 @@ class SidebarArty {
       //this.artyModeDisabled()
     })*/
     
-    //document.getElementById('arty-close').onclick = this.artyHide;
-
-    //document.getElementById('solutionCopy').onclick = this.copySolution;
-
-
     //const artySelector = document.getElementById("artyPieceSelector")
     let shellType = ''
 
@@ -188,13 +183,6 @@ class SidebarArty {
       artySelector.appendChild(newLi)
       */
     }
-
-    this.g = this.artilleryList["Tube Mortars"];
-
-    //document.getElementById("wd0").onchange= () => this.setWindDir();
-    document.getElementById("wd0").onchange = () => this.setWindDir();
-    document.getElementById("wd0").addEventListener('wheel', () => {this.setWindDir()}, {passive: true});
-    //document.getElementById("wd0").onwheel= () => this.setWindDir();
 
     const vectorSource = new VectorSource({
       features: new Collection(),
@@ -420,9 +408,14 @@ class SidebarArty {
     tools.on(tools.EVENT_ARTY_MODE_ENABLED, this.artyModeEnabled)
     tools.on(tools.EVENT_ARTY_MODE_DISABLED, this.artyModeDisabled)
 
+    // Preflight checks
     document.addEventListener('artyWindStrength', (event) => {this.setWindStr(Number.parseInt(event.detail.strength))})
-    document.addEventListener('newGun', (event) => {this.selectGun(event.detail.gun)})
-    document.addEventListener('artyMode', (event) => { event.detail ? this.artyShow() : this.artyHide()})
+    document.addEventListener('artyWindDir', (event) => {this.setWindDir(event.detail.dir)})
+    document.addEventListener('artyNewGun', (event) => {this.selectGun(event.detail.gun)})
+    document.addEventListener('artyMode', (event) => { event.detail.active ? this.artyShow() : this.artyHide()})
+    document.addEventListener('copySolution', (event) => {
+      navigator.clipboard.writeText(`Dist: ${event.detail.distance} Azim: ${event.detail.azimuth}`)
+    })
     this.selectGun(Object.getOwnPropertyNames(this.artilleryList)[0])
   }
 
@@ -460,8 +453,9 @@ class SidebarArty {
     this.calcWind();
   }
 
-  setWindDir = () => {
+  setWindDir = (direction) => {
 
+    /*
     //makes scrolling and arrow buttons loop, most of the time
     if (document.getElementById("wd0").value >= 360){
       document.getElementById("wd0").value = 0;
@@ -469,6 +463,7 @@ class SidebarArty {
     else if (document.getElementById("wd0").value <= -1){
       document.getElementById("wd0").value = 359;
     }
+    */
 
     this.windDirection = document.getElementById("wd0").value
     
@@ -531,7 +526,7 @@ class SidebarArty {
 
     //what we've all been waiting for
     this.solutionDistance = this.vectorSolution.getGeometry().getLength() / this.tools.MAGIC_MAP_SCALING_FACTOR
-    document.getElementById('solutionD').innerHTML = String(Math.round(this.solutionDistance)).padStart(3,'0');
+    const calcDistance = String(Math.round(this.solutionDistance)).padStart(3,'0');
 
     
     //I hate angles
@@ -545,17 +540,11 @@ class SidebarArty {
     if (this.solutionAzimuth < 0){
       this.solutionAzimuth = 360+this.solutionAzimuth
     }
-    
 
     //console.log (Config.basic.color);
-    document.getElementById('solutionA').innerHTML = String(this.solutionAzimuth.toFixed(1)).padStart(5,'0');
-    
-  }
+    const calcAzimuth = String(this.solutionAzimuth.toFixed(1)).padStart(5,'0');
 
-  copySolution = () => {
-    let text = `Dist: ${document.getElementById('solutionD').innerHTML} Azim: ${document.getElementById('solutionA').innerHTML}`
-    navigator.clipboard.writeText(text);
-
+    document.dispatchEvent(new CustomEvent("artyUpdate", { detail: {distance: calcDistance, azimuth: calcAzimuth}}))
   }
 
   // Updates arty icons to center of screen when reopening arty tab
@@ -567,7 +556,6 @@ class SidebarArty {
     });
     this.translating()
   }
-
 
   artyShow = () => {
     this.vector.setVisible(true);

@@ -1,0 +1,7 @@
+{% macro sidebar() %}
+<aside class="py-6 border-r shadow-md bg-zinc-800 basis-1/12 lg:rounded-l-md border-zinc-700">
+    <nav class="flex flex-col text-lg font-normal tracking-tight">
+        {{ caller() }}
+    </nav>
+</aside>
+{% endmacro %}

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import SearchFeature from "ol-ext/control/SearchFeature";
 import LayerSwitcher from "ol-layerswitcher";
 import {getCenter} from "ol/extent";

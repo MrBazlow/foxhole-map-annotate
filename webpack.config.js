@@ -1,7 +1,12 @@
 const path = require('path');
-const miniCssExtractPlugin = require('mini-css-extract-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+const stylesHandler = MiniCssExtractPlugin.loader;
 
 module.exports = {
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
   entry: {
     index: ['./frontend/index.js'],
     main: ['./frontend/main.js'],
@@ -13,25 +18,20 @@ module.exports = {
     publicPath: "/dist/",
   },
   module: {
-    rules: [
+    rules: [ 
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      },
       {
         test: /\.css$/,
         use: [
-          {
-            // Extracts CSS for each JS file that includes CSS
-            loader: miniCssExtractPlugin.loader
-          },
-          {
-            loader: 'css-loader'
-          },
-          {
-            loader: 'postcss-loader'
-          }
-        ]
+          stylesHandler, 'css-loader', 'postcss-loader'],
       }
     ],
   },
   plugins: [
-    new miniCssExtractPlugin(),
+    new MiniCssExtractPlugin(),
   ]
 };

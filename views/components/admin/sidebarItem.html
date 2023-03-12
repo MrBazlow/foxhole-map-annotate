@@ -1,0 +1,8 @@
+{% from "../utilities/iconStore.html" import iconStore %}
+
+{% macro sidebarItem(icon, sideTitle) %}
+<button @click="selected = '{{ sideTitle }}'" :class="selected === '{{ sideTitle }}' && 'bg-warden-600'" class="flex flex-row items-center justify-center px-2 py-4 group hover:bg-warden-500 sm:py-3 lg:justify-start" id="{{ sideTitle }}-tab" type="button" role="tab" aria-controls="{{ sideTitle }}" aria-selected="false">
+    {{ iconStore(icon, 'sidebar') }}                   
+    <span class="hidden pl-2 truncate lg:inline">{{ sideTitle }}</span>
+</button>
+{% endmacro %}

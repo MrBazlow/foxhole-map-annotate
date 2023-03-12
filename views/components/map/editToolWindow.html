@@ -1,0 +1,255 @@
+{% extends "./newToolWindow.html" %}
+
+{% set name = "edit" %}
+{% set title = "Edit tool"%}
+{% set description = "Place and update routes and places" %}
+
+{% block windowContent %}
+<div x-data id="editWindow" class="py-2">
+	<div
+		class="flex flex-row items-center justify-center px-4 pb-2 border-b border-zinc-700"
+		id="tool-buttons"
+	>
+		<button
+			type="button"
+			class="px-6 py-2 transition rounded-l-lg group bg-warden-700 hover:bg-warden-600 active:bg-warden-800"
+			title="Symbols"
+		>
+			<div class="transition group-hover:scale-105 group-active:scale-95">
+				{# Tabler icons: icons #}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					stroke-linejoin="miter"
+					class="w-8 h-8"
+					aria-hidden="true"
+				>
+					<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+					<path d="M6.5 6.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0"></path>
+					<path d="M2.5 21h8l-4 -7z"></path>
+					<path d="M14 3l7 7"></path>
+					<path d="M14 10l7 -7"></path>
+					<path d="M14 14h7v7h-7z"></path>
+				</svg>
+			</div>
+		</button>
+		<button
+			type="button"
+			class="px-6 py-2 transition group bg-warden-700 hover:bg-warden-600 active:bg-warden-800"
+			title="Polygon"
+		>
+			<div class="transition group-hover:scale-105 group-active:scale-95">
+				{# Bootstrap icons: hexagon #}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="currentColor"
+					viewBox="0 0 16 16"
+					class="w-8 h-8"
+					aria-hidden="true"
+				>
+					<path
+						d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z"
+					/>
+				</svg>
+			</div>
+		</button>
+		<button
+			type="button"
+			class="px-6 py-2 transition group bg-warden-700 hover:bg-warden-600 active:bg-warden-800"
+			title="Line"
+		>
+			<div class="transition group-hover:scale-105 group-active:scale-95">
+				{# Bootstrap icons: pencil #}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="currentColor"
+					viewBox="0 0 16 16"
+					class="w-8 h-8"
+					aria-hidden="true"
+				>
+					<path
+						d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+					/>
+				</svg>
+			</div>
+		</button>
+		<button
+			type="button"
+			class="px-6 py-2 transition rounded-r-lg group bg-warden-700 hover:bg-warden-600 active:bg-warden-800"
+			title="Cut Line"
+		>
+			<div class="transition group-hover:scale-105 group-active:scale-95">
+				{# Bootstrap icons: scissors #}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="currentColor"
+					viewBox="0 0 16 16"
+					class="w-8 h-8"
+					aria-hidden="true"
+				>
+					<path
+						d="M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61 3.5 3.5zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0zm7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"
+					/>
+				</svg>
+			</div>
+		</button>
+	</div>
+	<div class="flex flex-col px-4 py-2 space-y-2 border-b border-zinc-700">
+		<div class="flex flex-row items-center justify-start">
+			<label for="clan-input" class="w-1/5">Builder</label>
+			<input
+				type="text"
+				id="clan-input"
+				class="w-4/5 text-base border-0 rounded-lg shadow-inner bg-zinc-700 focus:placeholder:opacity-0"
+				placeholder="Builders name"
+			/>
+		</div>
+		<div class="flex flex-row items-center justify-start">
+			<label for="color-input" class="w-1/5">Color</label>
+			<!--<hex-color-picker color="#555555"></hex-color-picker>-->
+			<hex-input class="w-4/5" color="#555555" prefixed="true"
+				><input
+					type="text"
+					id="color-input"
+					class="w-full text-base border-0 rounded-lg shadow-inner bg-zinc-700 focus:placeholder:opacity-0"
+			/></hex-input>
+		</div>
+		<div
+			x-data="{
+				typeOpen: false,
+				typeChoice: 'Siding',
+				typeValue: 'siding',
+				toggle() {
+					if (this.typeOpen) {
+						return this.close()
+					} 
+					this.$refs.typeButton.focus() 
+					this.typeOpen = true
+				}, 
+				close(focusAfter) {
+					if (!this.typeOpen) return 
+					this.typeOpen = false 
+					focusAfter && focusAfter.focus()
+				},
+				selectThis(element) {
+					this.typeChoice = element.textContent
+					this.typeValue = element.value
+					return this.close()
+				}
+			}"
+			x-on:keydown.escape.prevent.stop="close($refs.typeButton)"
+			x-on:focusin.window="! $refs.typeDropdown.contains($event.target) && close()"
+			class="relative flex flex-row items-center justify-start"
+		>
+			<label for="line-type-input" class="w-1/5">Type</label>
+			<button
+				type="button"
+				x-ref="typeButton"
+				x-on:click="toggle()"
+				:aria-expanded="true"
+				:aria-controls="$id('type-dropdown')"
+				x-text="typeChoice"
+				id="line-type-input"
+				class="w-4/5 h-10 px-3 text-base border-0 rounded-lg shadow-inner bg-zinc-700 text-start"
+				:value="typeValue"
+			></button>
+			<div
+				x-ref="typeDropdown"
+				x-show="typeOpen"
+				x-collapse
+				@click.outside="close()"
+				:id="$id('type-dropdown')"
+				class="absolute top-0 right-0 grid w-4/5 grid-cols-1 rounded-lg shadow-lg overflow-clip bg-zinc-600 text-start"
+			>
+				<template x-for="(line, index) in $store.lines">
+					<button
+						type="button"
+						class="px-3 py-2 select-none text-start hover:bg-warden-600"
+						@click.prevent="selectThis($event.target)"
+						x-text="line"
+						:value="index"
+					></button>
+				</template>
+			</div>
+		</div>
+		<div class="flex flex-row items-center justify-start">
+			<label for="notes-input" class="w-1/5">Notes</label>
+			<textarea
+				class="block min-h-[40px] w-4/5 rounded-lg border-0 bg-zinc-700 text-base shadow-inner focus:placeholder:opacity-0"
+				id="notes-input"
+				placeholder="Any details you want to include?"
+			></textarea>
+		</div>
+		<div class="flex flex-row items-center justify-around" id="button-row">
+			<button
+				type="button"
+				class="px-6 py-2 transition rounded-lg group bg-warden-700 hover:bg-warden-600 active:bg-warden-800"
+				id="delete-button"
+			>
+				<span class="transition">Delete</span>
+			</button>
+			<button
+				type="button"
+				class="px-6 py-2 transition rounded-lg group bg-warden-700 hover:bg-warden-600 active:bg-warden-800"
+				id="save-button"
+			>
+				<span class="transition">Save</span>
+			</button>
+		</div>
+	</div>
+	<div class="flex items-center justify-center py-2 border-b text-gr border-b-zinc-700">
+		<div class="flex flex-row" id="ppe-filter">
+			<input
+				class="hidden peer/public public"
+				type="radio"
+				name="toggle"
+				id="public-radio"
+				value="public-radio"
+				checked
+			/>
+			<label
+				for="public-radio"
+				class="px-6 py-2 transition rounded-l-lg cursor-pointer group bg-warden-700 hover:bg-warden-600 active:bg-warden-800 peer-checked/public:bg-warden-500"
+			>
+				<div class="transition group-hover:scale-105 group-active:scale-95">
+					<span class="select-none">Public</span>
+				</div>
+			</label>
+			<input
+				class="hidden peer/private private"
+				type="radio"
+				name="toggle"
+				id="private-radio"
+				value="private-radio"
+			/>
+			<label
+				for="private-radio"
+				class="px-6 py-2 transition cursor-pointer select-none group bg-warden-700 hover:bg-warden-600 active:bg-warden-800 peer-checked/private:bg-warden-500"
+			>
+				<div class="transition group-hover:scale-105 group-active:scale-95">
+					<span class="select-none">Private</span>
+				</div>
+			</label>
+			<input
+				class="hidden peer/enemy enemy"
+				type="radio"
+				name="toggle"
+				id="enemy-radio"
+				value="enemy-radio"
+			/>
+			<label
+				for="enemy-radio"
+				class="px-6 py-2 transition rounded-r-lg cursor-pointer select-none group bg-warden-700 hover:bg-warden-600 active:bg-warden-800 peer-checked/enemy:bg-warden-500"
+			>
+				<div class="transition group-hover:scale-105 group-active:scale-95">
+					<span class="select-none">Enemy</span>
+				</div>
+			</label>
+		</div>
+	</div>
+	<div id="ppe-filter-content"></div>
+</div>
+{% endblock %}
