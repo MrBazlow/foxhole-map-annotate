@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import {Vector as VectorSource} from "ol/source";
 import {Circle, Fill, Icon, Stroke, Style, Text} from "ol/style";
 import {Group, Vector} from "ol/layer";

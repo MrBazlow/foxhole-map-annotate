@@ -8,6 +8,7 @@ import { immer } from 'zustand/middleware/immer';
 import Socket from '../lib/webSocket';
 import handleSocketEvents from '../lib/handleSocketEvents';
 import createNewScore from '../lib/createNewScore';
+import regionParser from '../lib/regionParser';
 
 // If static.json is not cached, fetch it and then cache it
 const fetchStatic = async (setState) => {
@@ -18,6 +19,21 @@ const fetchStatic = async (setState) => {
     newState.localContent.mapStatic = parse;
     return newState;
   });
+  return parse;
+};
+
+// Read static.json, if it's not cached fetchStatic otherwise parse it for use
+const readStatic = async (setState, getState) => {
+  const liveStatic = getState().liveContent.mapStatic ?? undefined;
+  const localStatic = getState().localContent.mapStatic ?? await getState().actions.fetchStatic();
+  if (!liveStatic) {
+    setState((state) => {
+      const newState = state;
+      newState.liveContent.mapStatic = regionParser(localStatic);
+      return newState;
+    });
+    getState().actions.updateMapStatic();
+  }
 };
 
 // When a new conquer websocket message is recieved we update liveStore score object
@@ -27,6 +43,38 @@ const updateScore = (newConquer, setState, getState) => {
   setState((state) => {
     const newState = state;
     newState.liveContent.score = newScore;
+    return newState;
+  });
+};
+
+// Update liveContent.mapStatic with new conquest message contents
+const updateMapStatic = (setState, getState) => {
+  const oldMapStatic = getState().liveContent.mapStatic;
+  const newConquer = getState().localContent.conquer;
+  const voronoiMap = new Map();
+  Object.values(oldMapStatic.town).forEach((feature) => {
+    const featureId = feature.get('id');
+    const newValues = newConquer.features[featureId];
+    if (Object.hasOwn(newConquer.features, featureId)) {
+      feature.set('team', newValues.team);
+      feature.set('icon', newValues.icon, true);
+      feature.set('iconFlags', newValues.flags, true);
+    }
+    const townVoronoi = feature.get('voronoi');
+    if (townVoronoi) {
+      voronoiMap.set(townVoronoi, newValues.team);
+    }
+  });
+  Object.values(oldMapStatic.voronoi).forEach((voronoiLayer) => {
+    const layerId = voronoiLayer.getId();
+
+    if (voronoiMap.has(layerId)) {
+      voronoiLayer.set('team', voronoiMap.get(layerId));
+    }
+  });
+  setState((state) => {
+    const newState = state;
+    newState.liveContent.mapStatic = oldMapStatic;
     return newState;
   });
 };
@@ -55,12 +103,13 @@ const useDataStore = create(
             score: {},
           },
           localContent: {
-            conquer: {},
             mapLayerSettings: {},
           },
           actions: {
             fetchStatic: () => fetchStatic(setState),
+            readStatic: () => readStatic(setState, getState),
             updateScore: (newConquer) => updateScore(newConquer, setState, getState),
+            updateMapStatic: () => updateMapStatic(setState, getState),
             sendMessage: (messageType, message) => sendMessage(getState, messageType, message),
           },
         }),

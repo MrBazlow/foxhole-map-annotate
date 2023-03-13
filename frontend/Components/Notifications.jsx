@@ -8,6 +8,7 @@ const Notifications = memo(() => {
     <>
       <button
         type="button"
+        aria-label="Notifications"
         className="group mx-2 hidden rounded-lg p-2 text-lg font-light transition duration-200 hover:bg-warden-600 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 sm:inline"
         onClick={() => setIsOpen(!isOpen)}
       >

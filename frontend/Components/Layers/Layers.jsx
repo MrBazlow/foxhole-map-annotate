@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
-import { useLocalData, useDataActions } from '../../State/DataState';
+import { useLiveData, useDataActions } from '../../State/DataState';
 
 function Layers({ children }) {
-  const { mapStatic } = useLocalData();
-  const { fetchStatic } = useDataActions();
+  const { mapStatic } = useLiveData();
+  const { readStatic } = useDataActions();
 
   useEffect(() => {
     if (!mapStatic) {
-      fetchStatic();
+      readStatic();
     }
-  }, [fetchStatic, mapStatic]);
+  }, [readStatic, mapStatic]);
 
   return children;
 }

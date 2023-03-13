@@ -5,9 +5,9 @@ const ConnectionWarning = lazy(() => import('./ConnectionWarning'));
 const OlMap = lazy(() => import('./OlMap'));
 const Layers = lazy(() => import('./Layers/Layers'));
 const BaseLayer = lazy(() => import('./Layers/BaseLayer'));
-const ImmutableLayers = lazy(() => import('./Layers/ImmutableLayers'));
-// eslint-disable-next-line no-unused-vars
-const MutableLayers = lazy(() => import('./Layers/MutableLayers'));
+const Labels = lazy(() => import('./Layers/Labels'));
+const Conquest = lazy(() => import('./Layers/Conquest'));
+const Towns = lazy(() => import('./Layers/Towns'));
 const Interactions = lazy(() => import('./Interactions/Interactions'));
 const DisableContextMenu = lazy(() => import('./Interactions/DisableContextMenu'));
 const UpdateURL = lazy(() => import('./Interactions/UpdateURL'));
@@ -21,8 +21,9 @@ function MapComponent() {
         <OlMap>
           <Layers>
             <BaseLayer />
-            <ImmutableLayers />
-
+            <Labels />
+            <Conquest />
+            <Towns />
           </Layers>
           <Interactions>
             <EnableMiddleMousePan />
@@ -34,7 +35,5 @@ function MapComponent() {
     </Suspense>
   );
 }
-
-// <MutableLayers />
 
 export default MapComponent;

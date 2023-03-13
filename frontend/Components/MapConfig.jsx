@@ -45,7 +45,7 @@ function MapConfig() {
   const [layers, setLayers] = useState([]);
 
   const fetchLayers = useCallback(() => {
-    setLayers(olMap.getAllLayers().filter((layer) => layer.get('searchable')));
+    setLayers(olMap.getAllLayers().filter((layer) => layer.get('canToggle')));
   }, [olMap]);
 
   useEffect(() => {
@@ -66,6 +66,7 @@ function MapConfig() {
     <Popover className="relative">
       <Popover.Button
         onClick={() => setToggle(!toggle)}
+        aria-label="Map Layers"
         className="group mx-2 hidden rounded-lg bg-transparent p-2 transition duration-200 hover:bg-warden-600 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 aria-expanded:bg-warden-600 md:inline"
       >
         <svg

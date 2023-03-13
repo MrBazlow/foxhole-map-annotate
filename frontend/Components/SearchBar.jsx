@@ -17,7 +17,7 @@ function SearchBar() {
     try {
       currentMap
         .getAllLayers()
-        .filter((layer) => layer.get('searchable'))
+        .filter((layer) => layer.get('canSearch'))
         .forEach((layer) => layer.getSource().forEachFeature((feature) => {
           const coordinates = feature.getGeometry().constructor.name === 'Point' ? feature.getGeometry().flatCoordinates : getCenter(feature.getGeometry().getExtent());
           places.push({
@@ -45,11 +45,6 @@ function SearchBar() {
     });
   }, [olMap]);
 
-  useEffect(() => {
-    if (!olMap) return;
-    moveMap();
-  }, [moveMap, olMap]);
-
   const toggleMode = () => {
     setToggle(!toggle);
     document.getElementById(toggle ? buttonId : inputId).focus();
@@ -63,14 +58,14 @@ function SearchBar() {
       .replace(/\s+/g, ''))).slice(0, 9);
 
   return (
-    <div role="search" className="relative flex flex-row-reverse">
+    <div role="search" className="relative hidden flex-row-reverse md:flex">
       <button
         type="button"
         id={buttonId}
         role="switch"
         onClick={toggleMode}
         className="group peer mr-2 hidden rounded-lg p-2 text-lg font-light transition duration-200 hover:bg-warden-600 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 aria-checked:rounded-l-none aria-checked:bg-warden-600 md:flex"
-        aria-label="Search"
+        aria-label="Enable Search"
         aria-checked={toggle}
       >
         <svg
@@ -90,11 +85,14 @@ function SearchBar() {
       </button>
       <Combobox value="" onChange={(event) => moveMap(event)}>
         <Combobox.Input
+          type="combobox"
+          tabIndex={toggle ? '0' : '-1'}
           id={inputId}
           className="relative block w-auto origin-right scale-x-0 rounded-l-lg rounded-r-none border-0 bg-zinc-800 py-2 pl-2 text-sm text-white ring-0 transition placeholder:text-gray-400 focus:border-0 focus:ring-0 peer-aria-checked:scale-x-100"
           displayValue={(location) => location.name}
           onChange={(event) => setQuery(event.target.value)}
         />
+        <Combobox.Label className="sr-only" aria-hidden={!toggle}>Search Input</Combobox.Label>
         <Combobox.Options className="absolute right-0 top-16 mr-12 h-auto w-max origin-top-left divide-y divide-zinc-500 overflow-hidden rounded-lg bg-zinc-800 shadow-lg">
           {filteredList.length === 0 && query.length > 2 ? (
             <div className="relative cursor-default select-none p-2 text-base font-light text-white">Nothing here...</div>

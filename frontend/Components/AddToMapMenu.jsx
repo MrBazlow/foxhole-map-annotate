@@ -6,7 +6,7 @@ function AddToMapMenu() {
     <Menu as="div" className="relative">
       <Menu.Button
         role="switch"
-        className="group mx-2 cursor-pointer rounded-lg p-2 transition duration-200 hover:bg-warden-600 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 aria-pressed:bg-warden-600"
+        className="group mx-2 hidden cursor-pointer rounded-lg p-2 transition duration-200 hover:bg-warden-600 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 aria-pressed:bg-warden-600 sm:inline"
       >
         <div className="relative flex h-6 w-6 flex-col justify-center transition duration-200 group-hover:scale-125">
           <div className="absolute h-[3px] w-6 origin-center rotate-90 scale-75 rounded-full bg-white transition duration-200 ease-in-out group-aria-pressed:rotate-0" />

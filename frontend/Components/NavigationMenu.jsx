@@ -4,7 +4,10 @@ import { Disclosure, Popover } from '@headlessui/react';
 function NavigationMenu() {
   return (
     <Popover className="relative">
-      <Popover.Button className="group mx-2 flex items-center overflow-hidden rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95">
+      <Popover.Button
+        aria-label="Navigation Menu"
+        className="group mx-2 flex items-center overflow-hidden rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95"
+      >
         <img
           width="40"
           height="40"

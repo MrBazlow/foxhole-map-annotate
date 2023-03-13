@@ -5,7 +5,7 @@ function ScoreCard() {
   const { score } = useLiveData();
 
   return (
-    <div className="absolute inset-x-0 mx-auto hidden h-10 w-fit select-none flex-row text-white lg:flex">
+    <div className="absolute inset-x-0 mx-auto hidden h-10 w-fit select-none flex-row text-white xl:flex">
       <div className="flex h-10 flex-row items-center rounded-l-xl bg-zinc-800 pr-4 shadow-inner">
         <img
           className="w-fit pl-3"

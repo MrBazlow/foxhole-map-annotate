@@ -18,7 +18,7 @@ function MapZoomControls() {
       <button
         type="button"
         onClick={() => zoom(true)}
-        className="select-none rounded-t-md bg-warden-700 px-1.5 transition hover:scale-105 active:scale-95 active:bg-warden-900"
+        className="select-none rounded-t-md bg-warden-700 px-1.5 transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 active:bg-warden-900"
         aria-label="Zoom in"
       >
         +
@@ -26,7 +26,7 @@ function MapZoomControls() {
       <button
         type="button"
         onClick={() => zoom(false)}
-        className="select-none rounded-b-md bg-warden-700 px-1.5 transition hover:scale-105 active:scale-95 active:bg-warden-900"
+        className="select-none rounded-b-md bg-warden-700 px-1.5 transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 active:bg-warden-900"
         aria-label="Zoom out"
       >
         –

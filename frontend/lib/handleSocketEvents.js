@@ -2,7 +2,7 @@
  *  @module /frontend/lib/handleSocketEvents.js
  */
 
-const handleSocketEvents = (socket, setState, getState) => {
+function handleSocketEvents(socket, setState, getState) {
   socket.on('open', () => setState((state) => {
     const newState = state;
     newState.ready = true;
@@ -27,6 +27,9 @@ const handleSocketEvents = (socket, setState, getState) => {
       socket.send('getConquerStatus', true);
     }
     getState().actions.updateScore(data);
+    if (getState().liveContent.mapStatic) {
+      getState().actions.updateMapStatic();
+    }
     setState((state) => {
       const newState = state;
       newState.localContent.conquer = data;
@@ -75,6 +78,6 @@ const handleSocketEvents = (socket, setState, getState) => {
     newState.localContent.warFeatures = data;
     return newState;
   }));
-};
+}
 
 export default handleSocketEvents;

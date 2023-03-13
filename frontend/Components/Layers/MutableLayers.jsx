@@ -29,44 +29,7 @@ const MUTABLE_SOURCES = {
   Grid: new VectorSource({ features: new Collection() }),
 };
 
-const CONQUEST_TEAM_STYLES = {
-  '': new Style({
-    fill: new Fill({
-      color: '#FFFFFF00',
-    }),
-    stroke: new Stroke({
-      color: '#00000011',
-      width: 1,
-    }),
-  }),
-  Warden: new Style({
-    fill: new Fill({
-      color: '#24568244',
-    }),
-    stroke: new Stroke({
-      color: '#2456822',
-      width: 1,
-    }),
-  }),
-  Colonial: new Style({
-    fill: new Fill({
-      color: '#516C4B44',
-    }),
-    stroke: new Stroke({
-      color: '#516C4B22',
-      width: 1,
-    }),
-  }),
-  Nuked: new Style({
-    fill: new Fill({
-      color: '#C0000044',
-    }),
-    stroke: new Stroke({
-      color: '#C0000022',
-      width: 1,
-    }),
-  }),
-};
+
 
 const GRID_LINE_STYLE = new Style({
   stroke: new Stroke({
@@ -267,12 +230,12 @@ const assembleMutableLayers = (staticCollection) => {
 
 function MutableLayers() {
   const olMap = useOlMap();
-  const { safeApplyLayer } = useMapActions();
+  const { applyLayer } = useMapActions();
   const { mapStatic } = useLocalData();
 
   if (olMap && mapStatic) {
     const layerGroup = assembleMutableLayers(mapStatic);
-    safeApplyLayer(layerGroup);
+    applyLayer(layerGroup);
   }
 
   return null;

@@ -7,6 +7,8 @@ import { useOlMap, useMapActions } from '../../State/MapState';
 const createBaseLayer = () => {
   const newBaseMap = new Tile({
     title: 'Map',
+    canSearch: false,
+    canToggle: false,
     type: 'base',
     preload: Infinity,
     source: new TileImage({
@@ -30,12 +32,12 @@ const createBaseLayer = () => {
 
 function BaseLayer() {
   const map = useOlMap();
-  const { safeApplyLayer, removeLayer } = useMapActions();
+  const { applyLayer, removeLayer } = useMapActions();
 
   useEffect(() => {
     if (!map) return undefined;
     const baseTileLayer = createBaseLayer();
-    safeApplyLayer(baseTileLayer);
+    applyLayer(baseTileLayer);
     return () => {
       removeLayer(baseTileLayer);
     };
