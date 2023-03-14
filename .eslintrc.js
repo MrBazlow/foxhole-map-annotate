@@ -8,6 +8,7 @@ module.exports = {
     'plugin:tailwindcss/recommended',
     'plugin:react/recommended',
     'airbnb',
+    'airbnb/hooks',
   ],
   overrides: [
   ],

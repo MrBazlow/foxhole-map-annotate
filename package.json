@@ -9,6 +9,8 @@
     "build.dev": "webpack --config ./webpack.dev.js"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.0.8",
+    "@formkit/auto-animate": "^1.0.0-beta.6",
     "@headlessui/react": "^1.7.13",
     "@headlessui/tailwindcss": "^0.1.2",
     "cookie-parser": "^1.4.4",

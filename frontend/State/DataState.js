@@ -9,85 +9,97 @@ import Socket from '../lib/webSocket';
 import handleSocketEvents from '../lib/handleSocketEvents';
 import createNewScore from '../lib/createNewScore';
 import regionParser from '../lib/regionParser';
+import warFeaturesParser from '../lib/warFeaturesParser';
+import allFeaturesParser from '../lib/allFeaturesParser';
 
 // If static.json is not cached, fetch it and then cache it
-const fetchStatic = async (setState) => {
+const fetchStatic = async (set) => {
   const response = await fetch(`${window.location.origin}/static.json`);
   const parse = await response.json();
-  setState((state) => {
+  set((state) => {
     const newState = state;
-    newState.localContent.mapStatic = parse;
+    newState.local.mapStatic = parse;
     return newState;
   });
   return parse;
 };
 
 // Read static.json, if it's not cached fetchStatic otherwise parse it for use
-const readStatic = async (setState, getState) => {
-  const liveStatic = getState().liveContent.mapStatic ?? undefined;
-  const localStatic = getState().localContent.mapStatic ?? await getState().actions.fetchStatic();
+const readStatic = async (set, get) => {
+  const liveStatic = get().live.mapStatic ?? null;
+  const localStatic = get().local.mapStatic ?? await get().actions.fetchStatic();
   if (!liveStatic) {
-    setState((state) => {
+    set((state) => {
       const newState = state;
-      newState.liveContent.mapStatic = regionParser(localStatic);
+      newState.live.mapStatic = regionParser(localStatic);
       return newState;
     });
-    getState().actions.updateMapStatic();
+    get().actions.updateMapStatic();
   }
 };
 
 // When a new conquer websocket message is recieved we update liveStore score object
-const updateScore = (newConquer, setState, getState) => {
-  const oldScore = getState().liveContent.score;
-  const newScore = createNewScore(newConquer, oldScore);
-  setState((state) => {
+const updateScore = (set, get) => {
+  const newConquer = get().local.conquer;
+  const oldScore = get().live.score;
+  set((state) => {
     const newState = state;
-    newState.liveContent.score = newScore;
+    newState.live.score = createNewScore(newConquer, oldScore);
     return newState;
   });
 };
 
-// Update liveContent.mapStatic with new conquest message contents
-const updateMapStatic = (setState, getState) => {
-  const oldMapStatic = getState().liveContent.mapStatic;
-  const newConquer = getState().localContent.conquer;
+// TODO
+const readAllFeatures = (set, get) => {
+  const { allFeatures } = get().local;
+  set((state) => {
+    const newState = state;
+    newState.live.allFeatures = allFeaturesParser(allFeatures);
+    return newState;
+  });
+};
+
+// Update live.mapStatic with new conquest & warFeature message contents
+const updateMapStatic = (set, get) => {
+  const oldMapStatic = get().live.mapStatic;
+  const newConquer = get().local.conquer || {};
+  const newFeatures = get().local.warFeatures.features || {};
+  const packedNewStatic = { ...oldMapStatic, ...warFeaturesParser(newFeatures) };
   const voronoiMap = new Map();
-  Object.values(oldMapStatic.town).forEach((feature) => {
+  Object.values(packedNewStatic.town).forEach((feature) => {
     const featureId = feature.get('id');
+
     const newValues = newConquer.features[featureId];
-    if (Object.hasOwn(newConquer.features, featureId)) {
-      feature.set('team', newValues.team);
-      feature.set('icon', newValues.icon, true);
-      feature.set('iconFlags', newValues.flags, true);
+    if (!Object.hasOwn(newConquer.features, featureId)) {
+      return;
     }
+    feature.set('team', newValues.team);
+    feature.set('icon', newValues.icon, true);
+    feature.set('iconFlags', newValues.flags, true);
     const townVoronoi = feature.get('voronoi');
     if (townVoronoi) {
       voronoiMap.set(townVoronoi, newValues.team);
     }
   });
-  Object.values(oldMapStatic.voronoi).forEach((voronoiLayer) => {
+  Object.values(packedNewStatic.voronoi).forEach((voronoiLayer) => {
     const layerId = voronoiLayer.getId();
 
     if (voronoiMap.has(layerId)) {
       voronoiLayer.set('team', voronoiMap.get(layerId));
     }
   });
-  setState((state) => {
+  set((state) => {
     const newState = state;
-    newState.liveContent.mapStatic = oldMapStatic;
+    newState.live.mapStatic = packedNewStatic;
     return newState;
   });
-};
-
-const sendMessage = (getState, messageType, message) => {
-  // send('type', {payload})
-  getState().ws.send(messageType, message);
+  get().actions.updateScore();
 };
 
 // Use webSocket class and append our events to it
-const newSocket = (setState, getState) => {
+const newSocket = (set, get) => {
   const connection = new Socket();
-  handleSocketEvents(connection, setState, getState);
+  handleSocketEvents(connection, set, get);
   return connection;
 };
 
@@ -96,27 +108,31 @@ const useDataStore = create(
   immer(
     persist(
       devtools(
-        (setState, getState) => ({
-          ws: newSocket(setState, getState),
+        (set, get) => ({
+          ws: newSocket(set, get),
           ready: true,
-          liveContent: {
+          live: {
+            staticIcons: {},
             score: {},
           },
-          localContent: {
+          local: {
+            init: {},
+            conquer: {},
+            warFeatures: {},
             mapLayerSettings: {},
           },
           actions: {
-            fetchStatic: () => fetchStatic(setState),
-            readStatic: () => readStatic(setState, getState),
-            updateScore: (newConquer) => updateScore(newConquer, setState, getState),
-            updateMapStatic: () => updateMapStatic(setState, getState),
-            sendMessage: (messageType, message) => sendMessage(getState, messageType, message),
+            fetchStatic: () => fetchStatic(set),
+            readStatic: () => readStatic(set, get),
+            updateScore: () => updateScore(set, get),
+            readAllFeatures: () => readAllFeatures(set, get),
+            updateMapStatic: () => updateMapStatic(set, get),
           },
         }),
       ),
       {
-        name: 'localContent',
-        partialize: (state) => ({ localContent: state.localContent }),
+        name: 'local',
+        partialize: (state) => ({ local: state.local }),
       },
     ),
   ),
@@ -128,11 +144,11 @@ const useWebSocket = () => useDataStore((store) => store.ws);
 // Get connection status
 const useReady = () => useDataStore((store) => store.ready);
 
-// Access liveContent stash
-const useLiveData = () => useDataStore((store) => store.liveContent);
+// Access live stash
+const useLiveData = () => useDataStore((store) => store.live);
 
 // Access localContent stash
-const useLocalData = () => useDataStore((store) => store.localContent);
+const useLocalData = () => useDataStore((store) => store.local);
 
 // Access actions
 const useDataActions = () => useDataStore((state) => state.actions);

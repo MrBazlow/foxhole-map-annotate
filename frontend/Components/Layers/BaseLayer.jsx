@@ -12,7 +12,6 @@ const createBaseLayer = () => {
     type: 'base',
     preload: Infinity,
     source: new TileImage({
-      attributions: '<a href="https://sentsu.itch.io/foxhole-better-map-mod" target="_blank">Sentsu</a> + <a href="https://www.foxholegame.com/" target="_blank">Siege Camp</a>',
       tileGrid: new TileGrid({
         extent: [0, -12432, 11279, 0],
         origin: [0, -12432],
@@ -31,17 +30,17 @@ const createBaseLayer = () => {
 };
 
 function BaseLayer() {
-  const map = useOlMap();
+  const olMap = useOlMap();
   const { applyLayer, removeLayer } = useMapActions();
 
   useEffect(() => {
-    if (!map) return undefined;
+    if (!olMap) return undefined;
     const baseTileLayer = createBaseLayer();
     applyLayer(baseTileLayer);
     return () => {
       removeLayer(baseTileLayer);
     };
-  }, [map]);
+  }, [applyLayer, olMap, removeLayer]);
 
   return null;
 }

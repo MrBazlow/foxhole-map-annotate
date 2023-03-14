@@ -9,16 +9,16 @@ function MapZoomControls() {
       .getView()
       .animate({
         zoom: olMap.getView().getZoom() + (dir ? 0.5 : -0.5),
-        duration: 300,
+        duration: 150,
       });
   };
 
   return (
-    <div id="ol-zoom-control" className="absolute m-2 flex flex-col text-white">
+    <div className="absolute bottom-5 right-5 flex flex-col text-white">
       <button
         type="button"
         onClick={() => zoom(true)}
-        className="select-none rounded-t-md bg-warden-700 px-1.5 transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 active:bg-warden-900"
+        className="select-none rounded-t-md bg-warden-700 px-2 py-1 transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 active:bg-warden-900"
         aria-label="Zoom in"
       >
         +
@@ -26,7 +26,7 @@ function MapZoomControls() {
       <button
         type="button"
         onClick={() => zoom(false)}
-        className="select-none rounded-b-md bg-warden-700 px-1.5 transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 active:bg-warden-900"
+        className="select-none rounded-b-md bg-warden-700 px-2 py-1 transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 active:bg-warden-900"
         aria-label="Zoom out"
       >
         –

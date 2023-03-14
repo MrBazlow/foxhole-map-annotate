@@ -52,12 +52,8 @@ function assembleConquestLayer(staticCollection, warFeatures) {
   };
 
   const conquestStyle = (feature) => {
-    let team = feature.get('team') ?? '';
+    const team = feature.get('team') === 'none' ? '' : feature.get('team') ?? '';
     const region = feature.get('region');
-
-    if (team === 'none') {
-      team = '';
-    }
 
     const { deactivatedRegions } = warFeatures;
     if (region && deactivatedRegions.includes(region)) {
@@ -66,7 +62,7 @@ function assembleConquestLayer(staticCollection, warFeatures) {
     return conquestTeamStyles[team];
   };
 
-  const conquestLayer = new VectorLayer({
+  return new VectorLayer({
     title: 'Conquest',
     canSearch: false,
     canToggle: true,
@@ -76,8 +72,6 @@ function assembleConquestLayer(staticCollection, warFeatures) {
     updateWhileAnimating: true,
     updateWhileInteracting: true,
   });
-
-  return conquestLayer;
 }
 
 function Conquest() {

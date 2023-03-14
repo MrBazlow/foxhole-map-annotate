@@ -1,6 +1,6 @@
 import { GeoJSON } from 'ol/format';
 
-const regionParser = (staticFeatures) => {
+function regionParser(staticFeatures) {
   const geoJson = new GeoJSON();
   const features = geoJson.readFeatures(staticFeatures);
   const collections = {};
@@ -12,6 +12,6 @@ const regionParser = (staticFeatures) => {
     collections[type].push(item);
   });
   return collections;
-};
+}
 
 export default regionParser;

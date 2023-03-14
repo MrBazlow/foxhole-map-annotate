@@ -3,11 +3,14 @@ import Loading from './Loading';
 
 const ConnectionWarning = lazy(() => import('./ConnectionWarning'));
 const OlMap = lazy(() => import('./OlMap'));
+const Attribution = lazy(() => import('./Attribution'));
 const Layers = lazy(() => import('./Layers/Layers'));
 const BaseLayer = lazy(() => import('./Layers/BaseLayer'));
 const Labels = lazy(() => import('./Layers/Labels'));
 const Conquest = lazy(() => import('./Layers/Conquest'));
 const Towns = lazy(() => import('./Layers/Towns'));
+const Industry = lazy(() => import('./Layers/Industry'));
+const Fields = lazy(() => import('./Layers/Fields'));
 const Interactions = lazy(() => import('./Interactions/Interactions'));
 const DisableContextMenu = lazy(() => import('./Interactions/DisableContextMenu'));
 const UpdateURL = lazy(() => import('./Interactions/UpdateURL'));
@@ -24,6 +27,8 @@ function MapComponent() {
             <Labels />
             <Conquest />
             <Towns />
+            <Industry />
+            <Fields />
           </Layers>
           <Interactions>
             <EnableMiddleMousePan />
@@ -31,6 +36,7 @@ function MapComponent() {
             <UpdateURL />
           </Interactions>
         </OlMap>
+        <Attribution />
       </main>
     </Suspense>
   );

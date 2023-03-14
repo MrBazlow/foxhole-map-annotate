@@ -2,6 +2,7 @@ import React, {
   useState, useEffect, useCallback, useId,
 } from 'react';
 import PropTypes from 'prop-types';
+import { Vector as VectorLayer } from 'ol/layer';
 import { Popover } from '@headlessui/react';
 import { useOlMap } from '../State/MapState';
 
@@ -36,7 +37,7 @@ function MapLayer({ layer }) {
 }
 
 MapLayer.propTypes = {
-  layer: PropTypes.object.isRequired,
+  layer: PropTypes.arrayOf(VectorLayer).isRequired,
 };
 
 function MapConfig() {
@@ -67,7 +68,7 @@ function MapConfig() {
       <Popover.Button
         onClick={() => setToggle(!toggle)}
         aria-label="Map Layers"
-        className="group mx-2 hidden rounded-lg bg-transparent p-2 transition duration-200 hover:bg-warden-600 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 aria-expanded:bg-warden-600 md:inline"
+        className="group mx-2 hidden rounded-lg bg-transparent p-2 text-white transition duration-200 hover:bg-warden-600 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 aria-expanded:bg-warden-600 md:inline"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

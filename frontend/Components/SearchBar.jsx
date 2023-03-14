@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Combobox } from '@headlessui/react';
+import { Combobox, Transition } from '@headlessui/react';
 import { getCenter } from 'ol/extent';
 import { useOlMap } from '../State/MapState';
 
@@ -64,8 +64,8 @@ function SearchBar() {
         id={buttonId}
         role="switch"
         onClick={toggleMode}
-        className="group peer mr-2 hidden rounded-lg p-2 text-lg font-light transition duration-200 hover:bg-warden-600 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 aria-checked:rounded-l-none aria-checked:bg-warden-600 md:flex"
-        aria-label="Enable Search"
+        className="group peer mr-2 hidden rounded-lg p-2 text-lg font-light text-white transition duration-200 hover:bg-warden-600 focus:outline-none focus:ring-2 focus:ring-warden-500 active:scale-95 aria-checked:rounded-l-none aria-checked:bg-warden-600 md:flex"
+        aria-label="Toggle Search"
         aria-checked={toggle}
       >
         <svg
@@ -91,25 +91,36 @@ function SearchBar() {
           className="relative block w-auto origin-right scale-x-0 rounded-l-lg rounded-r-none border-0 bg-zinc-800 py-2 pl-2 text-sm text-white ring-0 transition placeholder:text-gray-400 focus:border-0 focus:ring-0 peer-aria-checked:scale-x-100"
           displayValue={(location) => location.name}
           onChange={(event) => setQuery(event.target.value)}
+          aria-label="Search Input"
         />
-        <Combobox.Label className="sr-only" aria-hidden={!toggle}>Search Input</Combobox.Label>
-        <Combobox.Options className="absolute right-0 top-16 mr-12 h-auto w-max origin-top-left divide-y divide-zinc-500 overflow-hidden rounded-lg bg-zinc-800 shadow-lg">
-          {filteredList.length === 0 && query.length > 2 ? (
-            <div className="relative cursor-default select-none p-2 text-base font-light text-white">Nothing here...</div>
-          ) : (
-            filteredList.map((location) => (
-              <Combobox.Option
-                key={location.id}
-                value={location}
-                className={({ active }) => `relative cursor-default select-none p-2 w-full text-base text-center font-light text-white hover:bg-warden-600 ${active && 'bg-warden-700'}`}
-              >
-                <span className="block truncate font-normal">
-                  {location.name}
-                </span>
-              </Combobox.Option>
-            ))
-          )}
-        </Combobox.Options>
+        <Transition
+          as={React.Fragment}
+          enter="transition ease-out duration-100"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition ease-in duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          afterLeave={() => document.getElementById(buttonId).focus()}
+        >
+          <Combobox.Options className="absolute right-0 top-14 mr-12 h-auto w-40 origin-top-left divide-y divide-zinc-500 overflow-hidden rounded-lg bg-zinc-800 shadow-lg">
+            {filteredList.length === 0 && query.length > 3 ? (
+              <div className="relative cursor-default select-none p-2 text-base font-light text-white">Nothing here...</div>
+            ) : (
+              filteredList.map((location) => (
+                <Combobox.Option
+                  key={location.id}
+                  value={location}
+                  className={({ active }) => `relative cursor-default select-none p-2 px-4 w-full text-base text-center font-light text-white hover:bg-warden-600 ${active && 'bg-warden-700'}`}
+                >
+                  <span className="block truncate font-normal">
+                    {location.name}
+                  </span>
+                </Combobox.Option>
+              ))
+            )}
+          </Combobox.Options>
+        </Transition>
       </Combobox>
     </div>
   );

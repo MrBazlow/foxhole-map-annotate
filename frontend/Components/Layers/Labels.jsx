@@ -7,9 +7,9 @@ import {
   Fill, Stroke, Style, Text,
 } from 'ol/style';
 import { useOlMap, useMapActions } from '../../State/MapState';
-import { useLiveData } from '../../State/DataState';
+import { useLiveData, useLocalData } from '../../State/DataState';
 
-function assembleLabelLayers(staticCollection) {
+function assembleLabelLayers(staticCollection, warFeatures) {
   const labelsLayerGroup = new Group({ title: 'Labels' });
 
   const labelSources = {
@@ -26,7 +26,7 @@ function assembleLabelLayers(staticCollection) {
         color: '#000000',
         width: 2,
       }),
-      //overflow: true,
+      overflow: true,
       fill: new Fill({
         color: '#ffffff',
       }),
@@ -41,7 +41,7 @@ function assembleLabelLayers(staticCollection) {
         color: '#000000',
         width: 2,
       }),
-      //overflow: true,
+      overflow: true,
       fill: new Fill({
         color: '#ffffff',
       }),
@@ -49,11 +49,17 @@ function assembleLabelLayers(staticCollection) {
   });
 
   const regionStyle = (feature) => {
+    if (warFeatures.deactivatedRegions.includes(feature.getId())) {
+      return null;
+    }
     regionLabelStyle.getText().setText(feature.get('notes'));
     return regionLabelStyle;
   };
 
   const majorStyle = (feature) => {
+    if (warFeatures.deactivatedRegions.includes(feature.getId())) {
+      return null;
+    }
     majorLabelStyle.getText().setText(feature.get('notes'));
     return majorLabelStyle;
   };
@@ -110,18 +116,19 @@ function assembleLabelLayers(staticCollection) {
 function Labels() {
   const olMap = useOlMap();
   const { applyLayer, removeLayer } = useMapActions();
+  const { warFeatures } = useLocalData();
   const { mapStatic } = useLiveData();
 
   useEffect(() => {
     if (!olMap || !mapStatic) return undefined;
 
-    const layerGroup = assembleLabelLayers(mapStatic);
+    const layerGroup = assembleLabelLayers(mapStatic, warFeatures);
     applyLayer(layerGroup);
 
     return (() => {
       removeLayer(layerGroup);
     });
-  }, [olMap, mapStatic]);
+  }, [olMap, mapStatic, applyLayer, removeLayer, warFeatures]);
 
   return null;
 }
