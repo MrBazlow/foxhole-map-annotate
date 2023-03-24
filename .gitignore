@@ -8,6 +8,9 @@ logs
 node_modules
 public/dist
 public/regions.json
+dist
+prisma/migrations
+*.db
 
 ## VS Code
 .history
